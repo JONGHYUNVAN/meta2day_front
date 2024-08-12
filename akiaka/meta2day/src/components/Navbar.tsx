@@ -2,14 +2,15 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import useAuth from '../hooks/useAuth';
-import {useDispatch} from "react-redux";
-import {AppDispatch} from "@/store/store";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "@/store/store";
 import {login, logout} from "@/store/slices/authSlice";
 import {useEffect} from "react";
 
 const Navbar: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const { isLoggedIn, user, handleLogout } = useAuth();
+    const hasUnread = useSelector((state: RootState) => state.notification.hasUnread);
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -19,10 +20,6 @@ const Navbar: React.FC = () => {
             dispatch(logout());
         }
     }, [dispatch]);
-    const handleNotificationClick = () => {
-        // 알림 클릭 시 실행할 동작 (예: 알림 팝업 열기)
-        console.log("Notification button clicked!");
-    };
 
     return (
         <nav className="fixed top-1 w-full bg-gray-200 shadow-md z-50 text-xl metallic-navbar opacity-80 hover:opacity-90 transition-opacity duration-100">
@@ -38,8 +35,10 @@ const Navbar: React.FC = () => {
                         <button 
                                 className="opacity-70 hover:opacity-100 transition-opacity duration-300 neon-text">
                         <Image src="/alarm.png" alt="Notifications" width={24} height={24} />
-                        {/* 예: 알림 배지 */}
+                        {/* 빨간 점을 hasUnread 상태에 따라 조건부 렌더링 */}
+                        {hasUnread && (
                             <span className="absolute top-0 right-0 block h-2 w-2 rounded-full ring-2 ring-white bg-red-500"></span>
+                        )}
                         </button>
                     </Link>
                 </li>
@@ -64,7 +63,6 @@ const Navbar: React.FC = () => {
                         </>
                     ) : (
                         <>
-                            
                             <li className="neon-text">
                                 <Link href="/signup"
                                       className="opacity-70 hover:opacity-100 transition-opacity duration-300">

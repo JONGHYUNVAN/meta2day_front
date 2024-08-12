@@ -1,7 +1,8 @@
-"use client";
-
+'use client';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { markAllAsRead } from '@/store/slices/notificationSlice';
 
 interface AlarmItemProps {
     alarm: {
@@ -12,35 +13,29 @@ interface AlarmItemProps {
         type: 'recommendation' | 'comment';
         relatedLink: string;
     };
-    onDelete: () => void;  // 삭제 함수 prop
+    onDelete: () => void;
 }
 
 const AlarmItem: React.FC<AlarmItemProps> = ({ alarm, onDelete }) => {
     const [isRead, setIsRead] = useState(!alarm.isNew);
     const router = useRouter();
+    const dispatch = useDispatch();
 
     const handleRead = () => {
         setIsRead(true);
+        dispatch(markAllAsRead()); // 모든 알람을 읽음 상태로 설정
     };
 
     const handleClick = () => {
         router.push(alarm.relatedLink);
     };
 
-    const icon = alarm.type === 'recommendation' 
-        ? '/icons/recommendation-icon.svg' 
-        : '/icons/comment-icon.svg';
-
-    const alarmTitle = alarm.type === 'recommendation'
-        ? '새로운 추천 항목 알림'
-        : '댓글 및 리뷰 알림';
-
     return (
         <li className="flex justify-between items-start p-4 bg-gray-100 rounded-lg space-x-4">
             {!isRead && <span className="text-red-500">•</span>}
-            <img src={icon} alt="alarm icon" className="w-6 h-6" />
+            <img src="/icons/alarm-icon.png" alt="alarm icon" className="w-6 h-6" />
             <div className="flex-1">
-                <div className="font-semibold">{alarmTitle}</div>
+                <div className="font-semibold">{alarm.title}</div>
                 <p onClick={handleClick} className="text-sm text-gray-600 cursor-pointer hover:underline">
                     {alarm.description}
                 </p>
