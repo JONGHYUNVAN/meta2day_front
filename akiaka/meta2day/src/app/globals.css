@@ -38,25 +38,19 @@
     text-shadow:
             0 0 5px #ffae42,
             0 0 10px #ffae42,
-            0 0 20px #ffae42,
             0 0 40px #ffd700, /* 금색 */
             0 0 80px #ff8c00, /* 다크오렌지색 */
-            0 0 90px #ffa500, /* 주황색 */
-            0 0 100px #ff4500, /* 오렌지레드색 */
-            0 0 150px #ff6347; /* 토마토색 */
+            0 0 100px #ff4500; /* 오렌지레드색 */
 }
 /* 기본 네온 텍스트 스타일 */
 .neon-text {
     color: #ffff00; /* 매우 밝은 주황색 */
     text-shadow:
             0 0 5px #ffae42,
-            0 0 10px #ffae42,
             0 0 20px #ffae42,
             0 0 40px #ffd700, /* 금색 */
             0 0 80px #ff8c00, /* 다크오렌지색 */
-            0 0 90px #ffa500, /* 주황색 */
-            0 0 100px #ff4500, /* 오렌지레드색 */
-            0 0 150px #ff6347; /* 토마토색 */
+            0 0 100px #ff4500; /* 오렌지레드색 */
     animation: flicker 1.5s infinite alternate;
 }
 
@@ -67,12 +61,9 @@
         text-shadow:
                 0 0 5px #ffae42,
                 0 0 10px #ffae42,
-                0 0 20px #ffae42,
                 0 0 40px #ffd700, /* 금색 */
                 0 0 80px #ff8c00, /* 다크오렌지색 */
-                0 0 90px #ffa500, /* 주황색 */
-                0 0 100px #ff4500, /* 오렌지레드색 */
-                0 0 150px #ff6347; /* 토마토색 */
+                0 0 100px #ff4500; /* 오렌지레드색 */
     }
 
     20%, 24%, 55% {
@@ -85,10 +76,8 @@
     text-shadow:
             0 0 5px #000000,    /* 밝은 빨간색 */
             0 0 10px #ff4d4d,   /* 밝은 빨간색 */
-            0 0 20px #ff4d4d,   /* 밝은 빨간색 */
             0 0 40px #ff1a1a,   /* 다크 레드 */
             0 0 80px #e60000,   /* 강렬한 레드 */
-            0 0 90px #cc0000,   /* 어두운 레드 */
             0 0 100px #b30000,  /* 어두운 레드 */
             0 0 150px #990000;  /* 매우 어두운 레드 */
     animation: flicker-red 1.5s infinite alternate;
@@ -100,10 +89,8 @@
         text-shadow:
                 0 0 5px #000000,    /* 밝은 빨간색 */
                 0 0 10px #ff4d4d,   /* 밝은 빨간색 */
-                0 0 20px #ff4d4d,   /* 밝은 빨간색 */
                 0 0 40px #ff1a1a,   /* 다크 레드 */
                 0 0 80px #e60000,   /* 강렬한 레드 */
-                0 0 90px #cc0000,   /* 어두운 레드 */
                 0 0 100px #b30000,  /* 어두운 레드 */
                 0 0 150px #990000;  /* 매우 어두운 레드 */
     }
@@ -119,10 +106,8 @@
     text-shadow:
             0 0 5px #ff77ff,
             0 0 10px #ff77ff,
-            0 0 20px #ff77ff,
             0 0 40px #ff33ff, /* 밝은 마젠타 */
             0 0 80px #cc00cc, /* 다크 마젠타 */
-            0 0 90px #cc00cc,
             0 0 100px #990099, /* 딥 마젠타 */
             0 0 150px #660066; /* 퍼플 */
     animation: flicker-magenta 2s infinite alternate;
@@ -133,10 +118,8 @@
         text-shadow:
                 0 0 5px #ff77ff,
                 0 0 10px #ff77ff,
-                0 0 20px #ff77ff,
                 0 0 40px #ff33ff, /* 밝은 마젠타 */
                 0 0 80px #cc00cc, /* 다크 마젠타 */
-                0 0 90px #cc00cc,
                 0 0 100px #990099, /* 딥 마젠타 */
                 0 0 150px #660066; /* 퍼플 */
     }
@@ -152,11 +135,8 @@
     text-shadow:
             0 0 5px #82f4a7,
             0 0 10px #82f4a7,
-            0 0 20px #82f4a7,
             0 0 40px #32cd32, /* 라임 그린 */
-            0 0 80px #2e8b57, /* 시그널 그린 */
             0 0 90px #2e8b57,
-            0 0 100px #228b22, /* 포레스트 그린 */
             0 0 150px #006400; /* 다크 그린 */
     animation: flicker-emerald 3s infinite alternate;
 }
@@ -166,11 +146,8 @@
         text-shadow:
                 0 0 5px #82f4a7,
                 0 0 10px #82f4a7,
-                0 0 20px #82f4a7,
                 0 0 40px #32cd32, /* 라임 그린 */
-                0 0 80px #2e8b57, /* 시그널 그린 */
                 0 0 90px #2e8b57,
-                0 0 100px #228b22, /* 포레스트 그린 */
                 0 0 150px #006400; /* 다크 그린 */
     }
 
@@ -190,9 +167,7 @@
         filter: brightness(1.5) drop-shadow(0 0 1px #ffae42)
         drop-shadow(0 0 1px #ffae42)
         drop-shadow(0 0 2px #f0f0f0)
-        drop-shadow(0 0 3px #e0e0e0)
         drop-shadow(0 0 4px #e0e0e0)
-        drop-shadow(0 0 5px #d0d0d0)
         drop-shadow(0 0 6px #c0c0c0)
         drop-shadow(0 0 7px #b0b0b0);
     }
@@ -208,10 +183,8 @@
         box-shadow:
                 0 0 5px #000000,    /* Dark Red */
                 0 0 10px #ff4d4d,   /* Bright Red */
-                0 0 20px #ff4d4d,   /* Bright Red */
                 0 0 40px #ff1a1a,   /* Darker Red */
                 0 0 80px #e60000,   /* Intense Red */
-                0 0 90px #cc0000,   /* Dark Red */
                 0 0 100px #b30000,  /* Darker Red */
                 0 0 150px #990000;  /* Very Dark Red */
         animation: bulb-flicker-red 1s infinite alternate;
@@ -222,10 +195,8 @@
             box-shadow:
                     0 0 5px #000000,    /* Dark Red */
                     0 0 10px #ff4d4d,   /* Bright Red */
-                    0 0 20px #ff4d4d,   /* Bright Red */
                     0 0 40px #ff1a1a,   /* Darker Red */
                     0 0 80px #e60000,   /* Intense Red */
-                    0 0 90px #cc0000,   /* Dark Red */
                     0 0 100px #b30000,  /* Darker Red */
                     0 0 150px #990000;  /* Very Dark Red */
         }
@@ -239,10 +210,8 @@
         box-shadow:
                 0 0 5px #000000,    /* Dark Yellow */
                 0 0 10px #ffff66,   /* Bright Yellow */
-                0 0 20px #ffff66,   /* Bright Yellow */
                 0 0 40px #ffcc00,   /* Darker Yellow */
                 0 0 80px #ff9900,   /* Intense Yellow */
-                0 0 90px #e68a00,   /* Dark Yellow */
                 0 0 100px #cc7a00,  /* Darker Yellow */
                 0 0 150px #b36b00;  /* Very Dark Yellow */
         animation: bulb-flicker-yellow 3s infinite alternate;
@@ -253,10 +222,8 @@
             box-shadow:
                     0 0 5px #000000,    /* Dark Yellow */
                     0 0 10px #ffff66,   /* Bright Yellow */
-                    0 0 20px #ffff66,   /* Bright Yellow */
                     0 0 40px #ffcc00,   /* Darker Yellow */
                     0 0 80px #ff9900,   /* Intense Yellow */
-                    0 0 90px #e68a00,   /* Dark Yellow */
                     0 0 100px #cc7a00,  /* Darker Yellow */
                     0 0 150px #b36b00;  /* Very Dark Yellow */
         }
@@ -270,10 +237,8 @@
         box-shadow:
                 0 0 5px #000000,    /* Dark Green */
                 0 0 10px #66ff66,   /* Bright Green */
-                0 0 20px #66ff66,   /* Bright Green */
                 0 0 40px #33cc33,   /* Darker Green */
                 0 0 80px #00b300,   /* Intense Green */
-                0 0 90px #009900,   /* Dark Green */
                 0 0 100px #008000,  /* Darker Green */
                 0 0 150px #006600;  /* Very Dark Green */
         animation: bulb-flicker-green 5s infinite alternate;
@@ -284,10 +249,8 @@
             box-shadow:
                     0 0 5px #000000,    /* Dark Green */
                     0 0 10px #66ff66,   /* Bright Green */
-                    0 0 20px #66ff66,   /* Bright Green */
                     0 0 40px #33cc33,   /* Darker Green */
                     0 0 80px #00b300,   /* Intense Green */
-                    0 0 90px #009900,   /* Dark Green */
                     0 0 100px #008000,  /* Darker Green */
                     0 0 150px #006600;  /* Very Dark Green */
         }

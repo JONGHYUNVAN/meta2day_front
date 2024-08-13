@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import axios from 'axios';
+
 interface UserInfo {
     id: number;
     name: string;
@@ -78,7 +79,7 @@ const MyInfo: React.FC = () => {
 
     return (
         <div className="p-8 bg-[#191919] h-auto rounded-lg shadow-md max-w-2xl text-left">
-            <pre className="text-left text-3xl Nanum-Pen-Script neon-text-normal opacity-80 " style={{ lineHeight: '0.9' }}>
+            <pre className="text-left text-3xl Nanum-Pen-Script neon-text-normal opacity-80" style={{ lineHeight: '2vh' }}>
                 {displayedText}
             </pre>
             {showImage && userInfo && (

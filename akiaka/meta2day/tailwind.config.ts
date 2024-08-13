@@ -8,7 +8,6 @@ const config: Config = {
   ],
   theme: {
     extend: {
-
       fontFamily: {
         sans: ['Roboto', 'Noto Sans KR', 'Gothic A1', 'Nanum Gothic', 'sans-serif'],
         serif: ['Nanum Myeongjo', 'serif'],

@@ -2,12 +2,13 @@
 import React, { useState } from 'react';
 import MyStats from "@/app/myPage/myStats";
 import MyInfo from "@/app/myPage/myInfo";
+import MyComments from "@/app/myPage/myComments";
 
 const MyPage: React.FC = () => {
-    const [selectedTab, setSelectedTab] = useState<'stats' | 'info'>('stats');
+    const [selectedTab, setSelectedTab] = useState<'stats' | 'info' | 'comments'>('stats');
 
     return (
-        <div className="h-auto mt-48 flex items-center justify-center bg-transparent">
+        <div className="min-h-screen flex items-center justify-center bg-transparent">
             <div className="relative max-w-6xl w-full font-serif opacity-80 hover:opacity-90 transition-opacity duration-200 shadow-md rounded-lg">
 
                 <div className="metalic-bar absolute top-0 left-0 right-0 h-12 bg-gradient-to-r from-gray-700 via-gray-600 to-gray-700 rounded-t-lg shadow-metallic">
@@ -33,8 +34,18 @@ const MyPage: React.FC = () => {
                             >
                                 My Stats
                             </button>
+                            <button
+                                className={`block w-60 mx-auto mt-5 mb-5 p-3 text-white rounded-full text-center outline-none transition-all duration-200 ${selectedTab === 'comments' ? 'bg-transparent neon-text-normal border-2 border-[#3498db]' : 'bg-[#212121]'}`}
+                                onClick={() => setSelectedTab('comments')}
+                            >
+                                My Comments
+                            </button>
                         </div>
-                        {selectedTab === 'stats' ? <MyStats /> : <MyInfo />}
+                        <div className="w-full">
+                            {selectedTab === 'stats' && <MyStats />}
+                            {selectedTab === 'info' && <MyInfo />}
+                            {selectedTab === 'comments' && <MyComments />}
+                        </div>
                     </div>
                 </div>
             </div>
