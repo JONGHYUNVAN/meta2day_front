@@ -18,7 +18,7 @@ const LineChart: React.FC<LineChartProps> = ({ data }) => {
     const colors = ['#eab308', '#ef4444', '#10b981', '#3b82f6', '#8b5cf6'];
 
     return (
-        <div className="h-[5vh] w-full">
+        <div className="h-[10vh] max-h-20 w-full">
             <ResponsiveBar
                 // @ts-ignore
                 data={data}

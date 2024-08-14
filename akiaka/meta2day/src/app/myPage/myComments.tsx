@@ -89,10 +89,13 @@ const MyComments: React.FC = () => {
                         </div>
                         <div className="w-full flex justify-between items-center mb-4">
                             <span className="neon-text text-2xl">{renderStars(comment.rating)}</span>
-                            <span className="text-4xl w-full mr-[3vw] neon-text-normal text-center">“{comment.comment}”</span>
+                            <span className="w-full mr-[3vw] text-center neon-text-normal"
+                                  style={{fontSize: 'clamp(2rem, 2vh, 4rem)'}}>
+                                “{comment.comment}”
+                            </span>
                         </div>
                         <div className="w-full text-right">
-                            <Link href={`/post/${comment.post.id}`} className="neon-text-normal mt-1 link-underline">- at “ {comment.post.title} ” -</Link>
+                        <Link href={`/post/${comment.post.id}`} className="neon-text-normal mt-1 link-underline">- at “ {comment.post.title} ” -</Link>
                         </div>
                         <LineChart
                             data={[{

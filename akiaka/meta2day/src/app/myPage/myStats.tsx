@@ -60,7 +60,6 @@ const MyStats: React.FC = () => {
     const [pieIndex, setPieIndex] = useState<number>(0);
     const colors = ['#eab308', '#ef4444', '#10b981', '#3b82f6', '#8b5cf6'];
 
-
     useEffect(() => {
         const fetchStats = async () => {
             try {
@@ -218,7 +217,7 @@ const MyStats: React.FC = () => {
                     </div>
                     <div>
                         <h3 className="font-semibold text-2xl font-handwriting text-center neon-text-emerald">CATEGORY</h3>
-                        <div className="h-72">
+                        <div className="h-[30vh]">
                             <PieChart data={pieData}/>
                         </div>
                         <div className="mt-12 text-center Nanum-Pen-Script">

@@ -16,6 +16,35 @@ const LoginForm: React.FC = () => {
     const router = useRouter();
     const dispatch = useDispatch();
 
+    const handleKakaoLogin = () => {
+        const newWindow = window.open(`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&response_type=code`, 'newWindow', 'width=600,height=400');
+
+        const checkInterval = setInterval(() => {
+            if (newWindow && newWindow.closed) {
+                if (localStorage.getItem('token')) {
+                    dispatch(login());
+                }
+                clearInterval(checkInterval);
+            }
+        }, 1000);
+    };
+
+    const handleGoogleLogin = () => {
+        const newWindow = window.open(
+            `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}&response_type=code&scope=openid%20email%20profile`,
+            'newWindow',
+            'width=600,height=600'
+        );
+
+        const checkInterval = setInterval(() => {
+            if (newWindow && newWindow.closed) {
+                if (localStorage.getItem('token')) {
+                    dispatch(login());
+                }
+                clearInterval(checkInterval);
+            }
+        }, 1000);
+    };
 
     const validatePassword = (password: string) => {
         if (password.length < 8) {
@@ -120,12 +149,12 @@ const LoginForm: React.FC = () => {
                 </form>
                 <ul className="flex justify-center mt-6 space-x-14">
                     <li>
-                        <a href="#" className="flex items-center justify-center w-12 h-12 text-2xl text-white transition-transform duration-200 rounded-full social-icon icoKakao">
+                        <a href="#" onClick={handleKakaoLogin} className="flex items-center justify-center w-12 h-12 text-2xl text-white transition-transform duration-200 rounded-full social-icon icoKakao">
                             <Image src="/kakao.webp" alt="Kakao" width={32} height={32} className="rounded-full" />
                         </a>
                     </li>
                     <li>
-                        <a href="#" className="flex items-center justify-center w-12 h-12 text-2xl text-white transition-transform duration-200 rounded-full social-icon icoGoogle">
+                        <a href="#" onClick={handleGoogleLogin} className="flex items-center justify-center w-12 h-12 text-2xl text-white transition-transform duration-200 rounded-full social-icon icoGoogle">
                             <Image src="/google.webp" alt="Google" width={30} height={30} className="rounded-full" />
                         </a>
                     </li>
