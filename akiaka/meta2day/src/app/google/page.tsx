@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
@@ -15,19 +15,18 @@ function GoogleLoginComponent() {
 
     useEffect(() => {
         if (code) {
-            axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/oauth/google`, { code })
+            axios.post('/api/google', { code })
                 .then(response => {
-                    const token = response.headers.authorization;
-                    if (token) {
-                        localStorage.setItem('token', token);
+                    console.log(response.data.token);
+                    const finalToken = response.headers['authorization'];
+                    if (finalToken) {
+                        localStorage.setItem('token', finalToken);
                         dispatch(login());
                         window.close();
-                        router.push('/myPage');
                     }
                 })
                 .catch(error => {
-                    console.error('로그인 실패:', error);
-                    router.push('/login');
+                    alert(`로그인 실패: ${error.message}`);
                 });
         }
     }, [code, router, dispatch]);
@@ -37,9 +36,11 @@ function GoogleLoginComponent() {
 
 export default function GoogleLogin() {
     return (
-        <div>
-            <GoogleLoginComponent />
-            <div>Logging...in</div>
+        <div className="flex items-center justify-center h-screen w-screen bg-black">
+            <Suspense fallback={<div className="text-4xl text-center">Waiting for Google fallback...</div>}>
+                <div className="text-4xl font-serif text-center text-white">Google Logging... please wait</div>
+                <GoogleLoginComponent/>
+            </Suspense>
         </div>
     );
 }

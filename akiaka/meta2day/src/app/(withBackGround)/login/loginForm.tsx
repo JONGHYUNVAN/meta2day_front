@@ -8,8 +8,6 @@ import axios from 'axios';
 import {login} from "@/store/slices/authSlice";
 import {useDispatch} from "react-redux";
 
-
-
 const LoginForm: React.FC = () => {
     const [passwordError, setPasswordError] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -23,6 +21,7 @@ const LoginForm: React.FC = () => {
             if (newWindow && newWindow.closed) {
                 if (localStorage.getItem('token')) {
                     dispatch(login());
+                    alert(`kakao logged in. Welcome!`)
                 }
                 clearInterval(checkInterval);
             }
@@ -40,6 +39,7 @@ const LoginForm: React.FC = () => {
             if (newWindow && newWindow.closed) {
                 if (localStorage.getItem('token')) {
                     dispatch(login());
+                    alert(`google logged in. Welcome!`)
                 }
                 clearInterval(checkInterval);
             }
@@ -114,9 +114,15 @@ const LoginForm: React.FC = () => {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-transparent">
-            <div className="w-[400px] p-10 bg-[#191919] text-center opacity-80 hover:opacity-95 transition-opacity duration-200 rounded-xl">
-                <h1 className="mt-5 text-white uppercase font-bold text-3xl neon-text">Welcome !</h1>
+        <div className="flex items-center justify-center h-auto bg-[#191919] opacity-80 hover:opacity-95 transition-opacity duration-200 rounded-xl">
+            <Image src={`/login.webp`}
+                   alt={`login`}
+                   width={400}
+                   height={900}
+                   className="rounded-l-xl"
+            />
+            <div className="w-[400px] p-10 text-center">
+                <h1 className="mt-5 text-white uppercase font-bold text-3xl neon-text ">Welcome !</h1>
                 <form className="mt-10" onSubmit={handleSubmit}>
                     <input
                         type="text"
@@ -137,7 +143,11 @@ const LoginForm: React.FC = () => {
 
                     <div className="flex mt-10 items-center justify-center my-5">
                         <div className="flex-grow border-t border-gray-600"></div>
-                        <Link href="/signup" className="px-4 text-gray-300 link-underline">Need new account?</Link>
+                        {isSubmitting ? (
+                            <p className="px-4 text-gray-300">Logging in... wait a second</p>
+                        ) : (
+                            <Link href="/signup" className="px-4 text-gray-300 link-underline">Need new account?</Link>
+                        )}
                         <div className="flex-grow border-t border-gray-600"></div>
                     </div>
 

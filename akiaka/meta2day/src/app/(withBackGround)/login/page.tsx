@@ -1,4 +1,4 @@
-import LoginForm from "@/app/login/loginForm";
+import LoginForm from "@/app/(withBackGround)/login/loginForm";
 
 const LoginPage: React.FC = () => {
     return (

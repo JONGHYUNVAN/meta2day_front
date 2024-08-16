@@ -42,7 +42,7 @@ const BarChart: React.FC<BarChartProps> = ({ data }) => {
     };
 
     return (
-        <div className="h-[35vh] w-[23vw] max-w-80">
+        <div className="h-[35vh] w-[23vw] max-w-80 max-h-80">
             <ResponsiveBar
                 data={data.map(d => ({
                     id: d.id,

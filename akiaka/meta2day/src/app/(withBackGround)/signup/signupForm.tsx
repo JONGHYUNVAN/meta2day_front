@@ -89,13 +89,14 @@ const SignupForm: React.FC = () => {
     return (
         <form onSubmit={handleSubmit(onSubmit)}
               className="max-w-4xl w-1/2 mx-auto mt-28 p-8 bg-[#191919] text-white font-serif opacity-80 hover:opacity-90 transition-opacity duration-200 shadow-md rounded-lg">
-            <h2 className="text-2xl font-bold text-center mb-6">Registration Form</h2>
+            <h2 className="text-4xl font-handwriting font-bold text-center mb-6 neon-text">Sign Up</h2>
             {serverError && <p className="text-red-500 text-center">{serverError}</p>}
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 text-xl gap-4 font-handwriting neon-text-normal">
                 <div>
-                    <label htmlFor="name" className="block text-sm font-bold mb-2">
-                        {errors.name ? <span className="text-red-500">{errors.name.message}</span> : 'Name'}
+                    <label htmlFor="name" className="block text-2xl font-bold mb-2">
+                        {errors.name ?
+                            <span className="text-red-500 neon-text-red">{errors.name.message}</span> : 'Name'}
                     </label>
                     <input
                         {...register('name', {required: 'Name is required'})}
@@ -106,8 +107,9 @@ const SignupForm: React.FC = () => {
                 </div>
 
                 <div>
-                    <label htmlFor="nickname" className="block text-sm font-bold mb-2">
-                        {errors.nickname ? <span className="text-red-500">{errors.nickname.message}</span> : 'Nickname'}
+                    <label htmlFor="nickname" className="block text-2xl font-bold mb-2">
+                        {errors.nickname ?
+                            <span className="text-red-500 neon-text-red">{errors.nickname.message}</span> : 'Nickname'}
                     </label>
                     <input
                         {...register('nickname', {required: 'Nickname is required'})}
@@ -118,8 +120,9 @@ const SignupForm: React.FC = () => {
                 </div>
 
                 <div>
-                    <label htmlFor="email" className="block text-sm font-bold mb-2">
-                        {errors.email ? <span className="text-red-500">{errors.email.message}</span> : 'Email'}
+                    <label htmlFor="email" className="block text-2xl font-bold mb-2">
+                        {errors.email ?
+                            <span className="text-red-500 neon-text-red">{errors.email.message}</span> : 'Email'}
                     </label>
                     <input
                         {...register('email', {
@@ -133,8 +136,9 @@ const SignupForm: React.FC = () => {
                 </div>
 
                 <div>
-                    <label htmlFor="password" className="block text-sm font-bold mb-2">
-                        {errors.password ? <span className="text-red-500 Nanum-Pen-Script">{errors.password.message}</span> : 'Password'}
+                    <label htmlFor="password" className="block text-2xl font-bold mb-2">
+                        {errors.password ? <span
+                            className="text-red-500 neon-text-red Nanum-Pen-Script">{errors.password.message}</span> : 'Password'}
                     </label>
                     <input
                         {...register('password', {
@@ -153,7 +157,10 @@ const SignupForm: React.FC = () => {
                 </div>
 
                 <div>
-                    <label htmlFor="gender" className="block text-sm font-bold mb-2">Gender</label>
+                    <label htmlFor="gender" className="block text-2xl font-bold mb-2">
+                        {errors.gender ?
+                            <span className="text-red-500 neon-text-red">{errors.gender.message}</span> : 'Gender'}
+                    </label>
                     <div className="flex space-x-4">
                         <label className="inline-flex items-center">
                             <input
@@ -166,7 +173,7 @@ const SignupForm: React.FC = () => {
                         </label>
                         <label className="inline-flex items-center">
                             <input
-                                {...register('gender', {required: 'Gender should be chosen'})}
+                                {...register('gender', {required: 'Gender is required'})}
                                 type="radio"
                                 value="Female"
                                 className="form-radio"
@@ -174,14 +181,17 @@ const SignupForm: React.FC = () => {
                             <span className="ml-2">Female</span>
                         </label>
                     </div>
-                    {errors.gender && <p className="text-red-500 text-sm">{errors.gender.message}</p>}
                 </div>
+
                 <div>
-                    <label htmlFor="ageGroup" className="block text-sm font-bold mb-2">Age Group</label>
+                    <label htmlFor="ageGroup" className="block text-2xl font-bold mb-2">
+                        {errors.ageGroup ?
+                            <span className="text-red-500 neon-text-red">{errors.ageGroup.message}</span> : 'Age Group'}
+                    </label>
                     <select
                         {...register('ageGroup', {required: 'Age Group is required'})}
                         id="ageGroup"
-                        className={`w-full text-black p-2 border rounded ${errors.ageGroup ? 'border-red-500' : 'border-gray-300'}`}
+                        className={`w-full text-black text-center Nanum-Pen-Script p-2 border rounded ${errors.ageGroup ? 'border-red-500' : 'border-gray-300'}`}
                     >
                         <option value="">연령대를 선택하세요</option>
                         <option value="10">10대</option>
@@ -189,14 +199,13 @@ const SignupForm: React.FC = () => {
                         <option value="30">30대</option>
                         <option value="40">40대 이상</option>
                     </select>
-                    {errors.ageGroup && <p className="text-red-500 text-sm">{errors.ageGroup.message}</p>}
                 </div>
 
                 <div className="col-span-1">
-                    <label htmlFor="mbti" className="block text-sm font-bold mb-2">MBTI</label>
+                    <label htmlFor="mbti" className="block text-2xl font-bold mb-2">MBTI</label>
                     <div className="flex space-x-2">
                         {mbti.map((char, index) => (
-                            <div key={index} className="mbti-spin">
+                            <div key={index} className="mbti-spin font-serif">
                                 <div
                                     onClick={() => handleMbtiClick(index)}
                                     className={`mbti-spin-inner ${activeIndex === index ? 'mbti-spin-active' : ''} cursor-pointer w-12 text-center p-2 border rounded border-gray-300`}
@@ -206,17 +215,17 @@ const SignupForm: React.FC = () => {
                             </div>
                         ))}
                     </div>
-                    {errors.mbti && <p className="text-red-500 text-sm">{errors.mbti.message}</p>}
                 </div>
                 <div className="col-span-1">
-                    <label htmlFor="categoryId" className="block text-sm font-bold mb-2">
+                    <label htmlFor="categoryId" className="block text-2xl font-bold mb-2">
                         {errors.categoryId ?
-                            <span className="text-red-500">{errors.categoryId.message}</span> : 'Favorite Category'}
+                            <span
+                                className="text-red-500 neon-text-red">{errors.categoryId.message}</span> : 'Favorite Category'}
                     </label>
                     <select
                         {...register('categoryId', {required: 'Favorite Category is required'})}
                         id="categoryId"
-                        className={`w-full text-black p-2 border rounded ${errors.categoryId ? 'border-red-500' : 'border-gray-300'}`}
+                        className={`w-full text-black text-center Nanum-Pen-Script p-2 border rounded ${errors.categoryId ? 'border-red-500' : 'border-gray-300'}`}
                     >
                         <option value="">좋아하는 항목을 선택하세요</option>
                         <option value="1">Movie</option>
@@ -229,10 +238,11 @@ const SignupForm: React.FC = () => {
                     <div>
                         <label
                             htmlFor="characterId"
-                            className="block text-sm font-bold mb-2 text-center"
+                            className="block text-2xl font-bold mb-2 text-center"
                         >
                             {errors.characterId ?
-                                <span className="text-red-500">{errors.characterId.message}</span> : 'Character'}
+                                <span
+                                    className="text-red-500 neon-text-red">{errors.characterId.message}</span> : 'Character'}
                         </label>
                         <div className="flex space-x-4 justify-center">
                             {[1, 2, 3, 4, 5].map(id => (

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Link from "next/link";
 import LineChart from "@/components/chart/LineChart";
+import {useAuthRedirect} from "@/hooks/useAuthRedirect";
 
 interface Comment {
     id: number;
@@ -28,6 +29,7 @@ interface Comment {
 }
 
 const MyComments: React.FC = () => {
+    useAuthRedirect();
     const [comments, setComments] = useState<Comment[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [page, setPage] = useState<number>(1);

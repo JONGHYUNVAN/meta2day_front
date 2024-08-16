@@ -5,6 +5,7 @@ import axios from 'axios';
 import BarChart from "@/components/chart/BarChart";
 import PieChart from "@/components/chart/PieChart";
 import DOMPurify from 'dompurify';
+import {useAuthRedirect} from "@/hooks/useAuthRedirect";
 
 interface Interest {
     id: number;
@@ -47,6 +48,7 @@ interface PieChartData {
 }
 
 const MyStats: React.FC = () => {
+    useAuthRedirect();
     const [barData, setBarData] = useState<BarChartData[]>([]);
     const [pieData, setPieData] = useState<PieChartData[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -198,7 +200,7 @@ const MyStats: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <h3 className="font-semibold text-2xl font-handwriting text-center neon-text-magenta">INTEREST</h3>
-                        <div className="h-50">
+                        <div className="h-[35vh] max-h-80">
                             <BarChart
                                 // @ts-ignore
                                 data={barData}
@@ -217,7 +219,7 @@ const MyStats: React.FC = () => {
                     </div>
                     <div>
                         <h3 className="font-semibold text-2xl font-handwriting text-center neon-text-emerald">CATEGORY</h3>
-                        <div className="h-[30vh]">
+                        <div className="h-[35vh] max-h-72">
                             <PieChart data={pieData}/>
                         </div>
                         <div className="mt-12 text-center Nanum-Pen-Script">

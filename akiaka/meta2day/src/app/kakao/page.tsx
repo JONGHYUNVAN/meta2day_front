@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect , Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
@@ -15,19 +15,18 @@ function KakaoLoginComponent() {
 
     useEffect(() => {
         if (code) {
-            axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/oauth/kakao`, { code })
+            axios.post('/api/kakao', { code })
                 .then(response => {
-                    const token = response.headers.authorization;
-                    if (token) {
-                        localStorage.setItem('token', token);
+                    console.log(response.data.token);
+                    const finalToken = response.headers['authorization'];
+                    if (finalToken) {
+                        localStorage.setItem('token', finalToken);
                         dispatch(login());
                         window.close();
-                        router.push('/myPage');
                     }
                 })
                 .catch(error => {
-                    console.error('로그인 실패:', error);
-                    router.push('/login');
+                    alert(`로그인 실패: ${error.message}`);
                 });
         }
     }, [code, router, dispatch]);
@@ -37,9 +36,11 @@ function KakaoLoginComponent() {
 
 export default function KakaoLogin() {
     return (
-        <div>
-            <KakaoLoginComponent />
-            <div>Logging...in</div>
+        <div className="flex items-center justify-center h-screen w-screen bg-yellow-400">
+            <Suspense fallback={<div className="text-4xl text-center">Waiting for Kakao fallback...</div>}>
+                <div className="text-4xl Nanum-Pen-Script text-center text-orange-900">Kakao Loging... please wait</div>
+                <KakaoLoginComponent/>
+            </Suspense>
         </div>
     );
 }
