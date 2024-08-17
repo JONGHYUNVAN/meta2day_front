@@ -6,7 +6,7 @@ interface LineChartData {
     Joy: number;
     Anger: number;
     Irritation: number;
-    Shyness: number;
+    Fear: number;
     Sadness: number;
 }
 
@@ -22,7 +22,7 @@ const LineChart: React.FC<LineChartProps> = ({ data }) => {
             <ResponsiveBar
                 // @ts-ignore
                 data={data}
-                keys={['Joy', 'Anger', 'Irritation', 'Shyness', 'Sadness']}
+                keys={['Joy', 'Anger', 'Irritation', 'Fear', 'Sadness']}
                 indexBy="emotion"
                 layout="horizontal"
                 margin={{ top: 10, right: 10, bottom: 10, left: 10 }}
@@ -32,7 +32,7 @@ const LineChart: React.FC<LineChartProps> = ({ data }) => {
                         case 'Joy': return colors[0];
                         case 'Anger': return colors[1];
                         case 'Irritation': return colors[2];
-                        case 'Shyness': return colors[3];
+                        case 'Fear': return colors[3];
                         case 'Sadness': return colors[4];
                         default: return '#ffffff';
                     }

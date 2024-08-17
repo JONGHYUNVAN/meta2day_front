@@ -19,6 +19,13 @@
     text-wrap: balance;
   }
 }
+body {
+    background-color: #1E1F22;
+}
+
+.white-space-pre-line {
+    white-space: pre-line;
+}
 /* 메탈릭 네비게이션 바 스타일 */
 .metallic-navbar {
     background: linear-gradient(135deg, #6d6d6d 0%, #191919 50%, #000000 100%);
@@ -368,4 +375,78 @@ login-block {
         overflow: hidden;
     }
 
+}
+@property --rotate {
+    syntax: "<angle>";
+    initial-value: 132deg;
+    inherits: false;
+}
+
+:root {
+    --card-height: 80vh;
+    --card-width: clamp(300px, 90vw, 1500px);
+    --gradient-color1: #5ddcff;
+    --gradient-color2: #3c67e3;
+    --gradient-color3: darkblue;
+}
+
+.card {
+    background: #1E1F22;
+    width: var(--card-width);
+    height: var(--card-height);
+    padding: 3px;
+    position: relative;
+    border-radius: 6px;
+    display: flex;
+    font-size: 1.5em;
+    color: rgb(88 199 250 / 0%);
+}
+
+.card::before {
+    content: "";
+    width: clamp(303px, 91vw, 1515px);
+    height: 81vh;
+    border-radius: 8px;
+    background-image: linear-gradient(
+            var(--rotate),
+            var(--gradient-color1),
+            var(--gradient-color2) 43%,
+            var(--gradient-color3)
+    );
+    position: absolute;
+    z-index: -1;
+    top: -0.5%;
+    left: -0.5%;
+    animation: spin 5s linear infinite;
+}
+
+.card::after {
+    position: absolute;
+    content: "";
+    top: -0.5%;
+    left: -0.5%;
+    z-index: -1;
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    transform: scale(0.8);
+    filter: blur(calc(var(--card-height) / 6));
+    background-image: linear-gradient(
+            var(--rotate),
+            var(--gradient-color1),
+            var(--gradient-color2) 43%,
+            var(--gradient-color3)
+    );
+    opacity: 1;
+    transition: opacity .5s;
+    animation: spin 5s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        --rotate: 0deg;
+    }
+    100% {
+        --rotate: 360deg;
+    }
 }

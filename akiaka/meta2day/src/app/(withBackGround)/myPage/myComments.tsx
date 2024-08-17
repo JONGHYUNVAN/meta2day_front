@@ -22,7 +22,7 @@ interface Comment {
     joyScore: number;
     angerScore: number;
     irritationScore: number;
-    shynessScore: number;
+    fearScore: number;
     sadnessScore: number;
     createdAt: string;
     updatedAt: string;
@@ -33,7 +33,7 @@ const MyComments: React.FC = () => {
     const [comments, setComments] = useState<Comment[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [page, setPage] = useState<number>(1);
-    const [limit, setLimit] = useState<number>(2);
+    const [limit, setLimit] = useState<number>(3);
     const [totalPages, setTotalPages] = useState<number>(1);
 
     useEffect(() => {
@@ -105,7 +105,7 @@ const MyComments: React.FC = () => {
                                 Joy: comment.joyScore || 0.1,
                                 Anger: comment.angerScore || 0.1,
                                 Irritation: comment.irritationScore || 0.1,
-                                Shyness: comment.shynessScore || 0.1,
+                                Fear: comment.fearScore || 0.1,
                                 Sadness: comment.sadnessScore || 0.1,
                             }]}
                         />

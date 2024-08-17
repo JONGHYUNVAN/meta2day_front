@@ -33,7 +33,7 @@ const RootLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
             <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"/>
         </head>
 
-        <body className="bg-[#ABABAB]">
+        <body>
             <div>
                 <ClientSideReduxProvider>
                     <Navbar/>
