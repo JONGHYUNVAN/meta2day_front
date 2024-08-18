@@ -1,17 +1,27 @@
 'use client';
+
 import dynamic from 'next/dynamic';
 import 'react-quill/dist/quill.snow.css';
-import FontSelector from './fontSelector';
-import Toolbar from "./toolbar";
 import formats from "./formats";
+import TextEditorToolbar from "@/components/contentEditor/TextEditorToolbar";
+
 const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 
-const Editor = ({ value, onChange }) => {
-    const modules = Toolbar();
+interface TextEditorProps {
+    value: string;
+    onChange: (content: string) => void;
+}
+
+const TextEditor: React.FC<TextEditorProps> = ({ value, onChange }) => {
+    const modules = {
+        toolbar: {
+            container: "#toolbar",
+        },
+    };
 
     return (
         <div className="editor-container p-4 border rounded-lg shadow-lg bg-white h-[80vh] flex flex-col">
-            <FontSelector />
+            <TextEditorToolbar />
             <ReactQuill
                 theme="snow"
                 modules={modules}
@@ -24,4 +34,4 @@ const Editor = ({ value, onChange }) => {
     );
 };
 
-export default Editor;
+export default TextEditor;

@@ -1,68 +1,59 @@
 'use client';
-import React, {useState, useRef, useEffect} from 'react';
-import { useRouter } from 'next/navigation';
-import dynamic from 'next/dynamic';
+import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
-import FileUpload from "../../../../components/editor/FileUpload/FileUpload";
-import { handleDescriptionImages} from "../../../../components/editor/FileUpload/handleImages";
-import 'react-quill/dist/quill.snow.css';
+import FileUploader, {FileUploadRef} from "@/components/fileUploader/fileUploader";
+import TextEditor from "@/components/contentEditor/textEditor";
+import {useAuthRedirect} from "@/hooks/useAuthRedirect";
 
-const Editor = dynamic(() => import('../../../../components/editor/editor'), { ssr: false });
-
-const CreateMovie = () => {
+const CreatePost: React.FC = () => {
     const [title, setTitle] = useState('');
     const [youtubeUrl, setYoutubeUrl] = useState('');
     const [thumbnailUrl, setThumbnailUrl] = useState('');
-    const [bigImgUrl, setBigImgUrl] = useState('');
-    const [description, setDescription] = useState('');
-    const router = useRouter();
+    const [backGroundImgUrl, setBackGroundImgUrl] = useState('');
+    const [content, setContent] = useState('');
+    const thumbnailRef = useRef<FileUploadRef | null>(null);
+    const backGroundImgRef = useRef<FileUploadRef | null>(null);
+    useAuthRedirect()
 
-    const thumbnailRef = useRef(null);
-    const bigImgRef = useRef(null);
 
-    useEffect(() => {
-        const accessToken = localStorage.getItem('accessToken');
-        if (!accessToken) {
-            router.push('/login');
-        }
-    }, [router]);
-
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const uploadedThumbnailUrl = await thumbnailRef.current.uploadFileToS3();
-        const uploadedBigImgUrl = await bigImgRef.current.uploadFileToS3();
+        if (thumbnailRef.current && backGroundImgRef.current) {
+            const uploadedThumbnailUrl = await thumbnailRef.current.uploadFileToS3();
+            const uploadedBackGroundImgUrl = await backGroundImgRef.current.uploadFileToS3();
 
-        if (!uploadedThumbnailUrl || !uploadedBigImgUrl) {
-            alert('Failed to upload images');
-            return;
-        }
+            if (!uploadedThumbnailUrl || !uploadedBackGroundImgUrl) {
+                alert('Failed to upload images');
+                return;
+            }
 
-        const updatedDescription = await handleDescriptionImages(description, title);
+            const postData = {
+                title,
+                content,
+                youtubeUrl,
+                backGroundImgURL: uploadedBackGroundImgUrl,
+                thumbnailURL: uploadedThumbnailUrl,
+                categoryId: '1'
+            };
 
-        const movieData = {
-            title,
-            description: updatedDescription,
-            youtubeUrl,
-            bigImgUrl: `${uploadedBigImgUrl}`,
-            thumbNailUrl: `${uploadedThumbnailUrl}`,
-        };
-
-        try {
-            const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/movies`, movieData, {
-                headers: {
-                    Authorization: `${localStorage.getItem('accessToken')}`
-                }
-            });
-            alert('Movie updated successfully!');
-            const movieId = response.data.id;
-            window.location.href = `/movie/${movieId}`;
-        } catch (error) {
-            console.error('Error updating movie:', error);
+            try {
+                const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/posts`, postData, {
+                    headers: {
+                        Authorization: `${localStorage.getItem('accessToken')}`
+                    }
+                });
+                alert('Post created successfully!');
+                const postId = response.data.id;
+                window.location.href = `/post/${postId}`;
+            } catch (error) {
+                console.error('Error creating post:', error);
+            }
+        } else {
+            alert('Thumbnail or background image upload failed.');
         }
     };
-
-    const extractYouTubeID = (url) => {
+    const extractYouTubeID = (url: string) => {
         const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
         const match = url.match(regExp);
         return (match && match[2].length === 11) ? match[2] : null;
@@ -110,7 +101,7 @@ const CreateMovie = () => {
 
                 <div className="mb-4">
                     <label htmlFor="thumbnail" className="block text-sm font-medium text-gray-700">Thumbnail</label>
-                    <FileUpload setFileUrl={setThumbnailUrl} ref={thumbnailRef} />
+                    <FileUploader setFileUrl={setThumbnailUrl} ref={thumbnailRef} />
                     {thumbnailUrl && (
                         <div
                             className="w-52 bg-cover bg-center mt-4"
@@ -120,19 +111,19 @@ const CreateMovie = () => {
                 </div>
 
                 <div className="mb-4">
-                    <label htmlFor="bigImg" className="block text-sm font-medium text-gray-700">Big Image</label>
-                    <FileUpload setFileUrl={setBigImgUrl} ref={bigImgRef} />
-                    {bigImgUrl && (
+                    <label htmlFor="bigImg" className="block text-sm font-medium text-gray-700">Background Image</label>
+                    <FileUploader setFileUrl={setBackGroundImgUrl} ref={backGroundImgRef} />
+                    {backGroundImgUrl && (
                         <div
                             className="bg-cover bg-center mb-4"
-                            style={{ backgroundImage: `url(${bigImgUrl})`, height: '30vh' }}
+                            style={{ backgroundImage: `url(${backGroundImgUrl})`, height: '30vh' }}
                         />
                     )}
                 </div>
 
                 <div className="mb-4">
-                    <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
-                    <Editor value={description} onChange={setDescription} />
+                    <label htmlFor="content" className="block text-sm font-medium text-gray-700">Content</label>
+                    <TextEditor value={content} onChange={setContent} />
                 </div>
 
                 <button
@@ -146,4 +137,4 @@ const CreateMovie = () => {
     );
 };
 
-export default CreateMovie;
+export default CreatePost;

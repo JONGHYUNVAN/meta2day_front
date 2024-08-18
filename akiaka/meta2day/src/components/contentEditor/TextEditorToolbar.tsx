@@ -1,12 +1,19 @@
-import { fontList } from './fonts';
+'use client';
 
-const FontSelector = () => {
+import React from 'react';
+
+const TextEditorToolbar: React.FC = () => {
     return (
-        <div id="toolbar">
+        <div className="custom-toolbar">
             <select className="ql-font custom-font-select">
-                {fontList.map((font) => (
-                    <option key={font.className} value={font.className}>{font.name}</option>
-                ))}
+                <option value="sans-serif">Sans Serif</option>
+                <option value="serif">Serif</option>
+                <option value="monospace">Monospace</option>
+                <option value="Noto-Sans-KR">Noto Sans KR</option>
+                <option value="Nanum-Gothic">나눔 고딕</option>
+                <option value="Nanum-Myeongjo">나눔 명조</option>
+                <option value="Nanum-Pen-Script">나눔 펜 글씨</option>
+                <option value="Do-Hyeon">도 현</option>
             </select>
             <select className="ql-size" defaultValue="normal">
                 <option value="small">Small</option>
@@ -31,4 +38,4 @@ const FontSelector = () => {
     );
 };
 
-export default FontSelector;
+export default TextEditorToolbar;

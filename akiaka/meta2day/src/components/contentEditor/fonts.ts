@@ -11,7 +11,7 @@ export const fontList = [
 
 const fonts = fontList.map(font => font.className);
 
-const Font = Quill.import('formats/font');
+const Font = Quill.import('formats/font') as any;
 Font.whitelist = fonts;
 Quill.register(Font, true);
 
