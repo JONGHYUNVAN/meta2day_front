@@ -9,11 +9,52 @@
 @import 'https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap';
 @import 'https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap';
 @import 'https://fonts.googleapis.com/css2?family=Pacifico&display=swap';
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Nanum+Gothic&family=Nanum+Myeongjo&family=Nanum+Pen+Script&family=Do+Hyeon&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+.Nanum-Pen-Script {
+    font-family: 'Nanum Pen Script', cursive;
+}
+.Noto-Sans-KR {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.Nanum-Gothic {
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+.Nanum-Myeongjo {
+    font-family: 'Nanum Myeongjo', serif;
+}
+
+.Nanum-Pen-Script {
+    font-family: 'Nanum Pen Script', cursive;
+}
+.Do-Hyeon {
+    font-family: 'Do Hyeon', sans-serif;
+}
+.ql-font-Noto-Sans-KR {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+.ql-font-Nanum-Gothic {
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+.ql-font-Nanum-Myeongjo {
+    font-family: 'Nanum Myeongjo', serif;
+}
+
+.ql-font-Nanum-Pen-Script {
+    font-family: 'Nanum Pen Script', cursive;
+}
+
+.ql-font-Do-Hyeon {
+    font-family: 'Do Hyeon', sans-serif;
+}
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -31,6 +72,13 @@ body {
     background: linear-gradient(135deg, #6d6d6d 0%, #191919 50%, #000000 100%);
     border: 1px solid #a0a0a0;
     border-radius: 10px;
+    box-shadow: inset 0 0 10px #5e5e5e, 0 2px 3px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+}
+
+.metallic-navbar-dropdown {
+    background: linear-gradient(135deg, #6d6d6d 0%, #191919 50%, #000000 100%);
+    border: 1px solid #a0a0a0;
     box-shadow: inset 0 0 10px #5e5e5e, 0 2px 3px rgba(0, 0, 0, 0.1);
     padding: 10px;
 }
@@ -340,9 +388,7 @@ login-block {
     left: 9%;
 }
 
-.Nanum-Pen-Script {
-    font-family: 'Nanum Pen Script', cursive;
-}
+
 @keyframes slide-in {
     from {
         opacity: 0;
@@ -449,4 +495,17 @@ login-block {
     100% {
         --rotate: 360deg;
     }
+}
+
+.dropdown {
+    transform: translate(0, 20px);
+    opacity: 0;
+    visibility: hidden;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.dropdown.open {
+    transform: translate(0, 0);
+    opacity: 1;
+    visibility: visible;
 }

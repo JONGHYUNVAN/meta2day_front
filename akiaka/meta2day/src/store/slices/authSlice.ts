@@ -8,6 +8,7 @@ interface User {
 
 interface AuthState {
     isLoggedIn: boolean;
+    isAdmin: boolean;
     user: User | null;
     token: string | null;
 }
@@ -23,6 +24,7 @@ const initialState: AuthState = {
     isLoggedIn: false,
     user: null,
     token: null,
+    isAdmin: false,
 };
 
 export const authSlice = createSlice({
@@ -40,12 +42,14 @@ export const authSlice = createSlice({
                 state.isLoggedIn = true;
                 state.user = {nickname, role};
                 state.token = token;
+                state.isAdmin = role === 'admin';
             }
         },
         logout: (state) => {
             state.isLoggedIn = false;
             state.user = null;
             state.token = null;
+            state.isAdmin = false;
             localStorage.removeItem('token');
         },
     },

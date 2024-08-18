@@ -97,7 +97,7 @@ const MyComments: React.FC = () => {
                             </span>
                         </div>
                         <div className="w-full text-right">
-                        <Link href={`/post/${comment.post.id}`} className="neon-text-normal mt-1 link-underline">- at “ {comment.post.title} ” -</Link>
+                        <Link href={`/akiaka/meta2day/src/app/(withoutBackGround)/post/${comment.post.id}`} className="neon-text-normal mt-1 link-underline">- at “ {comment.post.title} ” -</Link>
                         </div>
                         <LineChart
                             data={[{

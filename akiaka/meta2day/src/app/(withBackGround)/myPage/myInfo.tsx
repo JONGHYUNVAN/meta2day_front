@@ -105,7 +105,7 @@ const MyInfo: React.FC = () => {
             </div>
 
             <div className="ml-6 flex-grow">
-                <pre className="text-left text-3xl ml-[3vw] Nanum-Pen-Script neon-text-normal opacity-80"
+                <pre className="text-left text-3xl ml-[3vw] font-handwriting neon-text-normal opacity-80"
                      style={{lineHeight: 'clamp(1rem, 5vh, 4rem)'}}>
                     {displayedText}
                 </pre>

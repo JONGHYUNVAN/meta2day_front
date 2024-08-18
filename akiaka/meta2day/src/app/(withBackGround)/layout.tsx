@@ -1,9 +1,8 @@
-import ClientSideReduxProvider from "@/components/ClientSideReduxProvider";
-import Navbar from "@/components/Navbar";
+import CommonLayout from "@/components/commonLayout";
 
 const FullLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
-        <html lang="en">
+        <html>
             <body>
                 <video
                     className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full sm:w-3/4 md:w-2/3 lg:w-1/2 h-full object-cover"
@@ -42,10 +41,9 @@ const FullLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 </div>
 
                 <div>
-                    <ClientSideReduxProvider>
-                        <Navbar/>
+                    <CommonLayout>
                         {children}
-                    </ClientSideReduxProvider>
+                    </CommonLayout>
                 </div>
             </body>
         </html>

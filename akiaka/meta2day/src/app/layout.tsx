@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import ClientSideReduxProvider from "@/components/ClientSideReduxProvider";
 import { ReactNode } from "react";
-import Navbar from "@/components/Navbar";
+import CommonLayout from "@/components/commonLayout";
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -12,36 +11,11 @@ export const metadata: Metadata = {
 const RootLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
     return (
         <html lang="en">
-        <head>
-            <link rel="stylesheet"
-                  href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap"/>
-            <link rel="stylesheet"
-                  href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap"/>
-            <link rel="stylesheet"
-                  href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&display=swap"/>
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap"/>
-            <link rel="stylesheet"
-                  href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;700&display=swap"/>
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap"/>
-            <link rel="stylesheet"
-                  href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"/>
-            <link rel="stylesheet"
-                  href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap"/>
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap"/>
-            <link rel="stylesheet"
-                  href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap"/>
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"/>
-        </head>
-
-        <body>
-            <div>
-                <ClientSideReduxProvider>
-                    <Navbar/>
+            <body>
+                <CommonLayout>
                     {children}
-                </ClientSideReduxProvider>
-            </div>
-        </body>
-
+                </CommonLayout>
+            </body>
         </html>
     );
 };

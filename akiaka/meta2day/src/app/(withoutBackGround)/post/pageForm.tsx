@@ -159,50 +159,52 @@ const PostForm: React.FC = () => {
                         평점순
                     </button>
                 </div>
-                {posts.map((post) => (
-                    <div
-                        key={post.id}
-                        className="bg-transparent h-[23vh] shadow-md rounded-xl overflow-auto mb-6 flex border-8 border-gray-300 border-t-[#2A2B2F] border-l-[#2A2B2F] border-b-[#141517] border-r-[#141517] opacity-80 hover:opacity-100 transition-opacity duration-200"
-                    >
-                        <div className="flex-1 p-4 w-3/4">
-                            <div className="flex justify-between items-center mb-1">
-                                <h3 className="text-orange-400 ml-5 font-sans">{post.title}</h3>
-                                <span className="text-yellow-300 text-sm mr-10">{post.views} views</span>
+                <div className={`${ limit === 2 ? 'space-y-24 mt-[7vh]' : ''  }`}>
+                    {posts.map((post) => (
+                        <div
+                            key={post.id}
+                            className="bg-transparent h-[23vh] shadow-md rounded-xl overflow-auto mb-6 flex border-8 border-gray-300 border-t-[#2A2B2F] border-l-[#2A2B2F] border-b-[#141517] border-r-[#141517] opacity-80 hover:opacity-100 transition-opacity duration-200"
+                        >
+                            <div className="flex-1 p-4 w-3/4">
+                                <div className="flex justify-between items-center mb-1">
+                                    <h3 className="text-orange-400 ml-5 font-sans">{post.title}</h3>
+                                    <span className="text-yellow-300 text-sm mr-10">{post.views} views</span>
+                                </div>
+
+                                <p className="text-gray-300 mb-2 white-space-pre-line"
+                                   style={{fontSize: 'clamp(1rem, 1.3vh, 2.5rem)'}}>{post.preview}</p>
+
+                                <div className="flex justify-between items-center text-sky-500 text-sm mb-2 ml-10 mr-10">
+                                    <span>{post.createdAt.substring(0, 20)}</span>
+                                    <span className="neon-text-normal text-2xl">{renderStars(post.averageRating)}</span>
+                                    <span>{post.updatedAt.substring(0, 20)}</span>
+                                </div>
+
+                                <LineChart
+                                    data={[
+                                        {
+                                            emotion: 'Scores',
+                                            Joy: post.joyScore || 0.1,
+                                            Anger: post.angerScore || 0.1,
+                                            Irritation: post.irritationScore || 0.1,
+                                            Fear: post.fearScore || 0.1,
+                                            Sadness: post.sadnessScore || 0.1,
+                                        },
+                                    ]}
+                                />
                             </div>
-
-                            <p className="text-gray-300 mb-2 white-space-pre-line"
-                               style={{fontSize: 'clamp(1rem, 1.3vh, 2.5rem)'}}>{post.preview}</p>
-
-                            <div className="flex justify-between items-center text-sky-500 text-sm mb-2 ml-10 mr-10">
-                                <span>{post.createdAt.substring(0, 20)}</span>
-                                <span className="neon-text-normal text-2xl">{renderStars(post.averageRating)}</span>
-                                <span>{post.updatedAt.substring(0, 20)}</span>
+                            <div>
+                                <Image
+                                    src={post.thumbnailURL}
+                                    alt={post.title}
+                                    width={200}
+                                    height={400}
+                                    className="object-cover w-full h-full"
+                                />
                             </div>
-
-                            <LineChart
-                                data={[
-                                    {
-                                        emotion: 'Scores',
-                                        Joy: post.joyScore || 0.1,
-                                        Anger: post.angerScore || 0.1,
-                                        Irritation: post.irritationScore || 0.1,
-                                        Fear: post.fearScore || 0.1,
-                                        Sadness: post.sadnessScore || 0.1,
-                                    },
-                                ]}
-                            />
                         </div>
-                        <div>
-                            <Image
-                                src={post.thumbnailURL}
-                                alt={post.title}
-                                width={200}
-                                height={400}
-                                className="object-cover w-full h-full"
-                            />
-                        </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
                 {totalPages > 1 && (
                     <div className="absolute bottom-5 left-1/2 transform neon-text-normal -translate-x-1/2">
                         <div className="flex justify-between items-center space-x-4">

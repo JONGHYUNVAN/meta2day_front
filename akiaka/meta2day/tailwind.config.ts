@@ -11,7 +11,12 @@ const config: Config = {
       fontFamily: {
         sans: ['Roboto', 'Noto Sans KR', 'Gothic A1', 'Nanum Gothic', 'sans-serif'],
         serif: ['Nanum Myeongjo', 'serif'],
-        handwriting: ['Dancing Script', 'Pacifico', 'cursive'],
+        handwriting: ['Dancing Script', 'Pacifico', 'Nanum Pen Script', 'cursive'],
+        noto: ['Noto Sans KR', 'sans-serif'],
+        nanumGothic: ['Nanum Gothic', 'sans-serif'],
+        nanumMyeongjo: ['Nanum Myeongjo', 'serif'],
+        nanumPenScript: ['Nanum Pen Script', 'cursive'],
+        doHyeon: ['Do Hyeon', 'sans-serif'],
       },
     },
   },

@@ -1,4 +1,4 @@
-import PostForm from "@/app/post/pageForm";
+import PostForm from "@/app/(withoutBackGround)/post/pageForm";
 
 export default function PostPage() {
     return (

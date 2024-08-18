@@ -10,7 +10,7 @@ export const useAuthRedirect = () => {
     useEffect(() => {
         const token = localStorage.getItem('token');
 
-        if (!token && pathname !== '/login') {
+        if (!token) {
             router.push('/login');
         }
     }, [pathname, router]);

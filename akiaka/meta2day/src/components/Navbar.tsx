@@ -5,11 +5,17 @@ import useAuth from '../hooks/useAuth';
 import {useDispatch} from "react-redux";
 import {AppDispatch} from "@/store/store";
 import {login, logout} from "@/store/slices/authSlice";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 
 const Navbar: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const { isLoggedIn, user, handleLogout } = useAuth();
+    const { isLoggedIn, user, isAdmin, handleLogout } = useAuth();
+
+    const [isDropdownOpen, setDropdownOpen] = useState(false);
+
+    const toggleDropdown = () => {
+        setDropdownOpen(!isDropdownOpen);
+    };
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -30,16 +36,39 @@ const Navbar: React.FC = () => {
                     </Link>
                 </li>
 
-                <li className="ml-[10vw] top-1/2 neon-text">
-                    <a href="/post" className="opacity-70 hover:opacity-100 transition-opacity duration-300">
+                <li className="ml-[10vw] top-1/2 neon-text relative">
+                    <Link href="/post" className="opacity-70 hover:opacity-100 transition-opacity duration-300">
                         POSTS
-                    </a>
+                    </Link>
+                    {isAdmin && (
+                        <div className="relative inline-block ml-[10vw]">
+                            <button
+                                onClick={toggleDropdown}
+                                className="opacity-70 hover:opacity-100 transition-opacity duration-300 neon-text"
+                            >
+                                Admin
+                            </button>
+                            <ul
+                                className={`absolute -right-20 w-52 bg-transparent border border-gray-600 shadow-lg transition-transform duration-300 ${
+                                    isDropdownOpen ? 'transform translate-y-[2.5vh] opacity-100 visible' : 'transform translate-y-0 opacity-0 invisible'
+                                }`}
+                            >
+                                <li className="p-2 text-center rounded-none metallic-navbar-dropdown">
+                                    <Link href="/post/new" className="link-underline">NEW POST</Link>
+                                </li>
+                                <li className="p-2  text-center rounded-none metallic-navbar-dropdown">
+                                    <Link href="/settings" className="link-underline">Settings</Link>
+                                </li>
+                            </ul>
+                        </div>
+                    )}
                 </li>
 
                 <div className="flex items-center space-x-[10vw] mr-[10vw] neon-text">
                     {isLoggedIn ? (
                         <>
-                            <Link href="/myPage" className="opacity-70 hover:opacity-100 transition-opacity duration-300">
+                            <Link href="/myPage"
+                                  className="opacity-70 hover:opacity-100 transition-opacity duration-300">
                                 Welcome, {user?.nickname} !
                             </Link>
                             <li>
