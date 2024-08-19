@@ -24,7 +24,7 @@ const AlarmList: React.FC = () => {
             console.log("Fetching alarms..."); // 로그 추가
 
             try {
-                const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/alarms`);
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/alarm/user/1`);
                 console.log("Fetched alarms:", response.data); // 로그 추가
                 setAlarms(response.data);
             } catch (error) {
@@ -64,7 +64,7 @@ const AlarmList: React.FC = () => {
 
     const handleConfirm = (id: number) => {
         console.log(`Confirming alarm with id: ${id}`); // 로그 추가
-        axios.patch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/alarms/${id}`, { isNew: false })
+        axios.patch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/alarm/${id}`, { isNew: false })
             .then(() => {
                 console.log(`Alarm with id: ${id} confirmed`); // 로그 추가
                 setAlarms(alarms.map(alarm => (alarm.id === id ? { ...alarm, isNew: false } : alarm)));
@@ -74,7 +74,7 @@ const AlarmList: React.FC = () => {
 
     const handleDelete = (id: number) => {
         console.log(`Deleting alarm with id: ${id}`); // 로그 추가
-        axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/alarms/${id}`)
+        axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/alarm/${id}`)
             .then(() => {
                 console.log(`Alarm with id: ${id} deleted`); // 로그 추가
                 setAlarms(alarms.filter(alarm => alarm.id !== id));
