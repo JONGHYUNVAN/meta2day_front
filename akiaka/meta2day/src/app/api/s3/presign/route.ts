@@ -18,13 +18,17 @@ export const generatePresignedUrl = async (
     fileName: string,
     fileType: string
 ): Promise<GeneratePresignedUrlResult> => {
-    const params: PutObjectCommandInput = {
-        Bucket: process.env.S3_BUCKET_NAME!,
-        Key: fileName,
-        ContentType: fileType,
-    };
+    try {
+        const params: PutObjectCommandInput = {
+            Bucket: process.env.NEXT_PUBLIC_S3_BUCKET_NAME,
+            Key: fileName,
+            ContentType: fileType,
+        };
 
-    const command = new PutObjectCommand(params);
-    const uploadURL = await getSignedUrl(s3Client, command, { expiresIn: 60 });
-    return { uploadURL, key: fileName };
+        const command = new PutObjectCommand(params);
+        const uploadURL = await getSignedUrl(s3Client, command, { expiresIn: 60 });
+        return { uploadURL, key: fileName };
+    } catch (error:any) {
+        throw new Error(`Error generating presigned URL: ${error.message}`);
+    }
 };

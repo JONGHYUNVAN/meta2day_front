@@ -36,25 +36,6 @@
 .Do-Hyeon {
     font-family: 'Do Hyeon', sans-serif;
 }
-.ql-font-Noto-Sans-KR {
-    font-family: 'Noto Sans KR', sans-serif;
-}
-
-.ql-font-Nanum-Gothic {
-    font-family: 'Nanum Gothic', sans-serif;
-}
-
-.ql-font-Nanum-Myeongjo {
-    font-family: 'Nanum Myeongjo', serif;
-}
-
-.ql-font-Nanum-Pen-Script {
-    font-family: 'Nanum Pen Script', cursive;
-}
-
-.ql-font-Do-Hyeon {
-    font-family: 'Do Hyeon', sans-serif;
-}
 @layer utilities {
   .text-balance {
     text-wrap: balance;

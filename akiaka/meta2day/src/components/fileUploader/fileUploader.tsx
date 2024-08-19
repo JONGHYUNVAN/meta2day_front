@@ -1,6 +1,5 @@
-import React, { useState, forwardRef, useImperativeHandle, ChangeEvent } from 'react';
-import { generatePresignedUrl} from "@/app/api/s3/presign/route";
-import sharp from 'sharp';
+import React, {ChangeEvent, forwardRef, useImperativeHandle, useState} from 'react';
+import {generatePresignedUrl} from "@/app/api/s3/presign/route";
 import {uploadToS3} from "@/components/fileUploader/uploadToS3";
 
 interface FileUploadProps {
@@ -16,17 +15,16 @@ const FileUploader = forwardRef<FileUploadRef, FileUploadProps>(({ setFileUrl },
 
     const convertToWebP = async (file: File): Promise<Blob | null> => {
         try {
+            const formData = new FormData();
+            formData.append('file', file);
+
             const response = await fetch('/api/convert-webp', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ imagePath: file.name }),
+                body: formData,
             });
 
             if (response.ok) {
-                const data = await response.json();
-                return data.outputFilePath;
+                return await response.blob();
             } else {
                 console.error('WebP conversion failed:', await response.text());
                 return null;

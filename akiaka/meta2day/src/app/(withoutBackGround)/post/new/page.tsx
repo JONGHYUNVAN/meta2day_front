@@ -2,15 +2,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import FileUploader, {FileUploadRef} from "@/components/fileUploader/fileUploader";
-import TextEditor from "@/components/contentEditor/textEditor";
 import {useAuthRedirect} from "@/hooks/useAuthRedirect";
+import TextEditor from "@/components/contentEditor/textEditor";
 
 const CreatePost: React.FC = () => {
     const [title, setTitle] = useState('');
     const [youtubeUrl, setYoutubeUrl] = useState('');
     const [thumbnailUrl, setThumbnailUrl] = useState('');
     const [backGroundImgUrl, setBackGroundImgUrl] = useState('');
-    const [content, setContent] = useState('');
+    const [content, setContent] = useState(' ');
     const thumbnailRef = useRef<FileUploadRef | null>(null);
     const backGroundImgRef = useRef<FileUploadRef | null>(null);
     useAuthRedirect()
@@ -91,7 +91,6 @@ const CreatePost: React.FC = () => {
                                 height="315"
                                 src={`https://www.youtube.com/embed/${youtubeID}`}
                                 title="YouTube video player"
-                                frameBorder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen
                             />
@@ -99,31 +98,19 @@ const CreatePost: React.FC = () => {
                     )}
                 </div>
 
-                <div className="mb-4">
+                <div className="mb-4 text-white">
                     <label htmlFor="thumbnail" className="block text-sm font-medium text-gray-700">Thumbnail</label>
                     <FileUploader setFileUrl={setThumbnailUrl} ref={thumbnailRef} />
-                    {thumbnailUrl && (
-                        <div
-                            className="w-52 bg-cover bg-center mt-4"
-                            style={{ backgroundImage: `url(${thumbnailUrl})`, height: '20vh' }}
-                        />
-                    )}
                 </div>
 
-                <div className="mb-4">
+                <div className="mb-4 text-white">
                     <label htmlFor="bigImg" className="block text-sm font-medium text-gray-700">Background Image</label>
                     <FileUploader setFileUrl={setBackGroundImgUrl} ref={backGroundImgRef} />
-                    {backGroundImgUrl && (
-                        <div
-                            className="bg-cover bg-center mb-4"
-                            style={{ backgroundImage: `url(${backGroundImgUrl})`, height: '30vh' }}
-                        />
-                    )}
                 </div>
 
                 <div className="mb-4">
-                    <label htmlFor="content" className="block text-sm font-medium text-gray-700">Content</label>
-                    <TextEditor value={content} onChange={setContent} />
+                    <label htmlFor="content">Content</label>
+                    <TextEditor value={content} onChange={setContent}/>
                 </div>
 
                 <button

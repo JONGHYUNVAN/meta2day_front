@@ -194,7 +194,7 @@ const MyStats: React.FC = () => {
     }
 
     return (
-        <div className="max-w-[50vw] w-11/12 mx-auto p-8 bg-[#191919] text-white font-serif opacity-80 hover:opacity-90 transition-opacity duration-200 shadow-md rounded-lg">
+        <div className="max-w-[50vw] w-11/12 p-8 bg-[#191919] text-white font-serif opacity-80 hover:opacity-90 transition-opacity duration-200 shadow-md rounded-lg">
             <div className="bg-transparent shadow-md rounded p-6">
                 <h2 className="text-3xl text-center font-bold mb-4 neon-text">My Stats</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
