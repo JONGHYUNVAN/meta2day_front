@@ -12,11 +12,27 @@
 }
 
 .alarmItem {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #212121; /* 어두운 배경색 */
+    border: 1px solid #3498db; /* 네온 느낌의 파란 테두리 */
+    border-radius: 10px; /* 더 둥근 모서리 */
+    padding: 15px; /* 패딩 증가 */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3), 0 0 15px rgba(52, 152, 219, 0.5); /* 네온 효과 추가 */
+    color: #e0e0e0; /* 텍스트 색상 변경 */
+    font-family: 'Courier New', Courier, monospace; /* 폰트 스타일 변경 */
+    position: relative;
+}
+
+.alarmItem::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 10px;
+    border: 2px solid rgba(52, 152, 219, 0.5); /* 네온 테두리 */
+    box-shadow: 0 0 15px rgba(52, 152, 219, 0.5); /* 추가적인 네온 글로우 */
+    pointer-events: none;
 }
 
 .slide-in {
@@ -27,4 +43,17 @@
 .slide-out {
     transform: translateX(100%);
     opacity: 0;
+}
+
+.alarmTitle {
+    margin-bottom: 5px;
+    font-size: 1.2em;
+    color: #ffffff; /* 제목을 흰색으로 */
+    text-shadow: 0 0 5px rgba(52, 152, 219, 0.7); /* 네온 텍스트 효과 */
+}
+
+.alarmDescription {
+    font-size: 0.9em;
+    color: #b0b0b0; /* 설명을 좀 더 흐리게 */
+    text-shadow: 0 0 5px rgba(52, 152, 219, 0.5); /* 약한 네온 텍스트 효과 */
 }

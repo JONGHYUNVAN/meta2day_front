@@ -3,16 +3,18 @@
 import React, { useEffect, useState } from 'react';
 import { EventSourcePolyfill, NativeEventSource } from 'event-source-polyfill';
 import styles from './realtimeAlarm.module.scss';
+
 interface RealtimeAlarmProps {
     userId: number;
 }
+
 interface Alarm {
-    id: number;
+    id?: number;
     title: string;
-    description: string;
+    message: string;
 }
 
-const RealtimeAlarm: React.FC<RealtimeAlarmProps> = ({ userId }) => { // RealtimeAlarmProps를 사용해 userId를 받을 수 있도록 설정
+const RealtimeAlarm: React.FC<RealtimeAlarmProps> = ({ userId }) => {
     const [alarms, setAlarms] = useState<Alarm[]>([]);
     const [animationClass, setAnimationClass] = useState(styles['slide-in']);
 
@@ -22,6 +24,8 @@ const RealtimeAlarm: React.FC<RealtimeAlarmProps> = ({ userId }) => { // Realtim
 
         eventSource.onmessage = (event) => {
             const newAlarm: Alarm = JSON.parse(event.data);
+            console.log("New alarm received:", newAlarm); // 로그 추가
+
             setAlarms((prevAlarms) => [...prevAlarms, newAlarm]);
 
             setAnimationClass(styles['slide-in']);
@@ -39,10 +43,18 @@ const RealtimeAlarm: React.FC<RealtimeAlarmProps> = ({ userId }) => { // Realtim
             return () => clearTimeout(slideOutTimer);
         };
 
+        eventSource.onerror = (error) => {
+            console.error("EventSource failed:", error);
+        };
+
+        eventSource.onopen = () => {
+            console.log("Connection to event source opened.");
+        };
+
         return () => {
             eventSource.close();
         };
-    }, []);
+    }, [userId]);
 
     if (alarms.length === 0) return null;
 
@@ -51,13 +63,13 @@ const RealtimeAlarm: React.FC<RealtimeAlarmProps> = ({ userId }) => { // Realtim
             {alarms.map((alarm, index) => (
                 <div key={index} className={`${styles.alarmWrapper} ${animationClass}`}>
                     <div className={styles.alarmItem}>
-                        <h4>{alarm.title}</h4>
-                        <p>{alarm.description}</p>
+                        <h4 className={styles.alarmTitle}>{alarm.title}</h4>
+                        <p className={styles.alarmDescription}>{alarm.message}</p>
                     </div>
                 </div>
             ))}
         </div>
-    );
+    );    
 };
 
 export default RealtimeAlarm;
