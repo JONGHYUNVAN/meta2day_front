@@ -5,7 +5,7 @@ import axios from 'axios';
 interface Alarm {
     id: number;
     title: string;
-    description: string;
+    message: string;
     type: string;
     isNew: boolean;
 }
@@ -25,21 +25,21 @@ const AlarmList: React.FC = () => {
                     {
                         id: 1,
                         title: '새로운 추천 항목 알림',
-                        description: '인사이드 아웃이 새로운 추천 항목에 추가되었습니다.',
+                        message: '인사이드 아웃이 새로운 추천 항목에 추가되었습니다.',
                         type: 'recommendation',
                         isNew: true,
                     },
                     {
                         id: 2,
                         title: '댓글 알림',
-                        description: '인사이드 아웃에 새로운 댓글이 추가되었습니다.',
+                        message: '인사이드 아웃에 새로운 댓글이 추가되었습니다.',
                         type: 'comment',
                         isNew: true,
                     },
                     {   
                         id: 3,
                         title: '리뷰 알림',
-                        description: '인사이드 아웃에 새로운 리뷰가 추가되었습니다.',
+                        message: '인사이드 아웃에 새로운 리뷰가 추가되었습니다.',
                         type: 'comment',
                         isNew: false,
                     },
@@ -78,7 +78,8 @@ const AlarmList: React.FC = () => {
                     </span>
                     <div className="flex-1">
                         <h4 className="font-bold">{alarm.title}</h4>
-                        <p className="text-sm">{alarm.description}</p>
+                        <p className="text-sm">{alarm.message}</p>
+                        
                         <div className="mt-2">
                             <button
                                 onClick={() => handleConfirm(alarm.id)}
