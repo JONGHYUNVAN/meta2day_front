@@ -1,15 +1,4 @@
-@import 'https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap';
-@import 'https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap';
-@import 'https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&display=swap';
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap');
-@import 'https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;700&display=swap';
-@import 'https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap';
-@import 'https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap';
-@import 'https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap';
-@import 'https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap';
-@import 'https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap';
-@import 'https://fonts.googleapis.com/css2?family=Pacifico&display=swap';
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&family=Nanum+Gothic&family=Nanum+Myeongjo&family=Nanum+Pen+Script&family=Do+Hyeon&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Nanum+Gothic:wght@400;700&family=Nanum+Myeongjo:wght@400;700&family=Nanum+Pen+Script&family=Do+Hyeon&family=Gothic+A1:wght@400;500;700&family=Roboto:wght@400;500;700&family=Open+Sans:wght@400;600;700&family=Lato:wght@400;700&family=Dancing+Script:wght@400;700&family=Pacifico&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -18,6 +7,7 @@
 .Nanum-Pen-Script {
     font-family: 'Nanum Pen Script', cursive;
 }
+
 .Noto-Sans-KR {
     font-family: 'Noto Sans KR', sans-serif;
 }
@@ -30,12 +20,34 @@
     font-family: 'Nanum Myeongjo', serif;
 }
 
-.Nanum-Pen-Script {
-    font-family: 'Nanum Pen Script', cursive;
-}
 .Do-Hyeon {
     font-family: 'Do Hyeon', sans-serif;
 }
+
+.Gothic-A1 {
+    font-family: 'Gothic A1', sans-serif;
+}
+
+.Roboto {
+    font-family: 'Roboto', sans-serif;
+}
+
+.Open-Sans {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.Lato {
+    font-family: 'Lato', sans-serif;
+}
+
+.Dancing-Script {
+    font-family: 'Dancing Script', cursive;
+}
+
+.Pacifico {
+    font-family: 'Pacifico', cursive;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -43,6 +55,9 @@
 }
 body {
     background-color: #1E1F22;
+    touch-action: none;
+    transform-style: preserve-3d;
+
 }
 
 .white-space-pre-line {
@@ -299,10 +314,12 @@ body {
 
 
 /* 회전 애니메이션 정의 */
-@keyframes spin {
+@keyframes spin-mbti {
     0% { transform: rotateX(0deg); }
     50% { transform: rotateX(180deg); }
     100% { transform: rotateX(360deg); }
+    50% { transform: rotateX(180deg); }
+    0% { transform: rotateX(0deg); }
 }
 
 .mbti-spin-inner {
@@ -311,7 +328,7 @@ body {
 }
 
 .mbti-spin-active {
-    animation: spin 1s ease-in-out;
+    animation: spin-mbti 0.25s ease-in-out;
 }
 
 
@@ -489,4 +506,57 @@ login-block {
     transform: translate(0, 0);
     opacity: 1;
     visibility: visible;
+}
+#home-spin-container {
+    position: relative;
+}
+#home-drag-container,
+#home-spin-container {
+
+    position: relative;
+    display: flex;
+    margin: auto;
+    transform-style: preserve-3d;
+    transform: rotateX(-10deg);
+}
+
+
+#home-drag-container img {
+    transform-style: preserve-3d;
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    box-shadow: 0 0 8px #fff;
+}
+
+#home-drag-container img:hover {
+    box-shadow: 0 0 15px #fffd;
+}
+
+#home-ground {
+    width: 900px;
+    height: 900px;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotateX(90deg);
+}
+
+@keyframes spin {
+    from {
+        transform: rotateY(0deg);
+    }
+    to {
+        transform: rotateY(360deg);
+    }
+}
+
+@keyframes spinRevert {
+    from {
+        transform: rotateY(360deg);
+    }
+    to {
+        transform: rotateY(0deg);
+    }
 }

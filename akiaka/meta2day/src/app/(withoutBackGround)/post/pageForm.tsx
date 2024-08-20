@@ -62,7 +62,13 @@ const PostForm: React.FC = () => {
                 }
 
                 const response = await axios.get('http://localhost:3001/api/posts/', { params });
-                setPosts(response.data.data);
+
+                const updatedPosts = response.data.data.map((post: any) => ({
+                    ...post,
+                    thumbnailURL: `${process.env.NEXT_PUBLIC_CLOUDFRONT_URL}/${post.thumbnailURL}`,
+                }));
+
+                setPosts(updatedPosts);
                 setTotalPages(Math.ceil(response.data.total / limit));
                 setLoading(false);
             } catch (err) {

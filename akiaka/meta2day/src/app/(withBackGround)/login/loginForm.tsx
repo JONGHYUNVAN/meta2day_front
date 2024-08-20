@@ -21,7 +21,7 @@ const LoginForm: React.FC = () => {
             if (newWindow && newWindow.closed) {
                 if (localStorage.getItem('token')) {
                     dispatch(login());
-                    alert(`kakao logged in. Welcome!`)
+                    alert(`kakao 로그인 성공. Welcome!`)
                 }
                 clearInterval(checkInterval);
             }
@@ -39,7 +39,7 @@ const LoginForm: React.FC = () => {
             if (newWindow && newWindow.closed) {
                 if (localStorage.getItem('token')) {
                     dispatch(login());
-                    alert(`google logged in. Welcome!`)
+                    alert(`google 로그인 성공. Welcome!`)
                 }
                 clearInterval(checkInterval);
             }

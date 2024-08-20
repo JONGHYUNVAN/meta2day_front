@@ -1,5 +1,4 @@
 import sharp from 'sharp';
-import path from 'path';
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {

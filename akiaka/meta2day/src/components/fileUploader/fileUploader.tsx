@@ -1,6 +1,4 @@
-import React, {ChangeEvent, forwardRef, useImperativeHandle, useState} from 'react';
-import {generatePresignedUrl} from "@/app/api/s3/presign/route";
-import {uploadToS3} from "@/components/fileUploader/uploadToS3";
+import React, { ChangeEvent, forwardRef, useImperativeHandle, useState } from 'react';
 
 interface FileUploadProps {
     setFileUrl: (url: string) => void;
@@ -13,40 +11,32 @@ export interface FileUploadRef {
 const FileUploader = forwardRef<FileUploadRef, FileUploadProps>(({ setFileUrl }, ref) => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-    const convertToWebP = async (file: File): Promise<Blob | null> => {
+    const uploadFileToS3 = async (): Promise<string | null> => {
+        if (!selectedFile) return null;
+
         try {
             const formData = new FormData();
-            formData.append('file', file);
+            formData.append('file', selectedFile);
 
-            const response = await fetch('/api/convert-webp', {
+            const response = await fetch('/api/upload', {
                 method: 'POST',
                 body: formData,
             });
 
-            if (response.ok) {
-                return await response.blob();
-            } else {
-                console.error('WebP conversion failed:', await response.text());
-                return null;
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`Upload failed: ${errorText}`);
             }
+
+            const { url } = await response.json();
+            setFileUrl(url);
+            return url;
         } catch (error) {
-            console.error('WebP conversion error:', error);
+            console.error('Error during file upload:', error);
             return null;
         }
     };
 
-    const uploadFileToS3 = async (): Promise<string | null> => {
-        if (!selectedFile) return null;
-
-        const webpFile = await convertToWebP(selectedFile);
-        if (!webpFile) return null;
-
-        const { uploadURL, key } = await generatePresignedUrl(`${selectedFile.name.split('.')[0]}.webp`, webpFile.type);
-
-        if (!uploadURL || !key) return null;
-
-        return await uploadToS3(uploadURL, webpFile, key);
-    };
     useImperativeHandle(ref, () => ({
         uploadFileToS3,
     }));
