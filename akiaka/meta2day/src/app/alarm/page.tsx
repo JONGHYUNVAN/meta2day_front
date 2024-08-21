@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AlarmList from './alarmList'; // AlarmList.tsx를 가져옵니다.
 import RealtimeAlarm from './realtimeAlarm';
 
 const AlarmPage: React.FC = () => {
     const userId = 1; // 실제 사용자의 ID로 대체
+    const [alarms, setAlarms] = useState<Alarm[]>([]);
     return (
         <div className="h-auto mt-48 flex items-center justify-center bg-transparent">
             <div className="relative max-w-6xl w-full font-serif opacity-80 hover:opacity-90 transition-opacity duration-200 shadow-md rounded-lg">
@@ -16,8 +17,8 @@ const AlarmPage: React.FC = () => {
                 </div>
                 <div className="content-container mt-12 bg-[#191919] p-4 rounded-b-lg animate-unfold">
                     <h1 className="text-2xl font-bold mb-6 text-white">알림</h1>
-                    <AlarmList /> {/* 알림 목록을 렌더링 */}
-                    <RealtimeAlarm userId={userId} />
+                    <AlarmList alarms={alarms} setAlarms={setAlarms} /> 
+                    <RealtimeAlarm userId={userId} setAlarms={setAlarms} />
                 </div>
             </div>
         </div>
