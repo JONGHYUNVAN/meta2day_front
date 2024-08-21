@@ -10,23 +10,32 @@ interface YouTubeEmbedProps {
 
 const YouTubeEmbed: React.FC<YouTubeEmbedProps> = ({ videoId, height = '50vh', width = '90vh' }) => {
     const [dimensions, setDimensions] = useState({
-        width: `${parseFloat(height) * 0.01 * window.innerHeight * (16 / 9)}px`,
-        height: `${parseFloat(height) * 0.01 * window.innerHeight}px`,
+        width: '100%',
+        height: '100%',
     });
     const [isVideoVisible, setIsVideoVisible] = useState(false);
     const videoRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const handleResize = () => {
-            setDimensions({
-                width: `${parseFloat(height) * 0.01 * window.innerHeight * (16 / 9)}px`,
-                height: `${parseFloat(height) * 0.01 * window.innerHeight}px`,
-            });
+            if (typeof window !== 'undefined') {
+                setDimensions({
+                    width: `${parseFloat(height) * 0.01 * window.innerHeight * (16 / 9)}px`,
+                    height: `${parseFloat(height) * 0.01 * window.innerHeight}px`,
+                });
+            }
         };
 
-        window.addEventListener('resize', handleResize);
+        if (typeof window !== 'undefined') {
+            handleResize(); // Set dimensions on mount
+            window.addEventListener('resize', handleResize);
+        }
 
-        return () => window.removeEventListener('resize', handleResize);
+        return () => {
+            if (typeof window !== 'undefined') {
+                window.removeEventListener('resize', handleResize);
+            }
+        };
     }, [height]);
 
     useEffect(() => {

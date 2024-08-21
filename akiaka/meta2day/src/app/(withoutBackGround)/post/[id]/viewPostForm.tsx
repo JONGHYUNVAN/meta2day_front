@@ -20,7 +20,8 @@ const ViewPostForm: React.FC<ViewPostFormProps> = ({ data,id }, ) => {
         createdAt,
         updatedAt,
         category,
-        backGroundColor
+        backGroundColor,
+        comments
     } = data;
 
     const addCloudFrontUrl = (html: string = ''): string => {
@@ -67,14 +68,13 @@ const ViewPostForm: React.FC<ViewPostFormProps> = ({ data,id }, ) => {
                             className="max-w-xs rounded-lg shadow-lg ml-40 mr-16"
                             src={`${process.env.NEXT_PUBLIC_CLOUDFRONT_URL}/${thumbnailURL}`}
                             alt="Thumbnail"
-                            layout="responsive"
                             width={350}
                             height={450}
                         />
                     </div>
                 )}
             </div>
-            <CommentForm postId={parseInt(id)} />
+            <CommentForm postId={parseInt(id)} comments={comments}/>
         </div>
     );
 };
