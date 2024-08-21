@@ -4,6 +4,7 @@ import React, {useEffect, useRef, useState} from 'react';
 import axios from 'axios';
 import Image from 'next/image';
 import LineChart from "@/components/chart/LineChart";
+import { useRouter } from 'next/navigation';
 
 export interface Post {
     id: number;
@@ -31,6 +32,7 @@ const PostForm: React.FC = () => {
     const [field, setField] = useState<string | null>(null);
     const [order, setOrder] = useState<string>('ASC');
     const cardRef = useRef<HTMLDivElement>(null);
+    const router = useRouter();
 
     useEffect(() => {
         const updateLimit = () => {
@@ -169,7 +171,8 @@ const PostForm: React.FC = () => {
                     {posts.map((post) => (
                         <div
                             key={post.id}
-                            className="bg-transparent h-[23vh] shadow-md rounded-xl overflow-auto mb-6 flex border-8 border-gray-300 border-t-[#2A2B2F] border-l-[#2A2B2F] border-b-[#141517] border-r-[#141517] opacity-80 hover:opacity-100 transition-opacity duration-200"
+                            className="bg-transparent h-auto shadow-md rounded-xl overflow-auto mb-6 flex border-8 border-gray-300 border-t-[#2A2B2F] border-l-[#2A2B2F] border-b-[#141517] border-r-[#141517] opacity-80 hover:opacity-100 transition-opacity duration-200"
+                            onClick={() => router.push(`/post/${post.id}`)}
                         >
                             <div className="flex-1 p-4 w-3/4">
                                 <div className="flex justify-between items-center mb-1">

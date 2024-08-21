@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ReactNode } from "react";
+import CommonLayout from "@/components/commonLayout";
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -11,7 +12,9 @@ const RootLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
     return (
         <html lang="en">
             <body>
+                <CommonLayout>
                     {children}
+                </CommonLayout>
             </body>
         </html>
     );

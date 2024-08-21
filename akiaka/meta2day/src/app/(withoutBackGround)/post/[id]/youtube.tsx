@@ -1,10 +1,9 @@
-'use client';
-
-import React, { useState, useEffect } from 'react';
+'use client'
+import React, { useEffect, useState, useRef } from 'react';
 import YouTube from 'react-youtube';
 
 interface YouTubeEmbedProps {
-    videoId: string | null;
+    videoId: string;
     height?: string;
     width?: string;
 }
@@ -14,6 +13,8 @@ const YouTubeEmbed: React.FC<YouTubeEmbedProps> = ({ videoId, height = '50vh', w
         width: `${parseFloat(height) * 0.01 * window.innerHeight * (16 / 9)}px`,
         height: `${parseFloat(height) * 0.01 * window.innerHeight}px`,
     });
+    const [isVideoVisible, setIsVideoVisible] = useState(false);
+    const videoRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const handleResize = () => {
@@ -26,7 +27,30 @@ const YouTubeEmbed: React.FC<YouTubeEmbedProps> = ({ videoId, height = '50vh', w
         window.addEventListener('resize', handleResize);
 
         return () => window.removeEventListener('resize', handleResize);
-    }, [height, width]);
+    }, [height]);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                const entry = entries[0];
+                if (entry.isIntersecting) {
+                    setIsVideoVisible(true);
+                    observer.disconnect();
+                }
+            },
+            { threshold: 0.1 }
+        );
+
+        if (videoRef.current) {
+            observer.observe(videoRef.current);
+        }
+
+        return () => {
+            if (videoRef.current) {
+                observer.unobserve(videoRef.current);
+            }
+        };
+    }, []);
 
     const opts = {
         height: dimensions.height,
@@ -38,8 +62,8 @@ const YouTubeEmbed: React.FC<YouTubeEmbedProps> = ({ videoId, height = '50vh', w
     };
 
     return (
-        <div style={{ width: dimensions.width, height: dimensions.height }}>
-            <YouTube videoId={videoId} opts={opts} />
+        <div ref={videoRef} style={{ width: dimensions.width, height: dimensions.height }}>
+            {isVideoVisible ? <YouTube videoId={videoId} opts={opts} /> : null}
         </div>
     );
 };

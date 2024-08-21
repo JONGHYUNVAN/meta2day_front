@@ -16,7 +16,7 @@ const PostViewPage: React.FC<PostPageProps> = async ({ params }) => {
 
     return (
         <div>
-            <ViewPostForm data={data} />
+            <ViewPostForm data={data} id={id} />
         </div>
     );
 };

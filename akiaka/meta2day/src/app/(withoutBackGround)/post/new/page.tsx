@@ -5,7 +5,7 @@ import FileUploader, { FileUploadRef } from "@/components/fileUploader/fileUploa
 import TextEditor from "@/components/contentEditor/textEditor";
 import { Button, Tooltip } from 'antd';
 import { UploadOutlined, BgColorsOutlined } from '@ant-design/icons';
-import DOMPurify from 'dompurify';
+import parse from 'html-react-parser';
 import { useAdminRedirect } from "@/hooks/useAdminRedirect";
 
 const CreatePost: React.FC = () => {
@@ -18,6 +18,29 @@ const CreatePost: React.FC = () => {
     const thumbnailRef = useRef<FileUploadRef | null>(null);
     const backGroundImgRef = useRef<FileUploadRef | null>(null);
     const [backGroundColor, setBackGroundColor] = useState('#1E1F22');
+    const fontColors: string[] = [
+        '#ffffff', // White
+        '#f8f9fa', // Light Gray
+        '#dcdcdc', // Gainsboro
+        '#d3d3d3', // Light Gray 2
+        '#c0c0c0', // Silver
+        '#808080', // Gray
+        '#1E1F22', // Default Dark Gray
+        '#f5f5dc', // Beige
+        '#fffacd', // Lemon Chiffon
+        '#ffd700', // Gold
+        '#ffcc99', // Light Orange
+        '#ffcccc', // Light Red
+        '#f4a460', // SandyBrown
+        '#deb887', // BurlyWood
+        '#d2b48c', // Tan
+        '#8b4513', // SaddleBrown
+        '#a52a2a', // Brown
+        '#e6ffe6', // Light Green
+        '#cceeff', // Light Cyan
+        '#dbeeff', // Light Blue
+        '#e6e6fa', // Lavender
+    ];
     useAdminRedirect();
 
     const handleThumbnailUpload = async () => {
@@ -86,7 +109,7 @@ const CreatePost: React.FC = () => {
     const youtubeID = extractYouTubeID(youtubeURL);
 
     return (
-        <div className="container mx-auto my-40 max-w-screen-xl">
+        <div className="container mt-[10vh] mx-auto my-40 max-w-screen-xl">
             <form onSubmit={handleSubmit}>
                 <div className="mb-4 text-white">
                     <label htmlFor="categoryId" className="block text-xl font-medium text-gray-400">카테고리</label>
@@ -163,29 +186,7 @@ const CreatePost: React.FC = () => {
                 <label htmlFor="content" className="text-xl text-gray-400">배경색</label>
                 <div className="mb-4">
                     <div className="flex space-x-2">
-                        {[
-                            '#ffffff', // White
-                            '#f8f9fa', // Light Gray
-                            '#dcdcdc', // Gainsboro
-                            '#d3d3d3', // Light Gray 2
-                            '#c0c0c0', // Silver
-                            '#808080', // Gray
-                            '#1E1F22', // Default Dark Gray
-                            '#f5f5dc', // Beige
-                            '#fffacd', // Lemon Chiffon
-                            '#ffd700', // Gold
-                            '#ffcc99', // Light Orange
-                            '#ffcccc', // Light Red
-                            '#f4a460', // SandyBrown
-                            '#deb887', // BurlyWood
-                            '#d2b48c', // Tan
-                            '#8b4513', // SaddleBrown
-                            '#a52a2a', // Brown
-                            '#e6ffe6', // Light Green
-                            '#cceeff', // Light Cyan
-                            '#dbeeff', // Light Blue
-                            '#e6e6fa', // Lavender
-                        ].map((color) => (
+                        {fontColors.map((color) => (
                             <Tooltip title={`Background ${color}`} key={color}>
                                 <Button
                                     icon={<BgColorsOutlined />}
@@ -212,7 +213,7 @@ const CreatePost: React.FC = () => {
                 <label htmlFor="content" className="text-xl text-gray-400">본문 미리보기</label>
                 <div className="mt-10 mb-4 text-white">
                     <div className="mb-4" style={{backgroundColor: backGroundColor}}>
-                        <span dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(content)}}/>
+                        {parse(content)}
                     </div>
                 </div>
 

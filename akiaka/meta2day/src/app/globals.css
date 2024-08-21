@@ -461,7 +461,7 @@ login-block {
     z-index: -1;
     top: -0.5%;
     left: -0.5%;
-    animation: spin 5s linear infinite;
+    animation: card-spin 5s linear infinite;
 }
 
 .card::after {
@@ -483,10 +483,10 @@ login-block {
     );
     opacity: 1;
     transition: opacity .5s;
-    animation: spin 5s linear infinite;
+    animation: card-spin 5s linear infinite;
 }
 
-@keyframes spin {
+@keyframes card-spin {
     0% {
         --rotate: 0deg;
     }
@@ -507,6 +507,8 @@ login-block {
     opacity: 1;
     visibility: visible;
 }
+
+
 #home-spin-container {
     position: relative;
 }
@@ -532,6 +534,9 @@ login-block {
 
 #home-drag-container img:hover {
     box-shadow: 0 0 15px #fffd;
+    width: 33vh;
+    height: 44vh;
+    margin-top: -2vh;
 }
 
 #home-ground {
@@ -543,7 +548,7 @@ login-block {
     transform: translate(-50%, -50%) rotateX(90deg);
 }
 
-@keyframes spin {
+@keyframes home-spin {
     from {
         transform: rotateY(0deg);
     }
@@ -552,7 +557,7 @@ login-block {
     }
 }
 
-@keyframes spinRevert {
+@keyframes home-spinRevert {
     from {
         transform: rotateY(360deg);
     }

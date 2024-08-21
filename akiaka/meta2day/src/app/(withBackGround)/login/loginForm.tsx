@@ -25,7 +25,7 @@ const LoginForm: React.FC = () => {
                 }
                 clearInterval(checkInterval);
             }
-        }, 1000);
+        }, 3000);
     };
 
     const handleGoogleLogin = () => {
@@ -43,7 +43,7 @@ const LoginForm: React.FC = () => {
                 }
                 clearInterval(checkInterval);
             }
-        }, 1000);
+        }, 3000);
     };
 
     const validatePassword = (password: string) => {

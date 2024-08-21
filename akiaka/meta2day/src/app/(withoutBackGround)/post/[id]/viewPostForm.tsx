@@ -2,12 +2,15 @@ import React from 'react';
 import Image from "next/image";
 import { PostData } from './fetchPostData';
 import YouTubeEmbed from './youtube'
+import parse from 'html-react-parser';
+import CommentForm from './commentForm';
 
 interface ViewPostFormProps {
     data: PostData;
+    id:string;
 }
 
-const ViewPostForm: React.FC<ViewPostFormProps> = ({ data }) => {
+const ViewPostForm: React.FC<ViewPostFormProps> = ({ data,id }, ) => {
     const {
         title = '',
         youtubeURL = '',
@@ -29,8 +32,9 @@ const ViewPostForm: React.FC<ViewPostFormProps> = ({ data }) => {
         });
     };
 
+
     const updatedContent = addCloudFrontUrl(content);
-    const sanitizedContent = updatedContent;
+    const sanitizedContent = parse(updatedContent);
     const embedUrl = youtubeURL ? `https://www.youtube.com/embed/${youtubeURL}?autoplay=1&mute=1` : null;
 
     return (
@@ -42,7 +46,7 @@ const ViewPostForm: React.FC<ViewPostFormProps> = ({ data }) => {
                 backgroundSize: 'cover',
                 backgroundPosition: 'center'
             }}>
-                {embedUrl && (
+                {embedUrl && youtubeURL && (
                     <div className="mb-4 flex justify-center w-full">
                         <div className="mt-[10vh] w-fullz-50 justify-items-center">
                             <YouTubeEmbed videoId={youtubeURL} />
@@ -55,7 +59,7 @@ const ViewPostForm: React.FC<ViewPostFormProps> = ({ data }) => {
             <div className="text-center text-gray-500">카테고리: {category.name}</div>
             <div className="relative z-10 p-4 text-white mx-auto my-40 max-w-screen-xl"
                  style={{minHeight: '50vh', marginTop: '4rem', height: 'auto', backgroundColor: backGroundColor}}>
-                <span dangerouslySetInnerHTML={{__html: sanitizedContent}}/>
+                {sanitizedContent}
                 {thumbnailURL && (
                     <div className="mt-20 flex  bg-gray-800 bg-opacity-50 p-4 rounded"
                          style={{fontSize: '1.5rem'}}>
@@ -70,6 +74,7 @@ const ViewPostForm: React.FC<ViewPostFormProps> = ({ data }) => {
                     </div>
                 )}
             </div>
+            <CommentForm postId={parseInt(id)} />
         </div>
     );
 };
