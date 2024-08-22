@@ -39,9 +39,8 @@ const ViewPostForm: React.FC<ViewPostFormProps> = ({ data,id }, ) => {
     const embedUrl = youtubeURL ? `https://www.youtube.com/embed/${youtubeURL}?autoplay=1&mute=1` : null;
 
     return (
-        <div className="mt-8 p-4 bg-transparent text-white shadow-md rounded-md relative">
-            <h2 className="mt-10 mb-6 text-7xl font-bold text-center z-20 relative Do-Hyeon">{title}</h2>
-
+        <div className=" p-4 bg-transparent text-white shadow-md rounded-md relative">
+            <h2 className="mt-[10vh] mb-6 text-7xl font-bold text-center z-20 relative Do-Hyeon">{title}</h2>
             <div className="relative mb-4 w-auto h-[80vh]" style={{
                 backgroundImage: `url(${process.env.NEXT_PUBLIC_CLOUDFRONT_URL}/${backGroundImgURL})`,
                 backgroundSize: 'cover',
