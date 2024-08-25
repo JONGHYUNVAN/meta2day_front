@@ -10,6 +10,14 @@ interface Category {
     name: string;
     description: string;
 }
+interface Comment {
+    id: number;
+    rating: number;
+    comment: string;
+    user:User
+    createdAt: string;
+    updatedAt: string;
+}
 
 export interface PostData {
     id: number;
@@ -22,7 +30,7 @@ export interface PostData {
     youtubeURL?: string | null;
     views: number;
     averageRating: number;
-    comments: any[];
+    comments: Comment[];
     category: Category;
     interests: any[];
     joyScore?: number;
