@@ -13,7 +13,7 @@ const Home: React.FC = () => {
     };
 
     return (
-        <div className="z-30 h-[100vh] flex flex-col items-center justify-center bg-transparent overflow-hidden">
+        <div className="z-30 h-[100vh] flex flex-col items-center justify-center bg-transparent overflow-hidden" draggable="false">
             <div className="mt-[15vh]"></div>
             <div className="z-50">
                 <button
@@ -21,14 +21,14 @@ const Home: React.FC = () => {
                     className={`px-4 py-2 mx-2 transition-opacity duration-300 ${recommendationType === 'daily_view' ? 'neon-text-normal' : 'neon-text'} ${!isLoggedIn ? 'z-[-1] opacity-0' : 'z-10 opacity-100'}`}
                     disabled={!isLoggedIn}
                 >
-                    Daily View
+                    Daily Views
                 </button>
                 <button
                     onClick={() => handleButtonClick('mbti')}
                     className={`px-4 py-2 mx-2 transition-opacity duration-300 ${recommendationType === 'mbti' ? 'neon-text-normal' : 'neon-text'} ${!isLoggedIn ? 'z-[-1] opacity-0' : 'z-10 opacity-100'}`}
                     disabled={!isLoggedIn}
                 >
-                    MBTI
+                    MBTIs
                 </button>
                 <button
                     onClick={() => handleButtonClick('age_group')}
@@ -42,7 +42,7 @@ const Home: React.FC = () => {
                     className={`px-4 py-2 mx-2 transition-opacity duration-300 ${recommendationType === 'interest' ? 'neon-text-normal' : 'neon-text'} ${!isLoggedIn ? 'z-[-1] opacity-0' : 'z-10 opacity-100'}`}
                     disabled={!isLoggedIn}
                 >
-                    Interest
+                    Interesting
                 </button>
             </div>
             <HomePage recommendationType={recommendationType}/>

@@ -3,7 +3,16 @@ import { useEffect } from 'react';
 export const useCarouselEffect = (radius: number, rotateSpeed: number, posts:any[]) => {
     useEffect(() => {
         let tX = 0, tY = 10;
+        let currentSize = window.innerWidth * 0.5;
+        const ceiling = document.getElementById('home-ceiling');
+        const floor = document.getElementById('home-ground');
 
+        [ceiling, floor].forEach(ground => {
+            if (ground) {
+                ground.style.width = `${currentSize}px`;
+                ground.style.height = `${currentSize}px`;
+            }
+        });
         const odrag = document.getElementById('home-drag-container');
         const ospin = document.getElementById('home-spin-container');
         const aImg = Array.from(ospin?.getElementsByTagName('img') || []);
@@ -11,7 +20,7 @@ export const useCarouselEffect = (radius: number, rotateSpeed: number, posts:any
         const init = (time?: number) => {
             aImg.forEach((elem, i) => {
                 elem.style.transform = `rotateY(${i * (360 / aImg.length)}deg) translateZ(${radius}px)`;
-                elem.style.transition = 'transform 600ms';
+                elem.style.transition = 'transform 1s';
             });
         };
 
@@ -56,8 +65,23 @@ export const useCarouselEffect = (radius: number, rotateSpeed: number, posts:any
 
         const handleWheel = (e: WheelEvent) => {
             const d = e.deltaY > 0 ? 50 : -50;
-            radius += d;
-            init(1);
+
+            const ceiling = document.getElementById('home-ceiling');
+            const floor = document.getElementById('home-ground');
+
+            [ceiling, floor].forEach(ground => {
+                if (ground) {
+                    currentSize = parseInt(ground.style.width || '900px', 10);
+                    if (currentSize >= window.innerWidth*0.8 && d > 0 || currentSize <= window.innerWidth*0.4 && d < 0) return;
+                    ground.style.transition = 'width 1s, height 1s';
+                    radius += d;
+                    init(1);
+                    let newSize = currentSize + d * 4;
+
+                    ground.style.width = `${newSize}px`;
+                    ground.style.height = `${newSize}px`;
+                }
+            });
         };
 
         document.addEventListener('pointerdown', handlePointerDown);

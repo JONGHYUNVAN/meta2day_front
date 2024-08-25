@@ -81,10 +81,13 @@ const SignupForm: React.FC = () => {
         setValue('characterId', id);
     };
 
-    const handleCategoryClick = (categoryId: number) => {
-        setSelectedCategory(categoryId);
-        setValue('categoryId', categoryId);
+    const handleCategoryClick = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const selectedId = parseInt(event.target.value, 10);
+        if (!isNaN(selectedId)) {
+            setSelectedCategory(selectedId);
+        }
     };
+
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}
@@ -202,13 +205,14 @@ const SignupForm: React.FC = () => {
                 </div>
 
                 <div className="col-span-1">
-                    <label htmlFor="mbti" className="block text-2xl font-bold mb-2">MBTI</label>
+                    <label htmlFor="mbti" className="block text-2xl font-bold mb-2" translate="no"> MBTI </label>
                     <div className="flex space-x-2">
                         {mbti.map((char, index) => (
                             <div key={index} className="mbti-spin font-serif">
                                 <div
                                     onClick={() => handleMbtiClick(index)}
                                     className={`mbti-spin-inner ${activeIndex === index ? 'mbti-spin-active' : ''} cursor-pointer w-12 text-center p-2 border rounded border-gray-300`}
+                                    translate="no"
                                 >
                                     {char}
                                 </div>
@@ -225,7 +229,10 @@ const SignupForm: React.FC = () => {
                     <select
                         {...register('categoryId', {required: 'Favorite Category is required'})}
                         id="categoryId"
-                        className={`w-full text-black text-center Nanum-Pen-Script p-2 border rounded ${errors.categoryId ? 'border-red-500' : 'border-gray-300'}`}
+                        onChange={handleCategoryClick}
+                        className={`w-full text-center text-xl Nanum-Pen-Script text-black min-h-96 border rounded ${errors.categoryId ? 'border-red-500' : 'border-gray-300'}`}
+                        style={{minHeight: '1rem', maxHeight: '1.75rem'}}
+                        translate="no"
                     >
                         <option value="">좋아하는 항목을 선택하세요</option>
                         <option value="1">Movie</option>

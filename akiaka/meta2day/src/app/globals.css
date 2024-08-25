@@ -427,7 +427,7 @@ login-block {
 }
 
 :root {
-    --card-height: 80vh;
+    --card-height: 85vh;
     --card-width: clamp(300px, 90vw, 1500px);
     --gradient-color1: #5ddcff;
     --gradient-color2: #3c67e3;
@@ -449,7 +449,7 @@ login-block {
 .card::before {
     content: "";
     width: clamp(303px, 91vw, 1515px);
-    height: 81vh;
+    height: 86vh;
     border-radius: 8px;
     background-image: linear-gradient(
             var(--rotate),
@@ -514,7 +514,6 @@ login-block {
 }
 #home-drag-container,
 #home-spin-container {
-
     position: relative;
     display: flex;
     margin: auto;
@@ -528,24 +527,20 @@ login-block {
     position: absolute;
     left: 0;
     top: 0;
-
-    box-shadow: 0 0 8px #fff;
 }
 
-#home-drag-container img:hover {
-    box-shadow: 0 0 15px #fffd;
-    width: 33vh;
-    height: 44vh;
-    margin-top: -2vh;
+#home-ceiling {
+    width: 900px;
+    height: 900px;
+    position: absolute;
+    transform: translate(-50%, -50%) rotateX(-90deg);
 }
 
 #home-ground {
     width: 900px;
     height: 900px;
     position: absolute;
-    top: 100%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotateX(90deg);
+    transform: translate(-50%, -50%) rotateX(-90deg);
 }
 
 @keyframes home-spin {
@@ -563,5 +558,54 @@ login-block {
     }
     to {
         transform: rotateY(0deg);
+    }
+}
+
+.electric-ceiling {
+    padding: 5px 5px;
+    background-color: rgba(106, 123, 252, 0.13);
+    border: 2px solid rgb(125, 140, 255);
+    color: white;
+    position: relative;
+    filter: blur(0px);
+    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+    animation: slideDown 1s ease-out forwards;
+}
+.electric-img {
+    padding: 1vh 1vh;
+    background-color: rgba(106, 123, 252, 0.13);
+    border: 2px solid rgb(125, 140, 255);
+    color: white;
+    position: relative;
+    filter: blur(0px);
+    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+.electric-ground {
+    padding: 5px 5px;
+    background-color: rgba(106, 123, 252, 0.13);
+    border: 2px solid rgb(125, 140, 255);
+    color: white;
+    position: relative;
+    filter: blur(0px);
+    transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
+    animation: slideUp 1s ease-out forwards;
+}
+
+
+@keyframes slideDown {
+    from {
+        transform: translateY(200%);
+    }
+    to {
+        transform: translateY(0%);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(-200%);
+    }
+    to {
+        transform: translateY(0%);
     }
 }

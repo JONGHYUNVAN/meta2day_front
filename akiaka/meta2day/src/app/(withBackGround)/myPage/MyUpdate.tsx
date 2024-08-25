@@ -228,13 +228,14 @@ const MyUpdate: React.FC = () => {
                 <div className="grid grid-cols-2 ">
                         <div>
                             <label htmlFor="mbti"
-                                   className="block text-[1.25vh] neon-text-normal font-bold mb-[1vh]">MBTI</label>
+                                   className="block text-[1.25vh] neon-text-normal font-bold mb-[1vh]" translate="no">MBTI</label>
                             <div className="flex justify-center space-x-[1.5vh] text-[1.25vh] neon-text-normal">
                                 {mbti ? mbti.map((char, index) => (
                                     <div key={index} className="mbti-spin">
                                         <div
                                             onClick={() => handleMbtiClick(index)}
                                             className={`mbti-spin-inner ${activeIndex === index ? 'mbti-spin-active' : ''} cursor-pointer w-[4vh] max-w-20 h-[4vh] text-center border rounded border-gray-300 text-[2vh] flex items-center justify-center`}
+                                            translate="no"
                                         >
                                             <div className={"mt-[0.5vh]"}>
                                                 <span>{char}</span>

@@ -63,7 +63,7 @@ const PostForm: React.FC = () => {
                     params.order = order;
                 }
 
-                const response = await axios.get('http://localhost:3001/api/posts/', { params });
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/posts/`, { params });
 
                 const updatedPosts = response.data.data.map((post: any) => ({
                     ...post,
@@ -141,7 +141,7 @@ const PostForm: React.FC = () => {
     if (error) return <div>{error}</div>;
 
     return (
-        <div className="card"
+        <div className="card mt-[20vh]"
              style={{marginTop: 'clamp(50px, 1%, 1%)'}}
              ref={cardRef}
              onClick={handleClick}
@@ -152,19 +152,19 @@ const PostForm: React.FC = () => {
                         onClick={() => handleSort(null)}
                         className={getButtonClassName(null)}
                     >
-                        기본순
+                        Latest
                     </button>
                     <button
                         onClick={() => handleSort('views', 'DESC')}
                         className={getButtonClassName('views')}
                     >
-                        조회순
+                        Views
                     </button>
                     <button
                         onClick={() => handleSort('averageRating', 'DESC')}
                         className={getButtonClassName('averageRating')}
                     >
-                        평점순
+                       Ratings
                     </button>
                 </div>
                 <div className={`${ limit === 2 ? 'space-y-24 mt-[7vh]' : ''  }`}>
@@ -180,8 +180,8 @@ const PostForm: React.FC = () => {
                                     <span className="text-yellow-300 text-sm mr-10">{post.views} views</span>
                                 </div>
 
-                                <p className="text-gray-300 mb-2 white-space-pre-line"
-                                   style={{fontSize: 'clamp(1rem, 1.3vh, 2.5rem)'}}>{post.preview}</p>
+                                <p className="text-gray-300 mb-2 white-space-pre-line overflow-hidden"
+                                   style={{fontSize: 'clamp(1rem, 1.25vh, 2.5rem)'}}>{post.preview} ...</p>
 
                                 <div className="flex justify-between items-center text-sky-500 text-sm mb-2 ml-10 mr-10">
                                     <span>{post.createdAt.substring(0, 20)}</span>
@@ -208,7 +208,7 @@ const PostForm: React.FC = () => {
                                     alt={post.title}
                                     width={200}
                                     height={400}
-                                    className="object-cover w-full h-full"
+                                    className="object-cover w-auto h-[20vh] mt-[1vh] mr-[1vw]"
                                 />
                             </div>
                         </div>

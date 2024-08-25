@@ -109,15 +109,14 @@ const CreatePost: React.FC = () => {
     const youtubeID = extractYouTubeID(youtubeURL);
 
     return (
-        <div className="container mt-[10vh] mx-auto my-40 max-w-screen-xl">
+        <div className="mt-0 mx-auto my-40 max-w-screen-xl">
             <form onSubmit={handleSubmit}>
                 <div className="mb-4 text-white">
-                    <label htmlFor="categoryId" className="block text-xl font-medium text-gray-400">카테고리</label>
                     <select
                         value={categoryId}
                         onChange={(e) => setCategoryId(e.target.value)}
                         id="categoryId"
-                        className="w-full text-black text-center p-2 border rounded border-gray-300"
+                        className="w-full text-black  mt-[10vh] text-center p-2 border rounded border-gray-300"
                     >
                         <option value="">카테고리를 선택하세요</option>
                         <option value="1">Movie</option>

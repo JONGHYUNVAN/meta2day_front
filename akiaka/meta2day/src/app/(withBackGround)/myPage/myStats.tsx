@@ -219,7 +219,7 @@ const MyStats: React.FC = () => {
                     </div>
                     <div>
                         <h3 className="font-semibold text-2xl font-handwriting text-center neon-text-emerald">CATEGORY</h3>
-                        <div className="h-[35vh] max-h-72">
+                        <div className="h-[35vh] max-h-72 w-[20vw]">
                             <PieChart data={pieData}/>
                         </div>
                         <div className="mt-12 text-center Nanum-Pen-Script">

@@ -15,7 +15,9 @@ const LoginForm: React.FC = () => {
     const dispatch = useDispatch();
 
     const handleKakaoLogin = () => {
-        const newWindow = window.open(`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&response_type=code`, 'newWindow', 'width=600,height=400');
+        const newWindow = window.open(`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&response_type=code`,
+            'newWindow',
+            'width=900,height=800');
 
         const checkInterval = setInterval(() => {
             if (newWindow && newWindow.closed) {
@@ -25,14 +27,14 @@ const LoginForm: React.FC = () => {
                 }
                 clearInterval(checkInterval);
             }
-        }, 3000);
+        }, 300);
     };
 
     const handleGoogleLogin = () => {
         const newWindow = window.open(
             `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}&response_type=code&scope=openid%20email%20profile`,
             'newWindow',
-            'width=600,height=600'
+            'width=900,height=800'
         );
 
         const checkInterval = setInterval(() => {
@@ -40,10 +42,12 @@ const LoginForm: React.FC = () => {
                 if (localStorage.getItem('token')) {
                     dispatch(login());
                     alert(`google 로그인 성공. Welcome!`)
+                    router.back();
+                    router.push('/');
                 }
                 clearInterval(checkInterval);
             }
-        }, 3000);
+        }, 300);
     };
 
     const validatePassword = (password: string) => {
@@ -122,7 +126,7 @@ const LoginForm: React.FC = () => {
                    className="rounded-l-xl"
             />
             <div className="w-[400px] p-10 text-center">
-                <h1 className="mt-5 text-white uppercase font-bold text-3xl neon-text ">Welcome !</h1>
+                <h1 className="mt-5 text-white uppercase font-bold text-3xl neon-text " translate="no">Welcome !</h1>
                 <form className="mt-10" onSubmit={handleSubmit}>
                     <input
                         type="text"
