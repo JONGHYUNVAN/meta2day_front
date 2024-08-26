@@ -4,6 +4,9 @@ import { PostData } from './fetchPostData';
 import YouTubeEmbed from './youtube'
 import parse from 'html-react-parser';
 import CommentForm from './commentForm';
+import MovieApiData from "@/app/(withoutBackGround)/post/[id]/apis/movieApiData";
+import MusicApiData from "@/app/(withoutBackGround)/post/[id]/apis/musicApiData";
+import BookApiData from "@/app/(withoutBackGround)/post/[id]/apis/bookApiData"
 
 interface ViewPostFormProps {
     data: PostData;
@@ -37,6 +40,18 @@ const ViewPostForm: React.FC<ViewPostFormProps> = ({ data,id }, ) => {
     const updatedContent = addCloudFrontUrl(content);
     const sanitizedContent = parse(updatedContent);
     const embedUrl = youtubeURL ? `https://www.youtube.com/embed/${youtubeURL}?autoplay=1&mute=1` : null;
+    const renderApiComponentByCategory = () => {
+        switch (data.category.id) {
+            case 1:
+                return <MovieApiData movieTitle={data.title.toString()} />;
+            case 2:
+                return <MusicApiData albumTitle={data.title.split(' - ')[0]} artistName={data.title.split(' - ')[1]} />;
+            case 3:
+                return <BookApiData bookTitle={data.title.split(' - ')[0]} authorName={data.title.split(' - ')[1]} />;
+            default:
+                return null;
+        }
+    };
 
     return (
         <div className=" p-4 bg-transparent text-white shadow-md rounded-md relative">
@@ -70,6 +85,7 @@ const ViewPostForm: React.FC<ViewPostFormProps> = ({ data,id }, ) => {
                             width={350}
                             height={450}
                         />
+                        {renderApiComponentByCategory()}
                     </div>
                 )}
             </div>

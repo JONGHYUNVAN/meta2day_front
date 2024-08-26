@@ -17,6 +17,11 @@ interface Comment {
     user:User
     createdAt: string;
     updatedAt: string;
+    joyScore: number;
+    angerScore: number;
+    irritationScore: number;
+    fearScore: number;
+    sadnessScore: number;
 }
 
 export interface PostData {

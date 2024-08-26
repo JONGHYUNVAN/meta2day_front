@@ -80,7 +80,7 @@ const PostForm: React.FC = () => {
         };
 
         fetchData();
-    }, [page, limit, field]);
+    }, [page, limit, field, order]);
 
     const handleClick = () => {
         const colors = [0xDAA520, 0x800000];
@@ -171,7 +171,7 @@ const PostForm: React.FC = () => {
                     {posts.map((post) => (
                         <div
                             key={post.id}
-                            className="bg-transparent h-auto shadow-md rounded-xl overflow-auto mb-6 flex border-8 border-gray-300 border-t-[#2A2B2F] border-l-[#2A2B2F] border-b-[#141517] border-r-[#141517] opacity-80 hover:opacity-100 transition-opacity duration-200"
+                            className="bg-transparent h-auto max-h-[350px] shadow-md rounded-xl overflow-auto mb-6 flex border-8 border-gray-300 border-t-[#2A2B2F] border-l-[#2A2B2F] border-b-[#141517] border-r-[#141517] opacity-80 hover:opacity-100 transition-opacity duration-200"
                             onClick={() => router.push(`/post/${post.id}`)}
                         >
                             <div className="flex-1 p-4 w-3/4">
@@ -202,13 +202,13 @@ const PostForm: React.FC = () => {
                                     ]}
                                 />
                             </div>
-                            <div>
+                            <div className="w-auto h-auto">
                                 <Image
                                     src={post.thumbnailURL}
                                     alt={post.title}
                                     width={200}
                                     height={400}
-                                    className="object-cover w-auto h-[20vh] mt-[1vh] mr-[1vw]"
+                                    className="w-auto h-auto top-1/2 max-h-[35vh] min-h-60 overflow-hidden"
                                 />
                             </div>
                         </div>
