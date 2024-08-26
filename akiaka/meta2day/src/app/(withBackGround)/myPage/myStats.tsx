@@ -5,11 +5,53 @@ import axios from 'axios';
 import BarChart from "@/components/chart/BarChart";
 import PieChart from "@/components/chart/PieChart";
 import DOMPurify from 'dompurify';
+import {useAuthRedirect} from "@/hooks/useAuthRedirect";
+
+interface Interest {
+    id: number;
+    name: string;
+}
+
+interface UserInterest {
+    id: number;
+    rating: number;
+    interest: Interest;
+}
+
+interface Category {
+    id: number;
+    name: string;
+}
+
+interface UserCategory {
+    id: number;
+    views: number;
+    category: Category;
+}
+
+interface UserStats {
+    userInterests: UserInterest[];
+    userCategories: UserCategory[];
+}
+
+interface BarChartData {
+    id: string;
+    name: string;
+    rating: number;
+    image: string;
+}
+
+interface PieChartData {
+    id: number;
+    name: string;
+    views: number;
+}
 
 const MyStats: React.FC = () => {
-    const [barData, setBarData] = useState([]);
-    const [pieData, setPieData] = useState([]);
-    const [loading, setLoading] = useState(true);
+    useAuthRedirect();
+    const [barData, setBarData] = useState<BarChartData[]>([]);
+    const [pieData, setPieData] = useState<PieChartData[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
     const [barAnalysis, setBarAnalysis] = useState<string>('');
     const [pieAnalysis, setPieAnalysis] = useState<string>('');
     const [displayedBarText, setDisplayedBarText] = useState<string>('');
@@ -18,12 +60,13 @@ const MyStats: React.FC = () => {
     const [htmlPieAnalysis, setHtmlPieAnalysis] = useState<string>('');
     const [barIndex, setBarIndex] = useState<number>(0);
     const [pieIndex, setPieIndex] = useState<number>(0);
+    const colors = ['#eab308', '#ef4444', '#10b981', '#3b82f6', '#8b5cf6'];
 
     useEffect(() => {
         const fetchStats = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/stats`, {
+                const response = await axios.get<UserStats>(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users/stats`, {
                     headers: {
                         Authorization: `${token}`,
                     },
@@ -31,14 +74,15 @@ const MyStats: React.FC = () => {
 
                 const userStats = response.data;
 
-                const newBarData = userStats.userInterests.map((interest: any) => ({
-                    id: interest.interest.id.toString(),
-                    name: interest.interest.name,
-                    rating: interest.rating === 0 ? 0.1 : interest.rating,
-                    image: `/character${interest.interest.id}.webp`,
+                const newBarData: BarChartData[] = userStats.userInterests.map((userInterest: UserInterest) => ({
+                    id: userInterest.interest.id.toString(),
+                    name: userInterest.interest.name,
+                    rating: userInterest.rating === 0 ? 0.1: parseFloat(userInterest.rating.toFixed(1)),
+                    image: `/character${userInterest.interest.id}.webp`,
+                    color: colors[(userInterest.interest.id - 1) % colors.length]
                 }));
 
-                const newPieData = userStats.userCategories.map((category: any) => ({
+                const newPieData: PieChartData[] = userStats.userCategories.map((category: UserCategory) => ({
                     id: category.category.id,
                     name: category.category.name,
                     views: category.views === 0 ? 0.1 : category.views,
@@ -59,7 +103,7 @@ const MyStats: React.FC = () => {
                 const maxPieItems = newPieData.filter(item => item.views === maxPie.views).map(item => item.name);
                 const minPieItems = newPieData.filter(item => item.views === minPie.views).map(item => item.name);
 
-                const getSuffix = (word: string, suffixType: '이/가' | '과/와') => {
+                const getSuffix = (word: string, suffixType: '이/가' | '과/와'): string => {
                     const lastChar = word[word.length - 1];
                     const hasBatchim = (lastChar.charCodeAt(0) - 0xAC00) % 28 !== 0;
 
@@ -72,7 +116,7 @@ const MyStats: React.FC = () => {
                     return '';
                 };
 
-                const formatList = (items: string[]) => {
+                const formatList = (items: string[]): string => {
                     const firstItem = items[0];
                     const lastItem = items[items.length - 1];
                     const middleItems = items.slice(1, -1).join(', ');
@@ -92,8 +136,7 @@ const MyStats: React.FC = () => {
                 setBarAnalysis(barAnalysisText);
                 setPieAnalysis(pieAnalysisText);
 
-                // Replace names with neon effect
-                const createNeonText = (text: string, items: string[]) => {
+                const createNeonText = (text: string, items: string[]): string => {
                     items.forEach(item => {
                         const regex = new RegExp(item, 'g');
                         text = text.replace(regex, `<span class="neon-text">${item}</span>`);
@@ -114,13 +157,12 @@ const MyStats: React.FC = () => {
         fetchStats();
     }, []);
 
-    // Bar 텍스트 애니메이션
     useEffect(() => {
         if (barAnalysis) {
             const interval = setInterval(() => {
                 setDisplayedBarText(prev => prev + barAnalysis[barIndex]);
                 setBarIndex(prev => prev + 1);
-            }, 20);
+            }, 5);
 
             if (barIndex >= barAnalysis.length) {
                 clearInterval(interval);
@@ -131,13 +173,12 @@ const MyStats: React.FC = () => {
         }
     }, [barAnalysis, barIndex]);
 
-    // Pie 텍스트 애니메이션
     useEffect(() => {
         if (pieAnalysis) {
             const interval = setInterval(() => {
                 setDisplayedPieText(prev => prev + pieAnalysis[pieIndex]);
                 setPieIndex(prev => prev + 1);
-            }, 20);
+            }, 5);
 
             if (pieIndex >= pieAnalysis.length) {
                 clearInterval(interval);
@@ -153,14 +194,17 @@ const MyStats: React.FC = () => {
     }
 
     return (
-        <div className="max-w-4xl w-11/12 mx-auto p-8 bg-[#191919] text-white font-serif opacity-80 hover:opacity-90 transition-opacity duration-200 shadow-md rounded-lg">
+        <div className="max-w-[50vw] w-11/12 p-8 bg-[#191919] text-white font-serif opacity-80 hover:opacity-90 transition-opacity duration-200 shadow-md rounded-lg">
             <div className="bg-transparent shadow-md rounded p-6">
                 <h2 className="text-3xl text-center font-bold mb-4 neon-text">My Stats</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <h3 className="font-semibold text-2xl font-handwriting text-center neon-text-magenta">INTEREST</h3>
-                        <div className="h-50">
-                            <BarChart data={barData}/>
+                        <div className="h-[35vh] max-h-80">
+                            <BarChart
+                                // @ts-ignore
+                                data={barData}
+                            />
                         </div>
                         <div className="mt-4 text-center Nanum-Pen-Script">
                             {barIndex >= barAnalysis.length ? (
@@ -175,7 +219,7 @@ const MyStats: React.FC = () => {
                     </div>
                     <div>
                         <h3 className="font-semibold text-2xl font-handwriting text-center neon-text-emerald">CATEGORY</h3>
-                        <div className="h-72">
+                        <div className="h-[35vh] max-h-72 w-[20vw]">
                             <PieChart data={pieData}/>
                         </div>
                         <div className="mt-12 text-center Nanum-Pen-Script">

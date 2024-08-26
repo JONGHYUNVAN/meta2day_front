@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
-import ClientProvider from "@/components/ClientProvider";
 import { ReactNode } from "react";
-import Navbar from "@/components/Navbar";
-
-const inter = Inter({ subsets: ["latin"] });
+import CommonLayout from "@/components/commonLayout";
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -15,72 +11,11 @@ export const metadata: Metadata = {
 const RootLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
     return (
         <html lang="en">
-        <head>
-            <link rel="stylesheet"
-                  href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap"/>
-            <link rel="stylesheet"
-                  href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap"/>
-            <link rel="stylesheet"
-                  href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&display=swap"/>
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap"/>
-            <link rel="stylesheet"
-                  href="https://fonts.googleapis.com/css2?family=Gothic+A1:wght@400;500;700&display=swap"/>
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap"/>
-            <link rel="stylesheet"
-                  href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"/>
-            <link rel="stylesheet"
-                  href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap"/>
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap"/>
-            <link rel="stylesheet"
-                  href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap"/>
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"/>
-        </head>
-
-        <body>
-            <video
-                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full sm:w-3/4 md:w-2/3 lg:w-1/2 h-full object-cover"
-                autoPlay
-                loop
-                muted
-                playsInline
-                poster="/back_poster.webp"
-            >
-                <source src="/back_820.webm" type="video/webm" media="(min-width: 768px)"/>
-                <source src="/back_220.webm" type="video/webm" media="(max-width: 767px)"/>
-                Your browser does not support the video tag.
-            </video>
-
-            <div className="hidden lg:block">
-                <video
-                    className="absolute opacity-90 top-0 left-0 h-full w-[25%] object-cover"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                >
-                    <source src="/side.webm" type="video/webm"/>
-                    Your browser does not support the video tag.
-                </video>
-                <video
-                    className="absolute opacity-90 top-0 right-0 h-full w-[25%] object-cover"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                >
-                    <source src="/side.webm" type="video/webm"/>
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-
-            <div className="relative z-10">
-                <ClientProvider>
-                    <Navbar/>
+            <body>
+                <CommonLayout>
                     {children}
-                </ClientProvider>
-            </div>
-        </body>
-
+                </CommonLayout>
+            </body>
         </html>
     );
 };

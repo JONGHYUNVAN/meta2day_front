@@ -21,7 +21,7 @@ const PieChart: React.FC<PieChartProps> = ({ data }) => {
     }));
 
     return (
-        <div className="animate-slide-in h-96">
+        <div className="animate-slide-in h-[35vh] w-[23vw] max-w-80 max-h-80">
             <ResponsivePie
                 data={formattedData}
                 margin={{ top: 10, right: 40, bottom: 40, left: 60 }}

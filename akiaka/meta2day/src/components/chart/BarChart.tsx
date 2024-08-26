@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { ResponsiveBar } from '@nivo/bar';
 import React from "react";
 import Image from 'next/image';
@@ -8,6 +8,7 @@ interface BarChartData {
     name: string;
     rating: number;
     image: string;
+    color: string;
 }
 
 interface BarChartProps {
@@ -15,8 +16,6 @@ interface BarChartProps {
 }
 
 const BarChart: React.FC<BarChartProps> = ({ data }) => {
-    const colors = ['#eab308', '#ef4444', '#10b981', '#3b82f6', '#8b5cf6'];
-
     const customTick = (tick: any) => {
         const matchedData = data.find((d) => d.name === tick.value);
 
@@ -43,8 +42,8 @@ const BarChart: React.FC<BarChartProps> = ({ data }) => {
     };
 
     return (
-        <div className="h-80 w-auto">
-        <ResponsiveBar
+        <div className="h-[35vh] w-[23vw] max-w-80 max-h-80">
+            <ResponsiveBar
                 data={data.map(d => ({
                     id: d.id,
                     name: d.name,
@@ -53,11 +52,11 @@ const BarChart: React.FC<BarChartProps> = ({ data }) => {
                 }))}
                 keys={['rating']}
                 indexBy="name"
-                margin={{top: 20, right: 30, bottom: 50, left: 60}}
+                margin={{ top: 20, right: 30, bottom: 50, left: 60 }}
                 padding={0.3}
                 valueScale={{ type: 'linear' }}
                 indexScale={{ type: 'band', round: true }}
-                colors={(bar) => colors[bar.index % colors.length]}
+                colors={(bar) => data[bar.index].color}
                 borderColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
                 theme={{
                     tooltip: {
@@ -88,7 +87,7 @@ const BarChart: React.FC<BarChartProps> = ({ data }) => {
                 )}
                 animate={true}
                 layout="vertical"
-        />
+            />
         </div>
     );
 };

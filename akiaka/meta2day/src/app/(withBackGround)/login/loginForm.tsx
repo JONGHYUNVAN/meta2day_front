@@ -8,14 +8,47 @@ import axios from 'axios';
 import {login} from "@/store/slices/authSlice";
 import {useDispatch} from "react-redux";
 
-
-
 const LoginForm: React.FC = () => {
     const [passwordError, setPasswordError] = useState<string | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const router = useRouter();
     const dispatch = useDispatch();
 
+    const handleKakaoLogin = () => {
+        const newWindow = window.open(`https://kauth.kakao.com/oauth/authorize?client_id=${process.env.NEXT_PUBLIC_KAKAO_REST_API_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI}&response_type=code`,
+            'newWindow',
+            'width=900,height=800');
+
+        const checkInterval = setInterval(() => {
+            if (newWindow && newWindow.closed) {
+                if (localStorage.getItem('token')) {
+                    dispatch(login());
+                    alert(`kakao 로그인 성공. Welcome!`)
+                }
+                clearInterval(checkInterval);
+            }
+        }, 300);
+    };
+
+    const handleGoogleLogin = () => {
+        const newWindow = window.open(
+            `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}&redirect_uri=${process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI}&response_type=code&scope=openid%20email%20profile`,
+            'newWindow',
+            'width=900,height=800'
+        );
+
+        const checkInterval = setInterval(() => {
+            if (newWindow && newWindow.closed) {
+                if (localStorage.getItem('token')) {
+                    dispatch(login());
+                    alert(`google 로그인 성공. Welcome!`)
+                    router.back();
+                    router.push('/');
+                }
+                clearInterval(checkInterval);
+            }
+        }, 300);
+    };
 
     const validatePassword = (password: string) => {
         if (password.length < 8) {
@@ -85,9 +118,15 @@ const LoginForm: React.FC = () => {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-transparent">
-            <div className="w-[400px] p-10 bg-[#191919] text-center opacity-80 hover:opacity-95 transition-opacity duration-200 rounded-xl">
-                <h1 className="mt-5 text-white uppercase font-bold text-3xl neon-text">Welcome !</h1>
+        <div className="flex items-center justify-center h-auto bg-[#191919] opacity-80 hover:opacity-95 transition-opacity duration-200 rounded-xl">
+            <Image src={`/login.webp`}
+                   alt={`login`}
+                   width={400}
+                   height={900}
+                   className="rounded-l-xl"
+            />
+            <div className="w-[400px] p-10 text-center">
+                <h1 className="mt-5 text-white uppercase font-bold text-3xl neon-text " translate="no">Welcome !</h1>
                 <form className="mt-10" onSubmit={handleSubmit}>
                     <input
                         type="text"
@@ -108,7 +147,11 @@ const LoginForm: React.FC = () => {
 
                     <div className="flex mt-10 items-center justify-center my-5">
                         <div className="flex-grow border-t border-gray-600"></div>
-                        <Link href="/signup" className="px-4 text-gray-300 link-underline">Need new account?</Link>
+                        {isSubmitting ? (
+                            <p className="px-4 text-gray-300">Logging in... wait a second</p>
+                        ) : (
+                            <Link href="/signup" className="px-4 text-gray-300 link-underline">Need new account?</Link>
+                        )}
                         <div className="flex-grow border-t border-gray-600"></div>
                     </div>
 
@@ -120,12 +163,12 @@ const LoginForm: React.FC = () => {
                 </form>
                 <ul className="flex justify-center mt-6 space-x-14">
                     <li>
-                        <a href="#" className="flex items-center justify-center w-12 h-12 text-2xl text-white transition-transform duration-200 rounded-full social-icon icoKakao">
+                        <a href="#" onClick={handleKakaoLogin} className="flex items-center justify-center w-12 h-12 text-2xl text-white transition-transform duration-200 rounded-full social-icon icoKakao">
                             <Image src="/kakao.webp" alt="Kakao" width={32} height={32} className="rounded-full" />
                         </a>
                     </li>
                     <li>
-                        <a href="#" className="flex items-center justify-center w-12 h-12 text-2xl text-white transition-transform duration-200 rounded-full social-icon icoGoogle">
+                        <a href="#" onClick={handleGoogleLogin} className="flex items-center justify-center w-12 h-12 text-2xl text-white transition-transform duration-200 rounded-full social-icon icoGoogle">
                             <Image src="/google.webp" alt="Google" width={30} height={30} className="rounded-full" />
                         </a>
                     </li>
