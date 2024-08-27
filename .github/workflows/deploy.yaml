@@ -1,43 +1,17 @@
-name: Deploy to meta2day_front
+- name: Push to personal repository
+  if: github.ref == 'refs/heads/master'
+  run: |
+    echo "Setting up git user config"
+    git config --global user.email "whdgus808@naver.com"
+    git config --global user.name "JONGHYUNVAN"
+    
+    echo "Adding files to git"
+    git add .
+    
+    echo "Committing changes"
+    git commit -m "Automated commit message" || echo "No changes to commit"
 
-on:
-  push:
-    branches:
-      - master
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout source repository
-        uses: actions/checkout@v3
-        with:
-          repository: Akiaka-T1/next
-          ref: master
-
-      - name: Set up Git
-        run: |
-          git config --global user.name "JONGHYUNVAN"
-          git config --global user.email "whdgus808@naver.com"
-
-      - name: Push to destination repository
-        run: |
-          git remote add target https://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@github.com/JONGHYUNVAN/meta2day_front.git
-          git push target master:main --force
-
-      - name: Capture error log
-        if: failure()
-        run: |
-          echo "Deployment failed. Capturing logs..."
-          echo "Commit Message: ${{ github.event.commits[0].message }}" > error_log.txt
-          dmesg >> error_log.txt
-          echo "##[error]$(cat error_log.txt)"
-          echo "::set-output name=error-log::$(cat error_log.txt)"
-
-      - name: Upload error log
-        if: failure()
-        uses: actions/upload-artifact@v3
-        with:
-          name: error-log
-          path: error_log.txt
+    echo "Pushing to personal repository"
+    git push https://$GH_PAT@github.com/JONGHYUNVAN/meta2day_front.git HEAD:main || echo "Push failed"
+  env:
+    GH_PAT: ${{ secrets.GH_PAT }}
