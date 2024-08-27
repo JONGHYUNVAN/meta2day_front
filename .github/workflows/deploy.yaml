@@ -18,7 +18,7 @@ jobs:
         with:
           source-directory: '.'
           destination-github-username: JONGHYUNVAN
-          destination-repository-name: meta2day_front
+          destination-repository-name: test
           user-email: ${{ secrets.MYEMAIL }}
           commit-message: ${{ github.event.commits[0].message }}
           target-branch: main
