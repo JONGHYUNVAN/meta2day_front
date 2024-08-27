@@ -19,14 +19,12 @@ jobs:
       - name: Set up Git
         run: |
           git config --global user.name "JONGHYUNVAN"
-          git config --global user.email "billlys2@gmail.com"
+          git config --global user.email "whdgus808@naver.com"
 
       - name: Push to destination repository
         run: |
-          git remote add target https://${{ secrets.MYREPOSITORYKEY }}@github.com/JONGHYUNVAN/meta2day_front.git
+          git remote add target https://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@github.com/JONGHYUNVAN/meta2day_front.git
           git push target master:main --force
-        env:
-          GITHUB_TOKEN: ${{ secrets.MYREPOSITORYKEY }}
 
       - name: Capture error log
         if: failure()
