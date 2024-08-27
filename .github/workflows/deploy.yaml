@@ -23,11 +23,10 @@ jobs:
 
       - name: Push to destination repository
         run: |
-          git remote add target https://<GITHUB_TOKEN>@github.com/JONGHYUNVAN/meta2day_front.git
+          git remote add target https://${{ secrets.MYREPOSITORYKEY }}@github.com/JONGHYUNVAN/meta2day_front.git
           git push target master:main --force
         env:
           GITHUB_TOKEN: ${{ secrets.MYREPOSITORYKEY }}
-        continue-on-error: true
 
       - name: Capture error log
         if: failure()
@@ -37,7 +36,6 @@ jobs:
           dmesg >> error_log.txt
           echo "##[error]$(cat error_log.txt)"
           echo "::set-output name=error-log::$(cat error_log.txt)"
-        continue-on-error: true
 
       - name: Upload error log
         if: failure()
