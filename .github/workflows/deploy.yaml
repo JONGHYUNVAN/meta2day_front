@@ -3,7 +3,7 @@ name: Push to personal repository
 on:
   push:
     branches:
-      - master  # master 브랜치에서만 실행
+      - master
 
 jobs:
   push-to-repo:
