@@ -78,7 +78,13 @@ const TextEditor: React.FC<TextEditorProps> = ({ value, onChange }) => {
         if (fileUploaderRef.current) {
             const uploadedUrl = await fileUploaderRef.current.uploadFileToS3();
             if (uploadedUrl) {
-                setUploadedImages((prevImages) => [...prevImages, `process.env.NEXT_PUBLIC_CLOUDFRONT_URL/${uploadedUrl}`]);
+                const cloudfrontUrl = process.env.NEXT_PUBLIC_CLOUDFRONT_URL;
+                if (cloudfrontUrl) {
+                    const fullImageUrl = `${cloudfrontUrl}/${uploadedUrl}`;
+                    setUploadedImages((prevImages) => [...prevImages, fullImageUrl]);
+                } else {
+                    console.error("CloudFront URL 환경 변수가 정의되지 않았습니다.");
+                }
             }
         }
     }, []);
@@ -199,7 +205,7 @@ const TextEditor: React.FC<TextEditorProps> = ({ value, onChange }) => {
                         type={editor.isActive('link') ? 'primary' : 'default'}
                     />
                 </Tooltip>
-                <div className="mt-1 mt-2"></div>
+                <div className="mt-1"></div>
                 {textColors.map((color) => (
                     <Tooltip title="Text Color" key={color} className="mr-1">
                         <Button
