@@ -10,7 +10,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-
       - name: Push to personal repository
         id: push_directory
         uses: cpina/github-action-push-to-another-repository@main
