@@ -2,7 +2,7 @@ name: CI/CD for Vercel-Next
 
 on:
   push:
-    branches: [master]
+    branches: [master]  # 팀 레포지토리의 master 브랜치
 
 jobs:
   build-frontend:
@@ -16,31 +16,13 @@ jobs:
           sudo apt-get install -y ruby
           sudo gem install mustache
 
-      - name: Move to correct directory, create output directory, and copy files
-        run: |
-          cd akiaka/meta2day
-          mkdir -p output
-          find . -mindepth 1 -maxdepth 1 ! -name 'output' -exec cp -R {} output/ \;
-          chmod +x ./build.sh
-          sh ./build.sh
-
-      - name: Check output directory
-        run: |
-          cd akiaka/meta2day
-          if [ -d "./output" ]; then
-            echo "Output directory exists."
-            ls -la ./output
-          else
-            echo "Output directory does not exist."
-          fi
-
       - name: Push to personal repository
         id: push_directory
         uses: cpina/github-action-push-to-another-repository@main
         env:
           API_TOKEN_GITHUB: ${{ secrets.MYREPOSITORYKEY }}
         with:
-          source-directory: 'akiaka/meta2day/output'
+          source-directory: 'output'
           destination-github-username: JONGHYUNVAN
           destination-repository-name: meta2day_front
           user-email: ${{ secrets.MYEMAIL }}
