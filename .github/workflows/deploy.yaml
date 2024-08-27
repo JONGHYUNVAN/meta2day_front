@@ -25,3 +25,5 @@ jobs:
           git push target master:main --force
         env:
           GITHUB_TOKEN: ${{ secrets.MYREPOSITORYKEY }}
+        with:
+          commit-message: ${{ github.event.commits[0].message }}
