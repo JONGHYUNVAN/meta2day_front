@@ -1,3 +1,5 @@
+name: Deploy to meta2day_front
+
 on:
   push:
     branches:
@@ -16,14 +18,30 @@ jobs:
 
       - name: Set up Git
         run: |
-          git config --global user.name "JONGHYUNVAN"
-          git config --global user.email "whdgus808@naver.com"
+          git config --global user.name "Your GitHub Username"
+          git config --global user.email "your-email@example.com"
 
       - name: Push to destination repository
         run: |
           git remote add target https://<GITHUB_TOKEN>@github.com/JONGHYUNVAN/meta2day_front.git
           git push target master:main --force
         env:
-          GITHUB_TOKEN: ${{ secrets.MYREPOSITORYKEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
+      - name: Capture error log
+        if: failure()
+        run: |
+          echo "Deployment failed. Capturing logs..."
+          echo "Commit Message: ${{ github.event.commits[0].message }}" > error_log.txt
+          dmesg >> error_log.txt
+          echo "##[error]$(cat error_log.txt)"
+          echo "::set-output name=error-log::$(cat error_log.txt)"
+        continue-on-error: true
+
+      - name: Upload error log
+        if: failure()
+        uses: actions/upload-artifact@v3
         with:
-          commit-message: ${{ github.event.commits[0].message }}
+          name: error-log
+          path: error_log.txt
