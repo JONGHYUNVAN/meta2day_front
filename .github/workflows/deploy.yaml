@@ -1,24 +1,27 @@
-name: CI/CD for Vercel-Next
-
 on:
   push:
-    branches: [master]
+    branches:
+      - master
 
 jobs:
-  push-to-personal-repo:
+  deploy:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
 
-      - name: Push to personal repository
-        id: push_directory
-        uses: cpina/github-action-push-to-another-repository@main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.MYREPOSITORYKEY }}
+    steps:
+      - name: Checkout source repository
+        uses: actions/checkout@v3
         with:
-          source-directory: '.'
-          destination-github-username: JONGHYUNVAN
-          destination-repository-name: test
-          user-email: ${{ secrets.MYEMAIL }}
-          commit-message: ${{ github.event.commits[0].message }}
-          target-branch: main
+          repository: Akiaka-T1/next
+          ref: master
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "JONGHYUNVAN"
+          git config --global user.email "whdgus808@naver.com"
+
+      - name: Push to destination repository
+        run: |
+          git remote add target https://<GITHUB_TOKEN>@github.com/JONGHYUNVAN/meta2day_front.git
+          git push target master:main --force
+        env:
+          GITHUB_TOKEN: ${{ secrets.MYREPOSITORYKEY }}
