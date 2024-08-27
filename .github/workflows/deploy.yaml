@@ -1,17 +1,26 @@
-- name: Push to personal repository
-  if: github.ref == 'refs/heads/master'
-  run: |
-    echo "Setting up git user config"
-    git config --global user.email "whdgus808@naver.com"
-    git config --global user.name "JONGHYUNVAN"
-    
-    echo "Adding files to git"
-    git add .
-    
-    echo "Committing changes"
-    git commit -m "Automated commit message" || echo "No changes to commit"
+name: Push to personal repository
 
-    echo "Pushing to personal repository"
-    git push https://$GH_PAT@github.com/JONGHYUNVAN/meta2day_front.git HEAD:main || echo "Push failed"
-  env:
-    GH_PAT: ${{ secrets.GH_PAT }}
+on:
+  push:
+    branches:
+      - master  # master 브랜치에서만 실행
+
+jobs:
+  push-to-repo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up git user config
+        run: |
+          git config --global user.email "whdgus808@naver.com"
+          git config --global user.name "JONGHYUNVAN"
+
+      - name: Commit and push changes to personal repository
+        run: |
+          git add .
+          git commit -m "Automated commit message" || echo "No changes to commit"
+          git push https://$GH_PAT@github.com/JONGHYUNVAN/meta2day_front.git HEAD:main || echo "Push failed"
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
