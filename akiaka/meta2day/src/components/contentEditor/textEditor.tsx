@@ -88,7 +88,6 @@ const TextEditor: React.FC<TextEditorProps> = ({ value, onChange }) => {
             }
         }
     }, []);
-
     const handleImageInsert = useCallback((imageUrl: string) => {
         if (editor) {
             const html = `
