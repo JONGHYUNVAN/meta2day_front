@@ -72,7 +72,7 @@ export const useCarouselEffect = (radius: number, rotateSpeed: number, posts:any
             [ceiling, floor].forEach(ground => {
                 if (ground) {
                     currentSize = parseInt(ground.style.width || '900px', 10);
-                    if (currentSize >= 1500 && d > 0 || currentSize <= window.innerWidth*0.4 && d < 0) return;
+                    if (currentSize >= window.innerWidth*0.8 && d > 0 || currentSize <= window.innerWidth*0.4 && d < 0) return;
                     ground.style.transition = 'width 1s, height 1s';
                     radius += d;
                     init(1);
