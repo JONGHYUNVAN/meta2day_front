@@ -16,19 +16,17 @@ jobs:
           sudo apt-get install -y ruby
           sudo gem install mustache
 
-      - name: Move to the correct directory
+      - name: Move to correct directory, create output directory, and copy files
         run: |
           cd akiaka/meta2day
-
-      - name: Create output directory and copy files
-        run: |
           mkdir -p output
-          cp -R ./* ./output
+          find . -mindepth 1 -maxdepth 1 ! -name 'output' -exec cp -R {} output/ \;
           chmod +x ./build.sh
           sh ./build.sh
 
       - name: Check output directory
         run: |
+          cd akiaka/meta2day
           if [ -d "./output" ]; then
             echo "Output directory exists."
             ls -la ./output
@@ -42,7 +40,7 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.MYREPOSITORYKEY }}
         with:
-          source-directory: 'output'
+          source-directory: 'akiaka/meta2day/output'
           destination-github-username: JONGHYUNVAN
           destination-repository-name: meta2day_front
           user-email: ${{ secrets.MYEMAIL }}
