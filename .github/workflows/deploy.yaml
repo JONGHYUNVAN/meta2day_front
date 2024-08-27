@@ -19,7 +19,7 @@ jobs:
       - name: Set up Git
         run: |
           git config --global user.name "JONGHYUNVAN"
-          git config --global user.email "whdgus808@naver.com"
+          git config --global user.email "billlys2@gmail.com"
 
       - name: Push to destination repository
         run: |
