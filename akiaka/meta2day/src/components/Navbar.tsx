@@ -27,16 +27,16 @@ const Navbar: React.FC = () => {
     }, [dispatch]);
 
     return (
-        <nav className="fixed top-1 w-full h-[8vh] bg-gray-200 shadow-md z-50 text-xl metallic-navbar opacity-80 hover:opacity-90 transition-opacity duration-100">
-            <ul className="flex top-1/2 justify-between items-center text-black font-handwriting">
-                <li className="absolute top-[5vh] left-1/2 opacity-80 transform -translate-x-1/2 -translate-y-1/2 z-50 neon-image">
+        <nav className="fixed top-1 w-full h-[8vh] max-h-[80px] bg-gray-200 shadow-md z-50 text-xl metallic-navbar opacity-80 hover:opacity-90 transition-opacity duration-100">
+            <ul className="flex justify-between items-center h-full text-black font-handwriting">
+                <li className="absolute top-[3.1vh] left-1/2 opacity-80 transform -translate-x-1/2 -translate-y-1/2 z-50 neon-image">
                     <Link href="/home">
                         <Image src="/logo.webp" alt="logo" width={100} height={100}
                                className="opacity-90 hover:opacity-100 transition-opacity duration-300"/>
                     </Link>
                 </li>
 
-                <li className="ml-[10vw] top-1/2 neon-text relative">
+                <li className="ml-[10vw] neon-text relative">
                     <Link href="/post" className="opacity-70 hover:opacity-100 transition-opacity duration-300">
                         POSTS
                     </Link>
