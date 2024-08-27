@@ -19,9 +19,9 @@ jobs:
       - name: Create output directory and copy files
         run: |
           mkdir -p output
-          cp -R ./fe/* ./output
-          chmod +x ./build.sh
-          sh ./build.sh
+          cp -R ./akiaka/meta2day/* ./output
+          chmod +x ./akiaka/meta2day/build.sh
+          sh ./akiaka/meta2day/build.sh
 
       - name: Check output directory
         run: |
