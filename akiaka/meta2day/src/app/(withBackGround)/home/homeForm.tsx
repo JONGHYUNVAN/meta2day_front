@@ -62,7 +62,7 @@ const HomePage: React.FC<HomePageProps> = ({ recommendationType }) => {
     };
 
     return (
-        <div className="left-1/2 h-[100vh] flex items-center justify-center bg-black -mt-[20vh]" draggable="false" >
+        <div className="left-1/2 h-[100vh] flex items-center justify-center bg-transparent -mt-[20vh] z-30" draggable="false" >
             <div id="home-drag-container" className="relative w-full h-[60vh]" draggable="false">
                 <div id="home-ceiling"
                      className="absolute top-[23%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] " draggable="false">
