@@ -220,5 +220,4 @@ const CreatePost: React.FC = () => {
         </div>
     );
 };
-
 export default CreatePost;
