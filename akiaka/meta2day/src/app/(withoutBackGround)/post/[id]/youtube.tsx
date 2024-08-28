@@ -71,7 +71,15 @@ const YouTubeEmbed: React.FC<YouTubeEmbedProps> = ({ videoId, height = '50vh', w
     };
 
     return (
-        <div ref={videoRef} style={{ width: dimensions.width, height: dimensions.height }}>
+        <div ref={videoRef}
+             style={{
+                 width: dimensions.width,
+                 height: dimensions.height,
+                 display: 'flex',
+                 justifyContent: 'center',
+                 alignItems: 'center',
+                 margin: '0 auto',
+             }}>
             {isVideoVisible ? <YouTube videoId={videoId} opts={opts} /> : null}
         </div>
     );
