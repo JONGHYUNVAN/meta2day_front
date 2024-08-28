@@ -61,10 +61,10 @@ const ViewPostForm: React.FC<ViewPostFormProps> = ({ data,id }, ) => {
                 backgroundSize: 'cover',
                 backgroundPosition: 'center'
             }}>
-                {embedUrl && youtubeURL && (
+                {youtubeURL && (
                     <div className="mb-4 flex justify-center w-full">
-                        <div className="mt-[10vh] w-fullz-50 justify-items-center">
-                            <YouTubeEmbed videoId={youtubeURL} />
+                        <div className="mt-[10vh] w-full z-50 justify-items-center">
+                            <YouTubeEmbed videoId={new URL(youtubeURL).searchParams.get('v')} />
                         </div>
                     </div>
                 )}
