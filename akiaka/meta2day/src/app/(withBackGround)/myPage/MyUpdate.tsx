@@ -170,7 +170,7 @@ const MyUpdate: React.FC = () => {
                     <div className="flex justify-center space-x-[2vh]">
                         <label className="inline-flex items-center">
                             <input
-                                {...register('gender', {required: 'Gender is required'})}
+                                {...register('gender')}
                                 type="radio"
                                 value="Male"
                                 className="form-radio"
@@ -179,7 +179,7 @@ const MyUpdate: React.FC = () => {
                         </label>
                         <label className="inline-flex items-center">
                             <input
-                                {...register('gender', {required: 'Gender should be chosen'})}
+                                {...register('gender')}
                                 type="radio"
                                 value="Female"
                                 className="form-radio"
@@ -187,7 +187,6 @@ const MyUpdate: React.FC = () => {
                             <span className="ml-[1vh] text-[1.25vh] neon-text-normal">Female</span>
                         </label>
                     </div>
-                    {errors.gender && <p className="text-red-500 text-sm">{errors.gender.message}</p>}
                 </div>
                 <div className="grid grid-cols-2">
 
