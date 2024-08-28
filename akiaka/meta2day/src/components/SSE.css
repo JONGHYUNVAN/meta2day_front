@@ -1,0 +1,32 @@
+/* Sse.css */
+.notification-slide {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #444;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    transform: translateX(100%);
+    animation: slide-in 0.5s forwards, slide-out 0.5s forwards 4.5s; /* 4.5초 후에 슬라이드 아웃 */
+    z-index: 1000;
+}
+
+@keyframes slide-in {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slide-out {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(100%);
+    }
+}
