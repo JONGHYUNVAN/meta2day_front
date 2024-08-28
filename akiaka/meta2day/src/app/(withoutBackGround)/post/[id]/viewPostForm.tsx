@@ -69,6 +69,7 @@ const ViewPostForm: React.FC<ViewPostFormProps> = ({ data,id }, ) => {
                     </div>
                 )}
             </div>
+
             <div className="text-sm text-gray-500 text-center">{`생성: ${createdAt}`}</div>
             <div className="text-sm text-gray-500 text-center">{`최종 수정: ${updatedAt}`}</div>
             <div className="text-center text-gray-500">카테고리: {category.name}</div>
