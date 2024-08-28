@@ -219,5 +219,5 @@ const CreatePost: React.FC = () => {
             </form>
         </div>
     );
-};
+}
 export default CreatePost;
