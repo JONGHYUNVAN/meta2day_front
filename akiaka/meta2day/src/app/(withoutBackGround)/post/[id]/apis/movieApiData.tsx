@@ -12,13 +12,24 @@ const MovieApiData: React.FC<MovieApiDataProps> = ({ movieTitle }) => {
     const fetchMovieApiData = async (movieTitle: string) => {
         const apiKey = process.env.NEXT_PUBLIC_MOVIE_API_KEY;
         const url = `https://kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json?key=${apiKey}&movieNm=${encodeURIComponent(movieTitle)}`;
+
         try {
             const response = await fetch(url);
             if (!response.ok) {
                 alert(`HTTP error! status: ${response.status}`);
+                return;
             }
+
             const data = await response.json();
-            setMovieData(data.movieListResult.movieList[0]);
+            const movieList = data.movieListResult.movieList;
+
+            const matchingMovie = movieList.find((movie: any) => movie.movieNm === movieTitle);
+
+            if (matchingMovie) {
+                setMovieData(matchingMovie);
+            } else {
+                setMovieData(movieList[0]);
+            }
         } catch (error) {
             console.error('Failed to fetch movie data:', error);
         }

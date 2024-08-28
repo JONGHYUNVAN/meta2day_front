@@ -1,4 +1,5 @@
 import React, { ChangeEvent, forwardRef, useImperativeHandle, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 interface FileUploadProps {
     setFileUrl: (url: string) => void;
@@ -16,7 +17,15 @@ const FileUploader = forwardRef<FileUploadRef, FileUploadProps>(({ setFileUrl },
 
         try {
             const formData = new FormData();
-            formData.append('file', selectedFile);
+
+            const originalName = selectedFile.name;
+            const fileExtension = originalName.substring(originalName.lastIndexOf('.'));
+            const fileNameWithoutExtension = originalName.substring(0, originalName.lastIndexOf('.'));
+
+            const uniqueFileName = `${fileNameWithoutExtension}_${uuidv4()}${fileExtension}`;
+            const fileWithUniqueName = new File([selectedFile], uniqueFileName, { type: selectedFile.type });
+
+            formData.append('file', fileWithUniqueName);
 
             const response = await fetch('/api/upload', {
                 method: 'POST',

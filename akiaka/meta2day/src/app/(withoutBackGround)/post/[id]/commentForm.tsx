@@ -3,6 +3,8 @@
 import React, { useState, FormEvent } from 'react';
 import axios from 'axios';
 import LineChart from "@/components/chart/LineChart";
+import { useRouter } from 'next/navigation';
+import useAuth from '@/hooks/useAuth';
 
 interface Comment {
     id: number;
@@ -30,6 +32,8 @@ interface CommentFormProps {
 const CommentForm: React.FC<CommentFormProps> = ({ postId, comments }) => {
     const [comment, setComment] = useState<string>('');
     const [rating, setRating] = useState<number>(0);
+    const router = useRouter();
+    const isLoggedIn = useAuth()
 
     const handleRating = (rate: number) => {
         setRating(rate);
@@ -37,6 +41,21 @@ const CommentForm: React.FC<CommentFormProps> = ({ postId, comments }) => {
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
+
+        if(!isLoggedIn) {
+            alert('로그인이 필요합니다. 로그인 페이지로 이동합니다');
+            router.push('/login');
+        }
+
+        if (!comment.trim()) {
+            alert('댓글 내용을 입력해 주세요.');
+            return;
+        }
+
+        if (rating === 0) {
+            alert('평점을 선택해 주세요.');
+            return;
+        }
         const accessToken = localStorage.getItem('token');
         try {
             await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/comments`, {
@@ -48,14 +67,15 @@ const CommentForm: React.FC<CommentFormProps> = ({ postId, comments }) => {
                     Authorization: `${accessToken}`,
                 },
             });
-            setComment('');
-            setRating(0);
+            alert('댓글 작성에 성공했습니다. 페이지를 새로고침합니다.')
+            router.refresh();
+
         } catch (error: any) {
             if (error.response && error.response.status === 409) {
                 alert('이미 평가한 이벤트입니다');
             } else {
                 console.error('Error creating comment:', error);
-                alert('Failed to create comment.');
+                alert('댓글 작성에 실패했습니다...');
             }
         }
     };

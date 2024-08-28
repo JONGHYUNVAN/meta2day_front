@@ -48,12 +48,14 @@
     "slate-hyperscript": "0.100.0",
     "slate-react": "0.107.1",
     "tiptap-extension-font-size": "^1.2.0",
-    "tiptap-extension-resize-image": "^1.1.8"
+    "tiptap-extension-resize-image": "^1.1.8",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@types/node": "20.14.14",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/uuid": "^10.0.0",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
     "postcss": "^8",
