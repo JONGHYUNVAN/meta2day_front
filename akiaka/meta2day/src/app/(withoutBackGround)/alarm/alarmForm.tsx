@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import useAuth from '@/hooks/useAuth';
 
 interface Alarm {
     id: number;
@@ -13,29 +14,36 @@ interface Alarm {
 
 const AlarmForm: React.FC = () => {
     const [notifications, setNotifications] = useState<Alarm[]>([]);
+    const { user } = useAuth();
 
+
+    // 서버로부터 알람 목록을 가져오는 함수
     useEffect(() => {
         const fetchNotifications = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const nickname = localStorage.getItem('nickname');
+                const nickname = user?.nickname;
+                if (!nickname || !token) return; // nickname이나 token이 없을 경우 early return
+                
+
                 const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/alarm/user/${nickname}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-                setNotifications(response.data);
+                console.log(response.data); 
+                setNotifications(response.data); // 가져온 데이터를 상태에 저장
             } catch (error) {
                 console.error("Failed to fetch notifications", error);
             }
         };
 
-        fetchNotifications();
-    }, []);
+        fetchNotifications(); // 컴포넌트가 마운트될 때 알람을 가져옴
+    }, [user]);
 
     return (
-        <div className="h-auto mt-48 flex items-center justify-center bg-transparent">
-            <div className="relative max-w-6xl w-full font-serif opacity-80 hover:opacity-90 transition-opacity duration-200 shadow-md rounded-lg">
+        <div className="h-auto  flex items-center justify-center bg-transparent">
+            <div className="relative mt-48 max-w-6xl w-full font-serif opacity-80 hover:opacity-90 transition-opacity duration-200 shadow-md rounded-lg">
                 <div className="metalic-bar absolute top-0 left-0 right-0 h-12 bg-gradient-to-r from-gray-700 via-gray-600 to-gray-700 rounded-t-lg shadow-metallic">
                     <div className="absolute top-2 left-3 flex space-x-2">
                         <span className="w-3 h-3 bg-red-500 rounded-full neon-effect-red"></span>
@@ -54,7 +62,7 @@ const AlarmForm: React.FC = () => {
                             </div>
                         ))
                     ) : (
-                        <p className="text-white">알림이 없습니다.</p>
+                            <p className="text-white">알림이 없습니다.</p>
                     )}
                 </div>
             </div>

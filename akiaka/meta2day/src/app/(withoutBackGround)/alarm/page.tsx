@@ -1,9 +1,8 @@
-'use client'
 import React from 'react';
 import AlarmForm from './alarmForm'; 
 
 const AlarmPage: React.FC = () => {
-    return <AlarmForm />;
+     return <AlarmForm/>
 };
 
 export default AlarmPage;
