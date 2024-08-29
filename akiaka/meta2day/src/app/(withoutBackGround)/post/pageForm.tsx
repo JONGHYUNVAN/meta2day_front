@@ -27,7 +27,7 @@ const PostForm: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [page, setPage] = useState<number>(1);
-    const [limit, setLimit] = useState<number>(3);
+    const [limit, setLimit] = useState<number>(0);
     const [totalPages, setTotalPages] = useState<number>(1);
     const [field, setField] = useState<string | null>(null);
     const [order, setOrder] = useState<string>('ASC');
@@ -52,6 +52,7 @@ const PostForm: React.FC = () => {
     }, []);
 
     useEffect(() => {
+        if(limit===0) return;
         const fetchData = async () => {
             try {
                 const params: any = {
@@ -146,8 +147,8 @@ const PostForm: React.FC = () => {
              ref={cardRef}
              onClick={handleClick}
         >
-            <div className="h-auto p-4 bg-transparent overflow-auto">
-                <div className="flex justify-end mb-4 space-x-4 mr-10">
+            <div className="h-auto p-2 bg-transparent overflow-auto text-sm">
+                <div className="flex justify-end mb-[2vh] space-x-4 mr-10">
                     <button
                         onClick={() => handleSort(null)}
                         className={getButtonClassName(null)}
@@ -167,23 +168,23 @@ const PostForm: React.FC = () => {
                        Ratings
                     </button>
                 </div>
-                <div className={`${ limit === 2 ? 'space-y-24 mt-[7vh]' : ''  }`}>
+                <div className={`${ limit === 2 ? 'space-y-[5vh] mt-[2vh]' : ''  }`}>
                     {posts.map((post) => (
                         <div
                             key={post.id}
-                            className="bg-transparent h-auto max-h-[350px] shadow-md rounded-xl overflow-auto mb-6 flex border-8 border-gray-300 border-t-[#2A2B2F] border-l-[#2A2B2F] border-b-[#141517] border-r-[#141517] opacity-80 hover:opacity-100 transition-opacity duration-200"
+                            className="bg-transparent h-auto max-h-[300px] shadow-md rounded-xl overflow-auto mb-[1vh] flex border-8 border-gray-300 border-t-[#2A2B2F] border-l-[#2A2B2F] border-b-[#141517] border-r-[#141517] opacity-80 hover:opacity-100 transition-opacity duration-200"
                             onClick={() => router.push(`/post/${post.id}`)}
                         >
-                            <div className="flex-1 p-4 w-3/4">
-                                <div className="flex justify-between items-center mb-1">
-                                    <h3 className="text-orange-400 ml-5 font-sans">{post.title}</h3>
+                            <div className="flex-1 mt-[2vh] p-2 w-3/4">
+                                <div className="flex justify-between items-center mb-[1vh]">
+                                    <h3 className="text-orange-400 ml-5 font-sans text-xl">{post.title}</h3>
                                     <span className="text-yellow-300 text-sm mr-10">{post.views} views</span>
                                 </div>
 
-                                <p className="text-gray-300 mb-2 white-space-pre-line overflow-hidden"
+                                <p className="text-gray-300 mb-[1vh] white-space-pre-line overflow-hidden"
                                    style={{fontSize: 'clamp(1rem, 1.25vh, 2.5rem)'}}>{post.preview} ...</p>
 
-                                <div className="flex justify-between items-center text-sky-500 text-sm mb-2 ml-10 mr-10">
+                                <div className="flex justify-between items-center text-sky-500 text-sm mb-[1vh] ml-10 mr-10">
                                     <span>{post.createdAt.substring(0, 20)}</span>
                                     <span className="neon-text-normal text-2xl">{renderStars(post.averageRating)}</span>
                                     <span>{post.updatedAt.substring(0, 20)}</span>
@@ -208,7 +209,7 @@ const PostForm: React.FC = () => {
                                     alt={post.title}
                                     width={200}
                                     height={400}
-                                    className="w-auto h-auto top-1/2 max-h-[35vh] min-h-60 overflow-hidden"
+                                    className="w-auto h-auto top-1/2 max-h-[280px] min-h-60 overflow-hidden"
                                 />
                             </div>
                         </div>

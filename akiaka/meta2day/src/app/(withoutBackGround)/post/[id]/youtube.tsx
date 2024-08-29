@@ -3,7 +3,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import YouTube from 'react-youtube';
 
 interface YouTubeEmbedProps {
-    videoId: string;
+    videoId: string|null;
     height?: string;
     width?: string;
 }
@@ -27,7 +27,7 @@ const YouTubeEmbed: React.FC<YouTubeEmbedProps> = ({ videoId, height = '50vh', w
         };
 
         if (typeof window !== 'undefined') {
-            handleResize(); // Set dimensions on mount
+            handleResize();
             window.addEventListener('resize', handleResize);
         }
 
@@ -71,7 +71,15 @@ const YouTubeEmbed: React.FC<YouTubeEmbedProps> = ({ videoId, height = '50vh', w
     };
 
     return (
-        <div ref={videoRef} style={{ width: dimensions.width, height: dimensions.height }}>
+        <div ref={videoRef}
+             style={{
+                 width: dimensions.width,
+                 height: dimensions.height,
+                 display: 'flex',
+                 justifyContent: 'center',
+                 alignItems: 'center',
+                 margin: '0 auto',
+             }}>
             {isVideoVisible ? <YouTube videoId={videoId} opts={opts} /> : null}
         </div>
     );
