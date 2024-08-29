@@ -15,6 +15,7 @@ const FullLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                         loop
                         muted
                         playsInline
+                        preload="auto"
                         poster="/back_poster.webp "
                     >
                         <source src="/back_820.webm" type="video/webm" media="(min-width: 768px)"/>
@@ -25,12 +26,13 @@ const FullLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
                 <div className="hidden lg:block bg-transparent">
 
-                    <div className="absolute w-[25vw] h-[100vh] overflow-hidden">
+                    <div className="absolute w-[25vw] h-[100vh] overflow-hidden animate-reveal-left">
                         <video
-                            className=" w-[60vw] h-[100vh] object-cover"
+                            className=" w-[50vw] h-[100vh] object-cover"
                             autoPlay
                             loop
                             muted
+                            preload="auto"
                             playsInline
                         >
                             <source src="/side.webm" type="video/webm"/>
@@ -38,12 +40,13 @@ const FullLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                         </video>
                     </div>
 
-                    <div className="absolute right-0 w-[25vw] h-[100vh] overflow-hidden">
+                    <div className="absolute right-0 w-[25vw] h-[100vh] overflow-hidden  animate-reveal-right">
                         <video
                             className="w-[60vw] h-[100vh] object-cover"
                             autoPlay
                             loop
                             muted
+                            preload="auto"
                             playsInline
                         >
                             <source src="/side.webm" type="video/webm"/>

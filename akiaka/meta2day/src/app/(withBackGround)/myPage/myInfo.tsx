@@ -99,8 +99,8 @@ const MyInfo: React.FC = () => {
                     src={`/profile${userInfo?.characterId}.webp`}
                     alt={`Profile ${userInfo?.characterId}`}
                     width={300}
-                    height={600}
-                    className="rounded-3xl"
+                    height={500}
+                    className="rounded-3xl h-[50vh] w-auto"
                 />
             </div>
 

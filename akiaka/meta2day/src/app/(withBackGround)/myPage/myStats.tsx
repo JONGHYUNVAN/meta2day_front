@@ -194,10 +194,9 @@ const MyStats: React.FC = () => {
     }
 
     return (
-        <div className="max-w-[50vw] w-11/12 p-8 bg-[#191919] text-white font-serif opacity-80 hover:opacity-90 transition-opacity duration-200 shadow-md rounded-lg">
-            <div className="bg-transparent shadow-md rounded p-6">
-                <h2 className="text-3xl text-center font-bold mb-4 neon-text">My Stats</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="max-w-[50vw] mt-[5vh] w-11/12 bg-[#191919] text-white font-serif opacity-80 hover:opacity-90 transition-opacity duration-200 shadow-md rounded-lg">
+                <h2 className="text-3xl text-center font-bold mb-[4vh] neon-text">My Stats</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-[4vh]">
                     <div>
                         <h3 className="font-semibold text-2xl font-handwriting text-center neon-text-magenta">INTEREST</h3>
                         <div className="h-[35vh] max-h-80">
@@ -206,7 +205,7 @@ const MyStats: React.FC = () => {
                                 data={barData}
                             />
                         </div>
-                        <div className="mt-4 text-center Nanum-Pen-Script">
+                        <div className="mt-[4vh] text-center Nanum-Pen-Script">
                             {barIndex >= barAnalysis.length ? (
                                 <h2
                                     className="text-lg neon-text-normal"
@@ -222,7 +221,7 @@ const MyStats: React.FC = () => {
                         <div className="h-[35vh] max-h-72 w-[20vw]">
                             <PieChart data={pieData}/>
                         </div>
-                        <div className="mt-12 text-center Nanum-Pen-Script">
+                        <div className="mt-[5vh] text-center Nanum-Pen-Script">
                             {pieIndex >= pieAnalysis.length ? (
                                 <h2
                                     className="text-lg neon-text-normal"
@@ -234,7 +233,6 @@ const MyStats: React.FC = () => {
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
     );
 };

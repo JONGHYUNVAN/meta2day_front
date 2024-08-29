@@ -399,23 +399,23 @@ login-block {
 }
 
 .animate-slide-in {
-    animation: slide-in 0.8s ease-out;
+    animation: slide-in 0.5s ease-out;
 }
 
 @layer utilities {
-    @keyframes unfold {
+    @keyframes fold-down {
         from {
-            max-height: 0;
+            height: 0;
             opacity: 0;
         }
         to {
-            max-height: 70vh;
+            height: 60vh;
             opacity: 1;
         }
     }
 
     .animate-unfold {
-        animation: unfold 1s ease-out forwards;
+        animation: fold-down 500ms ease-out forwards;
         overflow: hidden;
     }
 
@@ -656,11 +656,6 @@ login-block {
     }
 }
 
-.content-container {
-    opacity: 0;
-    animation: fade-in 2s 2s forwards;
-}
-
 @keyframes fade-in {
     0% {
         opacity: 0;
@@ -669,6 +664,32 @@ login-block {
         opacity: 1;
     }
 }
-.skewed-container {
-    transform: skewX(10deg);
+@keyframes reveal-left {
+    0% {
+        width:20vw;
+        clip-path: polygon(0 0, 90% 0, 100% 100%, 0% 100%);
+    }
+    100% {
+        width:27vw;
+        clip-path: polygon(0 0, 100% 0, 80% 100%, 0% 100%);
+    }
+}
+
+.animate-reveal-left {
+    animation: reveal-left 2s ease-in-out forwards;
+}
+
+@keyframes reveal-right {
+    0% {
+        width:20vw;
+        clip-path: polygon(0% 0, 100% 0, 100% 100%, 20% 100%);
+    }
+    100% {
+        width:27vw;
+        clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+    }
+}
+
+.animate-reveal-right {
+    animation: reveal-right 2s ease-in-out forwards;
 }
