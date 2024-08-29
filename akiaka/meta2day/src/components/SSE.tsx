@@ -1,8 +1,16 @@
 'use client'
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/store/store'; // store 경로에 맞게 설정
+import { RootState } from '@/store/store';
 import './SSE.css';
+
+interface Alarm {
+    id: number;
+    type: string;
+    postId: number;
+    isRead: boolean;
+    sendCheck: boolean;
+}
 
 const Sse: React.FC = () => {
     const [notifications, setNotifications] = useState<string[]>([]);

@@ -18,7 +18,8 @@ const AlarmForm: React.FC = () => {
         const fetchNotifications = async () => {
             try {
                 const token = localStorage.getItem('token');
-                const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/alarm/user/${localStorage.getItem('nickname')}`, {
+                const nickname = localStorage.getItem('nickname');
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/alarm/user/${nickname}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
