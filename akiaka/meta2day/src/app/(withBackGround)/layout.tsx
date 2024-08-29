@@ -12,7 +12,6 @@ const FullLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 loop
                 muted
                 playsInline
-                preload="auto"
                 poster="/back_poster.webp "
             >
                 <source src="/back_820.webm" type="video/webm" media="(min-width: 768px)"/>
@@ -29,7 +28,6 @@ const FullLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     autoPlay
                     loop
                     muted
-                    preload="auto"
                     playsInline
                 >
                     <source src="/side.webm" type="video/webm"/>
@@ -43,7 +41,6 @@ const FullLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     autoPlay
                     loop
                     muted
-                    preload="auto"
                     playsInline
                 >
                     <source src="/side.webm" type="video/webm"/>
