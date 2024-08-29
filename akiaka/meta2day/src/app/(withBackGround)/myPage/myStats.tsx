@@ -194,45 +194,45 @@ const MyStats: React.FC = () => {
     }
 
     return (
-        <div className="max-w-[50vw] mt-[5vh] w-11/12 bg-[#191919] text-white font-serif opacity-80 hover:opacity-90 transition-opacity duration-200 shadow-md rounded-lg">
-                <h2 className="text-3xl text-center font-bold mb-[4vh] neon-text">My Stats</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-[4vh]">
-                    <div>
-                        <h3 className="font-semibold text-2xl font-handwriting text-center neon-text-magenta">INTEREST</h3>
-                        <div className="h-[35vh] max-h-80">
-                            <BarChart
-                                // @ts-ignore
-                                data={barData}
-                            />
-                        </div>
-                        <div className="mt-[4vh] text-center Nanum-Pen-Script">
-                            {barIndex >= barAnalysis.length ? (
-                                <h2
-                                    className="text-lg neon-text-normal"
-                                    dangerouslySetInnerHTML={{ __html: htmlBarAnalysis }}
-                                />
-                            ) : (
-                                <h2 className="text-lg neon-text-normal">{displayedBarText}</h2>
-                            )}
-                        </div>
+        <div className="max-w-[50vw] w-11/12 bg-[#191919] text-white font-serif opacity-80 hover:opacity-90 transition-opacity duration-200 shadow-md rounded-lg">
+            <h2 className="text-3xl text-center font-bold mb-[4vh] neon-text">My Stats</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2">
+                <div>
+                    <h3 className="font-semibold text-2xl font-handwriting text-center neon-text-magenta">INTEREST</h3>
+                    <div className="h-[35vh] max-h-80 ml-[2vw]">
+                        <BarChart
+                            // @ts-ignore
+                            data={barData}
+                        />
                     </div>
-                    <div>
-                        <h3 className="font-semibold text-2xl font-handwriting text-center neon-text-emerald">CATEGORY</h3>
-                        <div className="h-[35vh] max-h-72 w-[20vw]">
-                            <PieChart data={pieData}/>
-                        </div>
-                        <div className="mt-[5vh] text-center Nanum-Pen-Script">
-                            {pieIndex >= pieAnalysis.length ? (
-                                <h2
-                                    className="text-lg neon-text-normal"
-                                    dangerouslySetInnerHTML={{ __html: htmlPieAnalysis }}
-                                />
-                            ) : (
-                                <h2 className="text-lg neon-text-normal">{displayedPieText}</h2>
-                            )}
-                        </div>
+                    <div className="mt-[4vh] text-center Nanum-Pen-Script">
+                        {barIndex >= barAnalysis.length ? (
+                            <h2
+                                className="text-lg neon-text-normal"
+                                dangerouslySetInnerHTML={{ __html: htmlBarAnalysis }}
+                            />
+                        ) : (
+                            <h2 className="text-lg neon-text-normal">{displayedBarText}</h2>
+                        )}
                     </div>
                 </div>
+                <div>
+                    <h3 className="font-semibold text-2xl font-handwriting text-center neon-text-emerald">CATEGORY</h3>
+                    <div className="h-[35vh] max-h-72 w-[20vw]">
+                        <PieChart data={pieData} />
+                    </div>
+                    <div className="mt-[5vh] text-center Nanum-Pen-Script">
+                        {pieIndex >= pieAnalysis.length ? (
+                            <h2
+                                className="text-lg neon-text-normal"
+                                dangerouslySetInnerHTML={{ __html: htmlPieAnalysis }}
+                            />
+                        ) : (
+                            <h2 className="text-lg neon-text-normal">{displayedPieText}</h2>
+                        )}
+                    </div>
+                </div>
+            </div>
         </div>
     );
 };

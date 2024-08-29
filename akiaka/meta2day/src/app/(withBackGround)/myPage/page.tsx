@@ -24,31 +24,31 @@ const MyPage: React.FC = () => {
                     <div className="flex">
                         <div className="w-80">
                             <button
-                                className={`block w-60 mx-auto mt-5 mb-5 p-3 text-white rounded-full text-center outline-none transition-all duration-200 ${selectedTab === 'info' ? 'bg-transparent neon-text-normal border-2 border-[#3498db]' : 'bg-[#212121]'}`}
+                                className={`block w-60 mx-auto mt-[5vh] mb-[3vh] p-3 text-white rounded-full text-center outline-none transition-all duration-200 ${selectedTab === 'info' ? 'bg-transparent neon-text-normal border-2 border-[#3498db]' : 'bg-[#212121]'}`}
                                 onClick={() => setSelectedTab('info')}
                             >
                                 My Info
                             </button>
                             <button
-                                className={`block w-60 mx-auto mt-5 mb-5 p-3 text-white rounded-full text-center outline-none transition-all duration-200 ${selectedTab === 'stats' ? 'bg-transparent neon-text-normal border-2 border-[#3498db]' : 'bg-[#212121]'}`}
+                                className={`block w-60 mx-auto mt-[3vh] mb-[3vh] p-3 text-white rounded-full text-center outline-none transition-all duration-200 ${selectedTab === 'stats' ? 'bg-transparent neon-text-normal border-2 border-[#3498db]' : 'bg-[#212121]'}`}
                                 onClick={() => setSelectedTab('stats')}
                             >
                                 My Stats
                             </button>
                             <button
-                                className={`block w-60 mx-auto mt-5 mb-5 p-3 text-white rounded-full text-center outline-none transition-all duration-200 ${selectedTab === 'comments' ? 'bg-transparent neon-text-normal border-2 border-[#3498db]' : 'bg-[#212121]'}`}
+                                className={`block w-60 mx-auto mt-[3vh] mb-[3vh] p-3 text-white rounded-full text-center outline-none transition-all duration-200 ${selectedTab === 'comments' ? 'bg-transparent neon-text-normal border-2 border-[#3498db]' : 'bg-[#212121]'}`}
                                 onClick={() => setSelectedTab('comments')}
                             >
                                 My Comments
                             </button>
                             <button
-                                className={`mt-[10vh] block w-60 mx-auto mb-5 p-3 text-white rounded-full text-center outline-none transition-all duration-200 ${selectedTab === 'update' ? 'bg-transparent neon-text-normal border-2 border-[#3498db]' : 'bg-[#212121]'}`}
+                                className={`mt-[10vh] block w-60 mx-auto mb-[3vh] p-3 text-white rounded-full text-center outline-none transition-all duration-200 ${selectedTab === 'update' ? 'bg-transparent neon-text-normal border-2 border-[#3498db]' : 'bg-[#212121]'}`}
                                 onClick={() => setSelectedTab('update')}
                             >
                                 My Update
                             </button>
                         </div>
-                        <div className="w-full ">
+                        <div className="w-full">
                             {selectedTab === 'stats' && <MyStats/>}
                             {selectedTab === 'info' && <MyInfo/>}
                             {selectedTab === 'comments' && <MyComments/>}

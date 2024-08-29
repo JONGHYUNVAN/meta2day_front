@@ -630,12 +630,12 @@ login-block {
 
 .top-curtain {
     top: 0;
-    animation: curtain-top 5s forwards;
+    animation: curtain-top 1s forwards;
 }
 
 .bottom-curtain {
     bottom: 0;
-    animation: curtain-bottom 5s forwards;
+    animation: curtain-bottom 1s forwards;
 }
 
 @keyframes curtain-top {
@@ -676,7 +676,7 @@ login-block {
 }
 
 .animate-reveal-left {
-    animation: reveal-left 2s ease-in-out forwards;
+    animation: reveal-left 1s ease-in-out forwards;
 }
 
 @keyframes reveal-right {
@@ -691,5 +691,5 @@ login-block {
 }
 
 .animate-reveal-right {
-    animation: reveal-right 2s ease-in-out forwards;
+    animation: reveal-right 1s ease-in-out forwards;
 }

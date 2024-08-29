@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, FormEvent } from 'react';
+import React, { useState, FormEvent, useEffect } from 'react';
 import axios from 'axios';
 import LineChart from "@/components/chart/LineChart";
 import { useRouter } from 'next/navigation';
@@ -34,6 +34,13 @@ const CommentForm: React.FC<CommentFormProps> = ({ postId, comments }) => {
     const [rating, setRating] = useState<number>(0);
     const router = useRouter();
     const isLoggedIn = useAuth()
+
+    useEffect(() => {
+        window.scrollTo({
+            top: 100,
+            behavior: 'smooth',
+        });
+    }, []);
 
     const handleRating = (rate: number) => {
         setRating(rate);
