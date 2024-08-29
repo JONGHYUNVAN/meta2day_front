@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import Image from 'next/image';
 import {useAuthRedirect} from "@/hooks/useAuthRedirect";
+import useRefreshToken from '@/hooks/useRefreshToken';
 
 interface IFormInput {
     name?: string;
@@ -19,6 +20,7 @@ interface IFormInput {
 
 const MyUpdate: React.FC = () => {
     useAuthRedirect();
+    const refresh = useRefreshToken();
     const router = useRouter();
     const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm<IFormInput>({
         mode: 'onChange',
@@ -53,6 +55,11 @@ const MyUpdate: React.FC = () => {
                 const mbtiArray = userData.mbti ? userData.mbti.split('') : ['E', 'S', 'T', 'J'];
                 setValue('mbti', mbtiArray);
             } catch (error:any) {
+                if (error.response?.status === 401) {
+                    await refresh();
+                    alert('refreshed');
+                    return;
+                }
                 setServerError(`${error.message}`);
             }
         };

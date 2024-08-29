@@ -15,7 +15,7 @@ function GoogleLoginComponent() {
 
     useEffect(() => {
         if (code) {
-            axios.post('/api/google', { code })
+            axios.post('/api/google', { code },{ withCredentials: true })
                 .then(response => {
                     console.log(response.data.token);
                     const finalToken = response.headers['authorization'];

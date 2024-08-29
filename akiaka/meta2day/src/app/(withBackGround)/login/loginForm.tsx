@@ -91,7 +91,8 @@ const LoginForm: React.FC = () => {
                     email,
                     password,
                 },
-            );
+                {withCredentials: true}
+        );
 
             if (response.status === 200) {
                 const accessToken = response.headers['authorization'];

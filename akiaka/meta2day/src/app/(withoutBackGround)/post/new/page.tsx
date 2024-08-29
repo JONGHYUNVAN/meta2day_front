@@ -7,8 +7,10 @@ import { Button, Tooltip } from 'antd';
 import { UploadOutlined, BgColorsOutlined } from '@ant-design/icons';
 import parse from 'html-react-parser';
 import { useAdminRedirect } from "@/hooks/useAdminRedirect";
+import useRefreshToken from '@/hooks/useRefreshToken';
 
 const CreatePost: React.FC = () => {
+    const refresh = useRefreshToken();
     const [title, setTitle] = useState('');
     const [youtubeURL, setYoutubeURL] = useState('');
     const [thumbnailURL, setThumbnailURL] = useState('');
@@ -95,7 +97,12 @@ const CreatePost: React.FC = () => {
             alert('Post created successfully!');
             const postId = response.data.id;
             window.location.href = `/post/${postId}`;
-        } catch (error) {
+        } catch (error:any) {
+            if (error.response?.status === 401) {
+                await refresh();
+                alert('refreshed');
+                return;
+            }
             console.error('Error creating post:', error);
         }
     };

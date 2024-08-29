@@ -15,7 +15,7 @@ function KakaoLoginComponent() {
 
     useEffect(() => {
         if (code) {
-            axios.post('/api/kakao', { code })
+            axios.post('/api/kakao', { code },{ withCredentials: true })
                 .then(response => {
                     console.log(response.data.token);
                     const finalToken = response.headers['authorization'];

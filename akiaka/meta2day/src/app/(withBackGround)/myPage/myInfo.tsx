@@ -5,6 +5,8 @@ import axios from 'axios';
 import Image from 'next/image';
 import { useForm} from 'react-hook-form';
 import { useAuthRedirect} from "@/hooks/useAuthRedirect";
+import useRefreshToken from '@/hooks/useRefreshToken';
+
 
 interface UserInfo {
     id: number;
@@ -30,6 +32,7 @@ interface IFormInput {
 
 const MyInfo: React.FC = () => {
     useAuthRedirect();
+    const refresh = useRefreshToken();
     const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
     const [displayedText, setDisplayedText] = useState<string>('');
     const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -53,7 +56,12 @@ const MyInfo: React.FC = () => {
                 setValue('mbti', response.data.mbti);
                 setValue('characterId', response.data.characterId);
                 setValue('categoryId', response.data.categoryId);
-            } catch (error) {
+            } catch (error:any) {
+                if (error.response?.status === 401) {
+                    await refresh();
+                    alert('refreshed');
+                    return;
+                }
                 console.error('Error fetching user info:', error);
             }
         };
