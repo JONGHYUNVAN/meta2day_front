@@ -93,14 +93,14 @@ const MyInfo: React.FC = () => {
     }, [currentIndex, userInfo]);
 
     return (
-        <div className="relative p-8 bg-[#191919] h-auto rounded-2xl shadow-md max-w-3xl flex items-center">
+        <div className="relative ml-[3vw] p-8 bg-[#191919] h-auto rounded-2xl shadow-md max-w-3xl flex items-center">
             <div className="flex-shrink-0 animate-slide-in">
                 <Image
                     src={`/profile${userInfo?.characterId}.webp`}
-                    alt={`Profile ${userInfo?.characterId}`}
+                    alt={`now loading`}
                     width={300}
-                    height={600}
-                    className="rounded-3xl"
+                    height={500}
+                    className="rounded-3xl h-[50vh] w-auto"
                 />
             </div>
 
