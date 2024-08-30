@@ -6,6 +6,9 @@ import BarChart from "@/components/chart/BarChart";
 import PieChart from "@/components/chart/PieChart";
 import DOMPurify from 'dompurify';
 import {useAuthRedirect} from "@/hooks/useAuthRedirect";
+import useRefreshToken from '@/hooks/useRefreshToken';
+import Swal from "sweetalert2";
+
 
 interface Interest {
     id: number;
@@ -61,6 +64,7 @@ const MyStats: React.FC = () => {
     const [barIndex, setBarIndex] = useState<number>(0);
     const [pieIndex, setPieIndex] = useState<number>(0);
     const colors = ['#eab308', '#ef4444', '#10b981', '#3b82f6', '#8b5cf6'];
+    const refresh = useRefreshToken();
 
     useEffect(() => {
         const fetchStats = async () => {
@@ -148,8 +152,28 @@ const MyStats: React.FC = () => {
                 setHtmlPieAnalysis(createNeonText(pieAnalysisText, [...maxPieItems, ...minPieItems]));
 
                 setLoading(false);
-            } catch (error) {
-                console.error('Error fetching user stats:', error);
+            } catch (error:any) {
+                if (error.response?.status === 401) {
+                    await refresh();
+                    Swal.fire({
+                        title: 'Access token refreshed.',
+                        text: '토큰이 갱신되었습니다. 다시 시도해 주세요.',
+                        icon: 'info',
+                        confirmButtonText: 'OK',
+                        timer: 3000,
+                        timerProgressBar: true,
+                    });
+                    setLoading(false);
+                    return;
+                }
+                Swal.fire({
+                    title: 'Error',
+                    text: '사용자 통계 정보를 가져오는 중 오류가 발생했습니다.',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    timer: 3000,
+                    timerProgressBar: true,
+                });
                 setLoading(false);
             }
         };

@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import {login} from "@/store/slices/authSlice";
 import {useDispatch} from "react-redux";
+import Swal from 'sweetalert2';
 
 const LoginForm: React.FC = () => {
     const [passwordError, setPasswordError] = useState<string | null>(null);
@@ -23,7 +24,14 @@ const LoginForm: React.FC = () => {
             if (newWindow && newWindow.closed) {
                 if (localStorage.getItem('token')) {
                     dispatch(login());
-                    alert(`kakao 로그인 성공. Welcome!`)
+                    Swal.fire({
+                        title: 'Kakao 로그인 성공!',
+                        text: 'Welcome!',
+                        icon: 'success',
+                        confirmButtonText: 'OK',
+                        timer: 3000,
+                        timerProgressBar: true,
+                    });
                 }
                 clearInterval(checkInterval);
             }
@@ -41,7 +49,14 @@ const LoginForm: React.FC = () => {
             if (newWindow && newWindow.closed) {
                 if (localStorage.getItem('token')) {
                     dispatch(login());
-                    alert(`google 로그인 성공. Welcome!`)
+                    Swal.fire({
+                        title: 'Kakao 로그인 성공!',
+                        text: 'Welcome!',
+                        icon: 'success',
+                        confirmButtonText: 'OK',
+                        timer: 3000,
+                        timerProgressBar: true,
+                    });
                     router.back();
                     router.push('/');
                 }
@@ -85,20 +100,31 @@ const LoginForm: React.FC = () => {
 
         setPasswordError(null);
         setIsSubmitting(true);
-
         try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/login`, {
                     email,
                     password,
                 },
-            );
+                {withCredentials: true}
+        );
 
             if (response.status === 200) {
                 const accessToken = response.headers['authorization'];
                 localStorage.setItem('token', accessToken);
                 dispatch(login());
-
-                if (typeof router.back === 'function') {
+                await Swal.fire({
+                    title: 'Login Success!',
+                    text: '로그인 성공했습니다. 반가워요!',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    timer: 3000,
+                    timerProgressBar: true,
+                });
+                const previousPath = document.referrer ? new URL(document.referrer).pathname : null;
+                console.log(previousPath, document.referrer);
+                if (previousPath === '/signup' || previousPath === '/login') {
+                    router.push('/');
+                } else if (typeof router.back === 'function') {
                     router.back();
                 } else {
                     router.push('/');

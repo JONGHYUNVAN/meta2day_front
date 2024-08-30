@@ -47,6 +47,7 @@
     "slate-history": "0.100.0",
     "slate-hyperscript": "0.100.0",
     "slate-react": "0.107.1",
+    "sweetalert2": "^11.12.4",
     "tiptap-extension-font-size": "^1.2.0",
     "tiptap-extension-resize-image": "^1.1.8",
     "uuid": "^10.0.0"

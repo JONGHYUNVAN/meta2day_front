@@ -16,7 +16,7 @@ const MovieApiData: React.FC<MovieApiDataProps> = ({ movieTitle }) => {
         try {
             const response = await fetch(url);
             if (!response.ok) {
-                alert(`HTTP error! status: ${response.status}`);
+                console.log(`HTTP error! status: ${response.status}`);
                 return;
             }
 

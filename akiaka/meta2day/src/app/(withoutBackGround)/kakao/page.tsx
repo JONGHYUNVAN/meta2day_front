@@ -6,6 +6,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { login } from '@/store/slices/authSlice';
+import Swal from "sweetalert2";
 
 function KakaoLoginComponent() {
     const searchParams = useSearchParams();
@@ -15,7 +16,7 @@ function KakaoLoginComponent() {
 
     useEffect(() => {
         if (code) {
-            axios.post('/api/kakao', { code })
+            axios.post('/api/kakao', { code },{ withCredentials: true })
                 .then(response => {
                     console.log(response.data.token);
                     const finalToken = response.headers['authorization'];
@@ -26,7 +27,12 @@ function KakaoLoginComponent() {
                     }
                 })
                 .catch(error => {
-                    alert(`로그인 실패: ${error.message}`);
+                    Swal.fire({
+                        title: 'Failed to Login',
+                        text: `오류 메시지: ${error.message}`,
+                        icon: 'error',
+                        confirmButtonText: '확인',
+                    });
                 });
         }
     }, [code, router, dispatch]);
