@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import Image from 'next/image';
+import Swal from "sweetalert2";
 
 interface IFormInput {
     name: string;
@@ -39,18 +40,37 @@ const SignupForm: React.FC = () => {
                 mbti: mbti.join(''),
                 voiceTypeId: data.characterId
             };
+
             const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/users`, formattedData);
 
             if (response.status === 201) {
+                await Swal.fire({
+                    title: 'Signup Successful',
+                    text: '회원가입이 성공적으로 완료되었습니다.',
+                    icon: 'success',
+                    confirmButtonText: '확인',
+                });
                 router.push('/login');
             } else {
                 setServerError('Signup failed. Please try again.');
                 console.error('Signup failed', response.statusText);
+                await Swal.fire({
+                    title: 'Signup Failed',
+                    text: '회원가입에 실패했습니다. 다시 시도해 주세요.',
+                    icon: 'error',
+                    confirmButtonText: '확인',
+                });
             }
 
         } catch (error) {
             setServerError('Failed to signup, please try again.');
             console.error('Failed to signup', error);
+            await Swal.fire({
+                title: 'Error',
+                text: '회원가입 중 문제가 발생했습니다. 다시 시도해 주세요.',
+                icon: 'error',
+                confirmButtonText: '확인',
+            });
         }
     };
 

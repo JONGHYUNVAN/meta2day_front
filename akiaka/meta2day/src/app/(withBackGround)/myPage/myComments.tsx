@@ -6,6 +6,7 @@ import Link from "next/link";
 import LineChart from "@/components/chart/LineChart";
 import {useAuthRedirect} from "@/hooks/useAuthRedirect";
 import useRefreshToken from '@/hooks/useRefreshToken';
+import Swal from 'sweetalert2';
 
 interface Comment {
     id: number;
@@ -57,7 +58,12 @@ const MyComments: React.FC = () => {
             } catch (error:any) {
                 if (error.response?.status === 401) {
                     await refresh();
-                    alert('refreshed');
+                    Swal.fire({
+                        title: 'Token Refreshed',
+                        text: '토큰이 갱신되었습니다. 다시 시도해 주세요.',
+                        icon: 'info',
+                        confirmButtonText: '확인'
+                    });
                     setLoading(false);
                     return;
                 }

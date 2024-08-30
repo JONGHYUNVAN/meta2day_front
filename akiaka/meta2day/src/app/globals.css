@@ -409,7 +409,7 @@ login-block {
             opacity: 0;
         }
         to {
-            height: 60vh;
+            height: auto;
             opacity: 1;
         }
     }
@@ -667,7 +667,7 @@ login-block {
 @keyframes reveal-left {
     0% {
         width:20vw;
-        clip-path: polygon(0 0, 90% 0, 100% 100%, 0% 100%);
+        clip-path: polygon(0 0, 80% 0, 100% 100%, 0% 100%);
     }
     100% {
         width:27vw;
@@ -686,10 +686,32 @@ login-block {
     }
     100% {
         width:27vw;
-        clip-path: polygon(15% 0, 100% 0, 100% 100%, 0% 100%);
+        clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);
     }
 }
 
 .animate-reveal-right {
     animation: reveal-right 1s ease-in-out forwards;
+}
+
+.special-animation-container p,
+.special-animation-container img,
+.special-animation-container h3 {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.special-animation-container .fade-in-up {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 1s ease-out, transform 1s ease-out;
+}
+
+.special-animation-container {
+    scroll-snap-type: y mandatory;
+}
+
+.special-animation-container img {
+    scroll-snap-align: start;
 }

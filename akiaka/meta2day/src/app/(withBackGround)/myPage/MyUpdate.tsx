@@ -7,6 +7,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import Image from 'next/image';
 import {useAuthRedirect} from "@/hooks/useAuthRedirect";
 import useRefreshToken from '@/hooks/useRefreshToken';
+import Swal from "sweetalert2";
 
 interface IFormInput {
     name?: string;
@@ -57,7 +58,12 @@ const MyUpdate: React.FC = () => {
             } catch (error:any) {
                 if (error.response?.status === 401) {
                     await refresh();
-                    alert('refreshed');
+                    await Swal.fire({
+                        title: 'Token Refreshed',
+                        text: '토큰이 갱신되었습니다. 다시 시도해 주세요.',
+                        icon: 'info',
+                        confirmButtonText: '확인',
+                    });
                     return;
                 }
                 setServerError(`${error.message}`);
@@ -91,7 +97,14 @@ const MyUpdate: React.FC = () => {
                 },
             });
             if (response.status === 200) {
-                alert(`Update Complete!`)
+                await Swal.fire({
+                    title: 'Update complete!',
+                    text: '성공적으로 업데이트되었습니다.',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    timer: 3000,
+                    timerProgressBar: true,
+                });
                 router.refresh();
             } else {
                 setServerError('Update failed. Please try again.');
