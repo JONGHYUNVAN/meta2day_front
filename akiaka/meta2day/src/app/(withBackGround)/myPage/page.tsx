@@ -20,7 +20,7 @@ const MyPage: React.FC = () => {
                     </div>
                 </div>
 
-                <div className="content-container h-fit overflow-hidden mt-12 bg-[#191919] p-4 rounded-b-lg animate-unfold">
+                <div className="content-container overflow-hidden mt-12 bg-[#191919] p-4 rounded-b-lg animate-unfold">
                     <div className="flex">
                         <div className="w-80">
                             <button

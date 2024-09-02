@@ -5,6 +5,7 @@ import axios from 'axios';
 import LineChart from "@/components/chart/LineChart";
 import { useRouter } from 'next/navigation';
 import useAuth from '@/hooks/useAuth';
+import Swal from "sweetalert2";
 
 interface Comment {
     id: number;
@@ -49,20 +50,37 @@ const CommentForm: React.FC<CommentFormProps> = ({ postId, comments }) => {
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
 
-        if(!isLoggedIn) {
-            alert('로그인이 필요합니다. 로그인 페이지로 이동합니다');
+        if (!isLoggedIn) {
+            await Swal.fire({
+                title: 'Login Required',
+                text: '로그인이 필요합니다. 로그인 페이지로 이동합니다.',
+                icon: 'warning',
+                confirmButtonText: '확인',
+            });
             router.push('/login');
+            return;
         }
 
         if (!comment.trim()) {
-            alert('댓글 내용을 입력해 주세요.');
+            Swal.fire({
+                title: 'Message Required',
+                text: '댓글 내용을 입력해 주세요.',
+                icon: 'warning',
+                confirmButtonText: '확인',
+            });
             return;
         }
 
         if (rating === 0) {
-            alert('평점을 선택해 주세요.');
+            Swal.fire({
+                title: 'Rating score Required',
+                text: '평점을 선택해 주세요.',
+                icon: 'warning',
+                confirmButtonText: '확인',
+            });
             return;
         }
+
         const accessToken = localStorage.getItem('token');
         try {
             await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/comments`, {
@@ -74,15 +92,29 @@ const CommentForm: React.FC<CommentFormProps> = ({ postId, comments }) => {
                     Authorization: `${accessToken}`,
                 },
             });
-            alert('댓글 작성에 성공했습니다. 페이지를 새로고침합니다.')
+            await Swal.fire({
+                title: 'Comment Submitted. Thank you!',
+                text: '댓글 작성에 성공했습니다. 페이지를 새로고침합니다.',
+                icon: 'success',
+                confirmButtonText: '확인',
+            });
             router.refresh();
-
         } catch (error: any) {
             if (error.response && error.response.status === 409) {
-                alert('이미 평가한 이벤트입니다');
+                Swal.fire({
+                    title: 'Duplicated',
+                    text: '이미 평가한 이벤트입니다.',
+                    icon: 'error',
+                    confirmButtonText: '확인',
+                });
             } else {
                 console.error('Error creating comment:', error);
-                alert('댓글 작성에 실패했습니다...');
+                Swal.fire({
+                    title: 'Error',
+                    text: '댓글 작성에 실패했습니다...',
+                    icon: 'error',
+                    confirmButtonText: '확인',
+                });
             }
         }
     };

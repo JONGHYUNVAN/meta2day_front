@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { useForm} from 'react-hook-form';
 import { useAuthRedirect} from "@/hooks/useAuthRedirect";
 import useRefreshToken from '@/hooks/useRefreshToken';
+import Swal from 'sweetalert2';
 
 
 interface UserInfo {
@@ -59,10 +60,20 @@ const MyInfo: React.FC = () => {
             } catch (error:any) {
                 if (error.response?.status === 401) {
                     await refresh();
-                    alert('refreshed');
+                    Swal.fire({
+                        title: 'Token Refreshed',
+                        text: '토큰이 갱신되었습니다. 다시 시도해 주세요.',
+                        icon: 'info',
+                        confirmButtonText: '확인',
+                    });
                     return;
                 }
-                console.error('Error fetching user info:', error);
+                await Swal.fire({
+                    title: 'Server Error',
+                    text: '사용자 정보를 가져오는 중 오류가 발생했습니다.',
+                    icon: 'error',
+                    confirmButtonText: '확인',
+                });
             }
         };
 
@@ -101,14 +112,14 @@ const MyInfo: React.FC = () => {
     }, [currentIndex, userInfo]);
 
     return (
-        <div className="relative ml-[3vw] p-8 bg-[#191919] h-auto rounded-2xl shadow-md max-w-3xl flex items-center">
+        <div className="relative ml-[3vh] p-8 bg-[#191919] h-auto rounded-2xl shadow-md max-w-3xl flex items-center">
             <div className="flex-shrink-0 animate-slide-in">
                 <Image
                     src={`/profile${userInfo?.characterId}.webp`}
                     alt={`now loading`}
                     width={300}
                     height={500}
-                    className="rounded-3xl h-[50vh] w-auto"
+                    className="rounded-3xl h-[50vh] max-h-[500px] w-auto"
                 />
             </div>
 

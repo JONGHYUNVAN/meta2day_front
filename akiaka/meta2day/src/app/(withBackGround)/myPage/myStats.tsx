@@ -7,6 +7,7 @@ import PieChart from "@/components/chart/PieChart";
 import DOMPurify from 'dompurify';
 import {useAuthRedirect} from "@/hooks/useAuthRedirect";
 import useRefreshToken from '@/hooks/useRefreshToken';
+import Swal from "sweetalert2";
 
 
 interface Interest {
@@ -154,11 +155,25 @@ const MyStats: React.FC = () => {
             } catch (error:any) {
                 if (error.response?.status === 401) {
                     await refresh();
-                    alert('refreshed');
+                    Swal.fire({
+                        title: 'Access token refreshed.',
+                        text: '토큰이 갱신되었습니다. 다시 시도해 주세요.',
+                        icon: 'info',
+                        confirmButtonText: 'OK',
+                        timer: 3000,
+                        timerProgressBar: true,
+                    });
                     setLoading(false);
                     return;
                 }
-                console.error('Error fetching user stats:', error);
+                Swal.fire({
+                    title: 'Error',
+                    text: '사용자 통계 정보를 가져오는 중 오류가 발생했습니다.',
+                    icon: 'error',
+                    confirmButtonText: 'OK',
+                    timer: 3000,
+                    timerProgressBar: true,
+                });
                 setLoading(false);
             }
         };
