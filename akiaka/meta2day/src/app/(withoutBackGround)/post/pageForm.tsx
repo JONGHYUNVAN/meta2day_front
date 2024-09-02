@@ -35,20 +35,21 @@ const PostForm: React.FC = () => {
     const router = useRouter();
 
     useEffect(() => {
-        const updateLimit = () => {
-            const windowHeight = window.outerHeight;
-            console.log('Height:', windowHeight);
+        if (typeof window !== "undefined") {
+            const updateLimit = () => {
+                const windowHeight = window.outerHeight;
+                console.log('Height:', windowHeight);
 
-            if (windowHeight <= 1300) {
-                setLimit(2);
-            } else {
-                setLimit(3);
-            }
-        };
-
-        updateLimit();
-
-        return () => window.removeEventListener('resize', updateLimit);
+                if (windowHeight <= 1300) {
+                    setLimit(2);
+                } else {
+                    setLimit(3);
+                }
+            };
+            updateLimit();
+            window.addEventListener('resize', updateLimit);
+            return () => window.removeEventListener('resize', updateLimit);
+        }
     }, []);
 
     useEffect(() => {
@@ -203,13 +204,13 @@ const PostForm: React.FC = () => {
                                     ]}
                                 />
                             </div>
-                            <div className="w-auto h-auto">
+                            <div className="w-auto h-fit">
                                 <Image
                                     src={post.thumbnailURL}
                                     alt={post.title}
                                     width={200}
                                     height={400}
-                                    className="w-auto h-auto top-1/2 max-h-[280px] min-h-60 overflow-hidden"
+                                    className="w-auto h-fit top-1/2 max-h-[280px] min-h-60 overflow-hidden"
                                 />
                             </div>
                         </div>
