@@ -7,8 +7,11 @@ import { Button, Tooltip } from 'antd';
 import { UploadOutlined, BgColorsOutlined } from '@ant-design/icons';
 import parse from 'html-react-parser';
 import { useAdminRedirect } from "@/hooks/useAdminRedirect";
+import useRefreshToken from '@/hooks/useRefreshToken';
+import Swal from 'sweetalert2';
 
 const CreatePost: React.FC = () => {
+    const refresh = useRefreshToken();
     const [title, setTitle] = useState('');
     const [youtubeURL, setYoutubeURL] = useState('');
     const [thumbnailURL, setThumbnailURL] = useState('');
@@ -48,9 +51,19 @@ const CreatePost: React.FC = () => {
             const uploadedUrl = await thumbnailRef.current.uploadFileToS3();
             if (uploadedUrl) {
                 setThumbnailURL(uploadedUrl);
-                alert(`썸네일 업로드 성공:${uploadedUrl}`);
+                Swal.fire({
+                    title: 'Thumbnail upload Complete!',
+                    text: `업로드된 URL: ${uploadedUrl}`,
+                    icon: 'success',
+                    confirmButtonText: '확인',
+                });
             } else {
-                alert('썸네일 업로드 실패');
+                Swal.fire({
+                    title: 'Failed to upload!',
+                    text: '파일 업로드에 실패했습니다. 다시 시도해 주세요.',
+                    icon: 'error',
+                    confirmButtonText: '확인',
+                });
             }
         }
     };
@@ -60,9 +73,20 @@ const CreatePost: React.FC = () => {
             const uploadedUrl = await backGroundImgRef.current.uploadFileToS3();
             if (uploadedUrl) {
                 setBackGroundImgURL(uploadedUrl);
-                alert(`배경이미지 업로드 성공${uploadedUrl}`);
+                setThumbnailURL(uploadedUrl);
+                Swal.fire({
+                    title: 'Background Image upload Complete!',
+                    text: `업로드된 URL: ${uploadedUrl}`,
+                    icon: 'success',
+                    confirmButtonText: '확인',
+                });
             } else {
-                alert('배경이미지 업로드 실패');
+                Swal.fire({
+                    title: 'Failed to upload!',
+                    text: '파일 업로드에 실패했습니다. 다시 시도해 주세요.',
+                    icon: 'error',
+                    confirmButtonText: '확인',
+                });
             }
         }
     };
@@ -82,7 +106,12 @@ const CreatePost: React.FC = () => {
         console.log(postData);
 
         if (!title || !content || !backGroundImgURL || !thumbnailURL || !categoryId || !backGroundColor) {
-            alert('글이 완성되지 않았습니다. 비어있는 항목이 있습니다.');
+            Swal.fire({
+                title: 'Missed something...',
+                text: '글이 완성되지 않았습니다. 비어있는 항목이 있거나 이미지가 업로드되지 않았습니다.',
+                icon: 'warning',
+                confirmButtonText: '확인',
+            });
             return;
         }
 
@@ -92,10 +121,25 @@ const CreatePost: React.FC = () => {
                     Authorization: `${localStorage.getItem('token')}`
                 }
             });
-            alert('Post created successfully!');
+            Swal.fire({
+                title: 'Post Created Successfully!',
+                text: '게시물이 성공적으로 생성되었습니다.',
+                icon: 'success',
+                confirmButtonText: '확인'
+            });
             const postId = response.data.id;
             window.location.href = `/post/${postId}`;
-        } catch (error) {
+        } catch (error:any) {
+            if (error.response?.status === 401) {
+                await refresh();
+                Swal.fire({
+                    title: 'Token Refreshed',
+                    text: '토큰이 갱신되었습니다. 다시 시도해 주세요.',
+                    icon: 'info',
+                    confirmButtonText: '확인'
+                });
+                return;
+            }
             console.error('Error creating post:', error);
         }
     };

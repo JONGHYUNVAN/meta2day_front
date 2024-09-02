@@ -35,21 +35,23 @@ const PostForm: React.FC = () => {
     const router = useRouter();
 
     useEffect(() => {
-        const updateLimit = () => {
-            const windowHeight = window.outerHeight;
-            console.log('Height:', windowHeight);
+        if (typeof window !== "undefined") {
+            const updateLimit = () => {
+                const windowHeight = window.outerHeight;
+                console.log('Height:', windowHeight);
 
-            if (windowHeight <= 1300) {
-                setLimit(2);
-            } else {
-                setLimit(3);
-            }
-        };
-
-        updateLimit();
-
-        return () => window.removeEventListener('resize', updateLimit);
+                if (windowHeight <= 1300) {
+                    setLimit(2);
+                } else {
+                    setLimit(3);
+                }
+            };
+            updateLimit();
+            window.addEventListener('resize', updateLimit);
+            return () => window.removeEventListener('resize', updateLimit);
+        }
     }, []);
+
 
     useEffect(() => {
         if(limit===0) return;
@@ -172,7 +174,7 @@ const PostForm: React.FC = () => {
                     {posts.map((post) => (
                         <div
                             key={post.id}
-                            className="bg-transparent h-auto max-h-[300px] shadow-md rounded-xl overflow-auto mb-[1vh] flex border-8 border-gray-300 border-t-[#2A2B2F] border-l-[#2A2B2F] border-b-[#141517] border-r-[#141517] opacity-80 hover:opacity-100 transition-opacity duration-200"
+                            className="bg-transparent h-auto max-h-[25vh] shadow-md rounded-xl overflow-auto mb-[1vh] flex border-8 border-gray-300 border-t-[#2A2B2F] border-l-[#2A2B2F] border-b-[#141517] border-r-[#141517] opacity-80 hover:opacity-100 transition-opacity duration-200"
                             onClick={() => router.push(`/post/${post.id}`)}
                         >
                             <div className="flex-1 mt-[2vh] p-2 w-3/4">
@@ -203,13 +205,13 @@ const PostForm: React.FC = () => {
                                     ]}
                                 />
                             </div>
-                            <div className="w-auto h-auto">
+                            <div className="w-auto h-fit overflow-hidden">
                                 <Image
                                     src={post.thumbnailURL}
                                     alt={post.title}
                                     width={200}
                                     height={400}
-                                    className="w-auto h-auto top-1/2 max-h-[280px] min-h-60 overflow-hidden"
+                                    className="w-auto h-fit top-1/2 max-h-[22vh] min-h-60 overflow-hidden"
                                 />
                             </div>
                         </div>

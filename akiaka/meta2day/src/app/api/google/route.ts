@@ -22,17 +22,19 @@ export async function POST(request: Request) {
 
         const accessToken = response.data.access_token;
 
-        const backendResponse = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/oauth/google`, {}, {
+        const backendResponse = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/oauth/google`, { withCredentials: true }, {
             headers: {
                 Authorization: `${accessToken}`,
             },
         });
 
         const finalToken = backendResponse.headers['authorization'];
+        const setCookieHeader = backendResponse.headers['set-cookie'];
 
         const responseHeaders = new Headers();
         responseHeaders.set('Authorization', finalToken);
         responseHeaders.set('Access-Control-Expose-Headers', 'Authorization');
+        if(setCookieHeader) responseHeaders.set('Set-Cookie', setCookieHeader[0]);
 
         return new NextResponse(null, {
             status: 200,
