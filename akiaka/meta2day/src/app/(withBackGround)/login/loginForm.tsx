@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import {login} from "@/store/slices/authSlice";
+import {setConnected} from "@/store/slices/sseSlice";
 import {useDispatch} from "react-redux";
 import Swal from 'sweetalert2';
 
@@ -112,6 +113,7 @@ const LoginForm: React.FC = () => {
                 const accessToken = response.headers['authorization'];
                 localStorage.setItem('token', accessToken);
                 dispatch(login());
+                dispatch(setConnected(false))
                 await Swal.fire({
                     title: 'Login Success!',
                     text: '로그인 성공했습니다. 반가워요!',
