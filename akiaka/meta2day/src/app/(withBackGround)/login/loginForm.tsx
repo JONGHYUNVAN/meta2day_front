@@ -113,7 +113,6 @@ const LoginForm: React.FC = () => {
                 const accessToken = response.headers['authorization'];
                 localStorage.setItem('token', accessToken);
                 dispatch(login());
-                dispatch(setConnected(false))
                 await Swal.fire({
                     title: 'Login Success!',
                     text: '로그인 성공했습니다. 반가워요!',
@@ -124,6 +123,7 @@ const LoginForm: React.FC = () => {
                 });
                 const previousPath = document.referrer ? new URL(document.referrer).pathname : null;
                 console.log(previousPath, document.referrer);
+                dispatch(setConnected(false))
                 if (previousPath === '/signup' || previousPath === '/login') {
                     router.push('/');
                 } else if (typeof router.back === 'function') {
