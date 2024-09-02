@@ -46,12 +46,12 @@ const PostForm: React.FC = () => {
                     setLimit(3);
                 }
             };
+
             updateLimit();
             window.addEventListener('resize', updateLimit);
             return () => window.removeEventListener('resize', updateLimit);
         }
     }, []);
-
 
     useEffect(() => {
         if(limit===0) return;
@@ -170,23 +170,30 @@ const PostForm: React.FC = () => {
                        Ratings
                     </button>
                 </div>
-                <div className={`${ limit === 2 ? 'space-y-[5vh] mt-[2vh]' : ''  }`}>
+                <div className={`${limit === 2 ? 'space-y-[5vh] mt-[2vh]' : 'space-y-[2vh] mt-[1vh]'}`}>
                     {posts.map((post) => (
                         <div
                             key={post.id}
-                            className="bg-transparent h-auto max-h-[25vh] shadow-md rounded-xl overflow-auto mb-[1vh] flex border-8 border-gray-300 border-t-[#2A2B2F] border-l-[#2A2B2F] border-b-[#141517] border-r-[#141517] opacity-80 hover:opacity-100 transition-opacity duration-200"
+                            className={`bg-transparent overflow-hidden shadow-md rounded-xl mb-[1vh] flex border-8 border-gray-300 border-t-[#2A2B2F] border-l-[#2A2B2F] border-b-[#141517] border-r-[#141517] opacity-80 hover:opacity-100 transition-opacity duration-200 ${
+                                limit === 2 ? 'h-[33vh]' : 'h-[25vh]'
+                            }`}
                             onClick={() => router.push(`/post/${post.id}`)}
                         >
-                            <div className="flex-1 mt-[2vh] p-2 w-3/4">
+                            <div className={`flex-1 p-2 ${limit === 2 ? 'w-3/4 mt-[2vh]' : 'w-3/5 mt-[1vh]'}`}>
                                 <div className="flex justify-between items-center mb-[1vh]">
-                                    <h3 className="text-orange-400 ml-5 font-sans text-xl">{post.title}</h3>
-                                    <span className="text-yellow-300 text-sm mr-10">{post.views} views</span>
+                                    <h3 className={`text-orange-400 font-sans ${limit === 2 ? 'ml-5 text-xl' : 'ml-3 text-lg'}`}>
+                                        {post.title}
+                                    </h3>
+                                    <span className={`text-yellow-300 ${limit === 2 ? 'text-sm mr-10' : 'text-xs mr-5'}`}>
+                        {post.views} views
+                    </span>
                                 </div>
 
-                                <p className="text-gray-300 mb-[1vh] white-space-pre-line overflow-hidden"
-                                   style={{fontSize: 'clamp(1rem, 1.25vh, 2.5rem)'}}>{post.preview} ...</p>
+                                <p className={`text-gray-300 mb-[1vh] white-space-pre-line overflow-hidden text-xl`} >
+                                    {post.preview} ...
+                                </p>
 
-                                <div className="flex justify-between items-center text-sky-500 text-sm mb-[1vh] ml-10 mr-10">
+                                <div className={`flex justify-between items-center text-sky-500 ${limit === 2 ? 'text-sm' : 'text-xs'} mb-[1vh] ml-${limit === 2 ? '10' : '5'} mr-${limit === 2 ? '10' : '5'}`}>
                                     <span>{post.createdAt.substring(0, 20)}</span>
                                     <span className="neon-text-normal text-2xl">{renderStars(post.averageRating)}</span>
                                     <span>{post.updatedAt.substring(0, 20)}</span>
@@ -205,13 +212,13 @@ const PostForm: React.FC = () => {
                                     ]}
                                 />
                             </div>
-                            <div className="w-auto h-fit overflow-hidden">
+                            <div className={`w-auto top-1/2 ${limit === 2 ? 'h-fit max-h-[30vh]' : 'h-fit max-h-[23vh]'}`}>
                                 <Image
                                     src={post.thumbnailURL}
                                     alt={post.title}
                                     width={200}
                                     height={400}
-                                    className="w-auto h-fit top-1/2 max-h-[22vh] min-h-60 overflow-hidden"
+                                    className={`w-auto top-1/2 ${limit === 2 ? 'h-[29vh] max-h-[30vh] min-h-60' : 'h-[22vh] max-h-[23vh] min-h-40'} overflow-hidden`}
                                 />
                             </div>
                         </div>
