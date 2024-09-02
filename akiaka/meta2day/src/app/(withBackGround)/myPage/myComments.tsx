@@ -5,6 +5,8 @@ import axios from 'axios';
 import Link from "next/link";
 import LineChart from "@/components/chart/LineChart";
 import {useAuthRedirect} from "@/hooks/useAuthRedirect";
+import useRefreshToken from '@/hooks/useRefreshToken';
+import Swal from 'sweetalert2';
 
 interface Comment {
     id: number;
@@ -35,6 +37,7 @@ const MyComments: React.FC = () => {
     const [page, setPage] = useState<number>(1);
     const [limit, setLimit] = useState<number>(3);
     const [totalPages, setTotalPages] = useState<number>(1);
+    const refresh = useRefreshToken();
 
     useEffect(() => {
         const fetchComments = async () => {
@@ -52,7 +55,18 @@ const MyComments: React.FC = () => {
                 setComments(response.data.data);
                 setTotalPages(Math.ceil(response.data.total / limit));
                 setLoading(false);
-            } catch (error) {
+            } catch (error:any) {
+                if (error.response?.status === 401) {
+                    await refresh();
+                    Swal.fire({
+                        title: 'Token Refreshed',
+                        text: '토큰이 갱신되었습니다. 다시 시도해 주세요.',
+                        icon: 'info',
+                        confirmButtonText: '확인'
+                    });
+                    setLoading(false);
+                    return;
+                }
                 console.error('Error fetching comments:', error);
                 setLoading(false);
             }
