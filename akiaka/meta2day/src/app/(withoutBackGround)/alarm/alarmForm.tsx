@@ -7,7 +7,7 @@ import useAuth from '@/hooks/useAuth';
 interface Alarm {
     id: number;
     type: string;
-    postId: number;
+    postTitle: string; // postTitle로 변경
     isRead: boolean;
     sendCheck: boolean;
 }
@@ -38,6 +38,7 @@ const AlarmForm: React.FC = () => {
 
         fetchNotifications(); // 컴포넌트가 마운트될 때 알람을 가져옴
     }, [user]);
+
     // 알림을 삭제하는 함수
     const deleteNotification = async (id: number) => {
         try {
@@ -56,6 +57,27 @@ const AlarmForm: React.FC = () => {
             console.error("Failed to delete notification", error);
         }
     };
+
+    // 전체 알림을 삭제하는 함수
+    const deleteAllNotifications = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const nickname = user?.nickname;
+            if (!nickname || !token) return;
+
+            await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/alarm/user/${nickname}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            // 삭제 후 상태를 빈 배열로 설정하여 모든 알림을 제거
+            setNotifications([]);
+        } catch (error) {
+            console.error("Failed to delete all notifications", error);
+        }
+    };
+
     // 알림을 읽음 처리하는 함수
     const markAsRead = async (id: number) => {
         try {
@@ -80,6 +102,7 @@ const AlarmForm: React.FC = () => {
             console.error("Failed to mark notification as read", error);
         }
     };
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-transparent">
             <div className="relative mt-32 max-w-6xl w-full font-serif opacity-80 hover:opacity-90 transition-opacity duration-200 shadow-md rounded-lg">
@@ -94,33 +117,42 @@ const AlarmForm: React.FC = () => {
                 <div className="content-container mt-12 bg-[#191919] p-4 rounded-b-lg h-[calc(100%-64px)] overflow-y-auto">
                     <h1 className="text-2xl font-bold mb-6 text-white">알림 목록</h1>
                     {notifications.length > 0 ? (
-                        notifications.map((notification) => (
-                            <div key={notification.id} className="bg-white shadow-md p-3 mb-2 rounded-md">
-                                <p className="text-black"><strong>Type:</strong> {notification.type}</p>
-                                <p className="text-black"><strong>Post ID:</strong> {notification.postId}</p>
-                                <p className="text-black"><strong>Read:</strong> {notification.isRead ? 'Yes' : 'No'}</p>
-                            {/* 읽음 처리 버튼 */}
+                        <>
+                            {notifications.map((notification) => (
+                                <div key={notification.id} className="bg-white shadow-md p-3 mb-2 rounded-md">
+                                    <p className="text-black"><strong>Type:</strong> {notification.type}</p>
+                                    <p className="text-black"><strong>Post Title:</strong> {notification.postTitle}</p> {/* Post ID 대신 Post Title */}
+                                    <p className="text-black"><strong>Read:</strong> {notification.isRead ? 'Yes' : 'No'}</p>
+                                    {/* 읽음 처리 버튼 */}
+                                    <button
+                                        onClick={() => markAsRead(notification.id)}
+                                        className={`text-white px-4 py-2 mr-2 rounded ${notification.isRead ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-500 hover:bg-green-700'}`}
+                                        disabled={notification.isRead} // 이미 읽은 알림은 버튼 비활성화
+                                    >
+                                        {notification.isRead ? '읽음 처리됨' : '읽음 처리'}
+                                    </button>
+                                    <button
+                                        onClick={() => deleteNotification(notification.id)}
+                                        className="text-white bg-red-500 hover:bg-red-700 px-4 py-2 rounded"
+                                    >
+                                        삭제
+                                    </button>
+                                </div>
+                            ))}
+                            {/* 전체 삭제 버튼 추가 */}
                             <button
-                                    onClick={() => markAsRead(notification.id)}
-                                    className={`text-white px-4 py-2 mr-2 rounded ${notification.isRead ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-500 hover:bg-green-700'}`}
-                                    disabled={notification.isRead} // 이미 읽은 알림은 버튼 비활성화
-                                >
-                                    {notification.isRead ? '읽음 처리됨' : '읽음 처리'}
-                                </button>
-                                
-                                
-                            <button
-                                onClick={() => deleteNotification(notification.id)}
-                                className="text-white bg-red-500 hover:bg-red-700 px-4 py-2 rounded"
-                                >
-                                    삭제
+                                onClick={deleteAllNotifications}
+                                className="text-white bg-red-600 hover:bg-red-800 px-4 py-2 rounded mt-4"
+                            >
+                                전체 삭제
                             </button>
-                            </div>
-                        ))
+                        </>
                     ) : (
                         <p className="text-white">알림이 없습니다.</p>
                     )}
                 </div>
+
+                
             </div>
         </div>
     );
