@@ -70,7 +70,6 @@ export default function ChatForm() {
         };
     }, [isLoggedIn,isConnected]);
 
-
     useEffect(() => {
         const handleConnect = () => setIsConnected(true);
         const handleDisconnect = () => setIsConnected(false);
