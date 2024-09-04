@@ -20,7 +20,8 @@ const useRefreshToken = () => {
                     text: '토큰 갱신에 실패했습니다. 다시 로그인 해주세요.',
                     icon: 'error',
                     confirmButtonText: '확인',
-                });                dispatch(logout());
+                });
+                dispatch(logout());
                 router.push('/login');
             }
 
