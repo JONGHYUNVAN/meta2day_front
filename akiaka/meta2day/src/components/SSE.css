@@ -1,16 +1,17 @@
-/* Sse.css */
 .notification-slide {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: #444;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    background-color: white; /* 배경색을 하얀색 */
+    color: #333; /* 글자색을 어둡게 */
+    padding: 20px 30px; 
+    border-radius: 10px; /* 박스 모서리를 둥글게 */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* 그림자를 더 두드러지게 */
     transform: translateX(100%);
     animation: slide-in 0.5s forwards, slide-out 0.5s forwards 4.5s; /* 4.5초 후에 슬라이드 아웃 */
     z-index: 1000;
+    font-size: 16px; /* 글자 크기를 키움 */
+    max-width: 300px; /* 알림 상자의 최대 너비 설정 */
 }
 
 @keyframes slide-in {

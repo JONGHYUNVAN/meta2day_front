@@ -7,7 +7,7 @@ import useAuth from '@/hooks/useAuth';
 interface Alarm {
     id: number;
     type: string;
-    postTitle: string; // postTitle로 변경
+    postTitle: string; // postId 대신 postTitle 사용
     isRead: boolean;
     sendCheck: boolean;
 }
@@ -120,9 +120,13 @@ const AlarmForm: React.FC = () => {
                         <>
                             {notifications.map((notification) => (
                                 <div key={notification.id} className="bg-white shadow-md p-3 mb-2 rounded-md">
-                                    <p className="text-black"><strong>Type:</strong> {notification.type}</p>
-                                    <p className="text-black"><strong>Post Title:</strong> {notification.postTitle}</p> {/* Post ID 대신 Post Title */}
-                                    <p className="text-black"><strong>Read:</strong> {notification.isRead ? 'Yes' : 'No'}</p>
+                                    {/* 타입에 따라 다른 메시지 표시 */}
+                                    {notification.type === 'comment' ? (
+                                        <p className="text-black">{notification.postTitle}에 새로운 댓글이 달렸습니다!</p>
+                                    ) : (
+                                        <p className="text-black">알림 타입: {notification.type}</p>
+                                    )}
+
                                     {/* 읽음 처리 버튼 */}
                                     <button
                                         onClick={() => markAsRead(notification.id)}
@@ -139,6 +143,7 @@ const AlarmForm: React.FC = () => {
                                     </button>
                                 </div>
                             ))}
+
                             {/* 전체 삭제 버튼 추가 */}
                             <button
                                 onClick={deleteAllNotifications}
@@ -151,8 +156,6 @@ const AlarmForm: React.FC = () => {
                         <p className="text-white">알림이 없습니다.</p>
                     )}
                 </div>
-
-                
             </div>
         </div>
     );

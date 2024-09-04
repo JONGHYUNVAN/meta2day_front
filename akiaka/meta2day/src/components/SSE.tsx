@@ -7,7 +7,7 @@ import './SSE.css';
 interface Alarm {
     id: number;
     type: string;
-    postId: number;
+    postTitle: string; // postTitle 추가
     isRead: boolean;
     sendCheck: boolean;
 }
@@ -28,12 +28,18 @@ const Sse: React.FC = () => {
         eventSource.onmessage = (event) => {
             const data = JSON.parse(event.data);
             console.log('New Alarm:', data);
-            setNotifications(prev => [...prev, data.message]); // 알림을 상태에 추가
+        
+            // type이 comment일 때 {PostTitle}에 새로운 댓글이 달렸습니다! 형식으로 메시지 표시
+            if (data.postTitle) {
+                setNotifications(prev => [...prev, `${data.postTitle}에 새로운 댓글이 달렸습니다!`]);
+            } else {
+                setNotifications(prev => [...prev, data.message]); // 기본 메시지 처리
+            }
+        
             // 5초 후에 알림을 자동으로 제거
             setTimeout(() => {
                 setNotifications(prev => prev.slice(1));
             }, 5000);
-
         };
 
         eventSource.onerror = (error) => {
