@@ -2,14 +2,15 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import useAuth from '../hooks/useAuth';
-import {useDispatch} from "react-redux";
-import {AppDispatch} from "@/store/store";
+import {useDispatch, useSelector} from "react-redux";
+import {AppDispatch, RootState} from "@/store/store";
 import {login, logout} from "@/store/slices/authSlice";
 import {useEffect, useState} from "react";
 
 const Navbar: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
     const { isLoggedIn, user, isAdmin, handleLogout } = useAuth();
+    const hasUnread = useSelector((state: RootState) => state.notification.hasUnread);
 
     const [isDropdownOpen, setDropdownOpen] = useState(false);
 
@@ -35,7 +36,18 @@ const Navbar: React.FC = () => {
                                className="opacity-90 hover:opacity-100 transition-opacity duration-300"/>
                     </Link>
                 </li>
-
+                <li className="absolute top-10 right-10 opacity-80 transform -translate-y-1/2 z-50 neon-image">
+                    <Link href="/alarm">
+                        <button 
+                                className="opacity-70 hover:opacity-100 transition-opacity duration-300 neon-text">
+                        <Image src="/alarm.png" alt="Notifications" width={24} height={24} />
+                        {/* 빨간 점을 hasUnread 상태에 따라 조건부 렌더링 */}
+                        {hasUnread && (
+                            <span className="absolute top-0 right-0 block h-2 w-2 rounded-full ring-2 ring-white bg-red-500"></span>
+                        )}
+                        </button>
+                    </Link>
+                </li>
                 <li className="ml-[10vw] neon-text relative">
                     <Link href="/post" className="opacity-70 hover:opacity-100 transition-opacity duration-300">
                         POSTS
