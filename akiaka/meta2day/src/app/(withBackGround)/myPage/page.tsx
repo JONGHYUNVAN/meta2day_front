@@ -38,6 +38,7 @@ const MyPage: React.FC = () => {
                             <button
                                 className={`block w-60 mx-auto mt-[3vh] mb-[3vh] p-3 text-white rounded-full text-center outline-none transition-all duration-200 ${selectedTab === 'comments' ? 'bg-transparent neon-text-normal border-2 border-[#3498db]' : 'bg-[#212121]'}`}
                                 onClick={() => setSelectedTab('comments')}
+                                translate="no"
                             >
                                 My Comments
                             </button>

@@ -1,4 +1,6 @@
 import CommonLayout from "@/components/commonLayout";
+import Navbar from "@/components/Navbar";
+import React from "react";
 
 const FullLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
@@ -49,6 +51,7 @@ const FullLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
                 <div>
                     <CommonLayout>
+                        <Navbar />
                         {children}
                     </CommonLayout>
                 </div>

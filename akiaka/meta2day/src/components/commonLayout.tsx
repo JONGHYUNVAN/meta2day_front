@@ -5,7 +5,6 @@ import Navbar from "@/components/Navbar";
 const CommonLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
         <ClientSideReduxProvider>
-            <Navbar />
             {children}
         </ClientSideReduxProvider>
     );
