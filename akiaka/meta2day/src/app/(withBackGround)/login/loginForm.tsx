@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import {login} from "@/store/slices/authSlice";
+import {setConnected} from "@/store/slices/sseSlice";
 import {useDispatch} from "react-redux";
 import Swal from 'sweetalert2';
 
@@ -122,6 +123,7 @@ const LoginForm: React.FC = () => {
                 });
                 const previousPath = document.referrer ? new URL(document.referrer).pathname : null;
                 console.log(previousPath, document.referrer);
+                dispatch(setConnected(false))
                 if (previousPath === '/signup' || previousPath === '/login') {
                     router.push('/');
                 } else if (typeof router.back === 'function') {

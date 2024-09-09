@@ -22,12 +22,12 @@ const HomePage: React.FC<HomePageProps> = ({ recommendationType }) => {
     const rotateSpeed = -10;
     const [posts, setPosts] = useState<Post[]>([]);
     const router = useRouter();
-
+    const [recommendation, setRecommendation] = useState<String>('');
     useEffect(() => {
         const fetchPosts = async () => {
             try {
                 const token = localStorage.getItem('token');
-                let response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/recommendations/${recommendationType}?limit=6`, {
+                let response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/recommendations/${recommendationType}?limit=6&order=DESC`, {
                     headers: {
                         Authorization: `${token}`,
                     },
@@ -37,6 +37,7 @@ const HomePage: React.FC<HomePageProps> = ({ recommendationType }) => {
                     ...post,
                     thumbnailURL: `${process.env.NEXT_PUBLIC_CLOUDFRONT_URL}/${post.thumbnailURL}`,
                 }));
+                setRecommendation(response.data.recommendation);
 
                 if (data.length === 0) {
                     response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/posts/?limit=6`);
@@ -89,11 +90,19 @@ const HomePage: React.FC<HomePageProps> = ({ recommendationType }) => {
                         />
                     ))}
                     <p className="text-white absolute top-full left-1/2 transform -translate-x-1/2 neon-text-normal">
-                        Recommend by {recommendationType.replace('_', ' ')}s
+                        {recommendationType === 'daily_view'
+                            ? "Today's most viewed posts"
+                            : (
+                                <>  Recommend for <br/>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    {recommendation}s
+                                </>
+                            )}
                     </p>
                 </div>
                 <div id="home-ground"
-                     className="absolute top-[110%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px]" draggable="false">
+                     className="absolute top-[110%] left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px]"
+                     draggable="false">
                     <Image
                         src={`/homeFloor.webp`}
                         alt={``}

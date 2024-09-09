@@ -6,6 +6,7 @@ import LineChart from "@/components/chart/LineChart";
 import { useRouter } from 'next/navigation';
 import useAuth from '@/hooks/useAuth';
 import Swal from "sweetalert2";
+import useRefreshToken from "@/hooks/useRefreshToken";
 
 interface Comment {
     id: number;
@@ -35,6 +36,7 @@ const CommentForm: React.FC<CommentFormProps> = ({ postId, comments }) => {
     const [rating, setRating] = useState<number>(0);
     const router = useRouter();
     const isLoggedIn = useAuth()
+    const refresh = useRefreshToken();
 
     useEffect(() => {
         window.scrollTo({
@@ -56,8 +58,9 @@ const CommentForm: React.FC<CommentFormProps> = ({ postId, comments }) => {
                 text: '로그인이 필요합니다. 로그인 페이지로 이동합니다.',
                 icon: 'warning',
                 confirmButtonText: '확인',
+            }).then(() => {
+                router.push('/login');
             });
-            router.push('/login');
             return;
         }
 
@@ -107,7 +110,18 @@ const CommentForm: React.FC<CommentFormProps> = ({ postId, comments }) => {
                     icon: 'error',
                     confirmButtonText: '확인',
                 });
-            } else {
+            }
+            else if(error.response && error.response.status === 401){
+                await refresh();
+                Swal.fire({
+                    title: 'Token Refreshed',
+                    text: '토큰이 갱신되었습니다. 다시 시도해 주세요.',
+                    icon: 'info',
+                    confirmButtonText: '확인'
+                });
+                return;
+            }
+            else {
                 console.error('Error creating comment:', error);
                 Swal.fire({
                     title: 'Error',
