@@ -6,44 +6,40 @@ const FullLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
         <html>
             <body>
-                <div className="absolute left-[20vw] w-[60vw] h-[100vh]">
+                <div className="absolute left-[25vw] w-[50vw] h-[100vh]">
                     <video
-                        className=" w-[60vw] h-[100vh] object-cover"
+                        className=" w-[50vw] h-[100vh] object-cover"
                         autoPlay
-                        loop
                         muted
                         playsInline
                         poster="/back_poster.webp "
                     >
-                        <source src="/back_820.webm" type="video/webm" media="(min-width: 768px)"/>
-                        <source src="/back_220.webm" type="video/webm" media="(max-width: 767px)"/>
+                        <source src="/bg_movie.webm" type="video/webm"/>
                         Your browser does not support the video tag.
                     </video>
                 </div>
 
                 <div className="hidden lg:block bg-transparent">
-                    <div className="absolute w-[25vw] h-[100vh] overflow-hidden animate-reveal-left">
+                    <div className="absolute w-[40vw] h-[100vh] overflow-hidden animate-reveal-left">
                         <video
-                            className=" w-[50vw] h-[100vh] object-cover"
+                            className=" w-[40vw] h-[100vh] object-cover"
                             autoPlay
-                            loop
                             muted
                             playsInline
                         >
-                            <source src="/side.webm" type="video/webm"/>
+                            <source src="/bg_music.webm" type="video/webm"/>
                             Your browser does not support the video tag.
                         </video>
                     </div>
 
-                    <div className="absolute right-0 w-[25vw] h-[100vh] overflow-hidden  animate-reveal-right">
+                    <div className="absolute right-0 w-[40vw] h-[100vh] overflow-hidden animate-reveal-right">
                         <video
-                            className="w-[60vw] h-[100vh] object-cover"
+                            className="w-[40vw] h-[100vh] object-cover"
                             autoPlay
-                            loop
                             muted
                             playsInline
                         >
-                            <source src="/side.webm" type="video/webm"/>
+                            <source src="/bg_book.webm" type="video/webm"/>
                             Your browser does not support the video tag.
                         </video>
                     </div>
