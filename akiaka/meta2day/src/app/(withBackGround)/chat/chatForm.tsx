@@ -26,8 +26,8 @@ export default function ChatForm() {
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [redTeam, setRedTeam] = useState<string[]>([]);
     const [blueTeam, setBlueTeam] = useState<string[]>([]);
-    const [redTeamTopic, setRedTeamTopic] = useState<string | null>(null);  // Red 팀 주제
-    const [blueTeamTopic, setBlueTeamTopic] = useState<string | null>(null);  // Blue 팀 주제
+    const [redTeamTopic, setRedTeamTopic] = useState<string | null>(null);
+    const [blueTeamTopic, setBlueTeamTopic] = useState<string | null>(null);
     const [roomName, setRoomName] = useState<string | null>('waiting');
     const [userTeam, setUserTeam] = useState<'red' | 'blue' | null>(null);
     const { isLoggedIn, user } = useAuth();
@@ -36,8 +36,23 @@ export default function ChatForm() {
     const refresh = useRefreshToken();
     const inputRef = useRef<HTMLInputElement>(null);
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
+    const playTTS = async (text: string, characterId: number) => {
+        try {
+            const response = await fetch('/api/tts', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text, characterId }),
+            });
+            const data = await response.json();
+            const audioContent = data.audioContent;
+
+            const audio = new Audio(`data:audio/mp3;base64,${audioContent}`);
+            audio.play();
+        } catch (error) {
+            console.error('Failed to play TTS', error);
+        }
+    };
 
     useEffect(() => {
         const fetchUserCharacter = async () => {
@@ -123,23 +138,29 @@ export default function ChatForm() {
     useEffect(() => {
         const handleConnect = () => setIsConnected(true);
         const handleDisconnect = () => setIsConnected(false);
-        const handleMessage = (message: ChatMessage) => setMessages((prev) => [...prev, message]);
+        const handleMessage = (message: ChatMessage) => {
+            setMessages((prev) => [...prev, message]);
+            if (message.from !== 'System') {
+                playTTS(message.text, message.characterId);
+            }
+        };
         const handleTeamUpdate = (teams: { redTeam: string[], blueTeam: string[] }) => {
             setRedTeam(teams.redTeam);
             setBlueTeam(teams.blueTeam);
         };
-
         const handleRoomInfoUpdated = (data: { roomName: string; redTeamTopic: string; blueTeamTopic: string }) => {
             setRoomName(data.roomName);
             setRedTeamTopic(data.redTeamTopic);
             setBlueTeamTopic(data.blueTeamTopic);
         };
 
+
+
         socket.on("connect", handleConnect);
         socket.on("disconnect", handleDisconnect);
         socket.on("message", handleMessage);
         socket.on("updateTeamMembers", handleTeamUpdate);
-        socket.on("roomInfoUpdated", handleRoomInfoUpdated);  // 방 정보 업데이트 시 처리
+        socket.on("roomInfoUpdated", handleRoomInfoUpdated);
 
         return () => {
             socket.off("connect", handleConnect);
@@ -226,7 +247,7 @@ export default function ChatForm() {
             >
                 <div className="bg-red-800 rounded-t-lg p-4 flex-shrink-0">
                     <h2 className="text-white font-semibold text-center">Red Team</h2>
-                    <p className="text-white text-center">{redTeamTopic || "No Topic"}</p>  {/* Red 팀 주제 */}
+                    <p className="text-white text-center">{redTeamTopic || "No Topic"}</p>
                 </div>
 
                 <div className="bg-red-600 flex-grow p-4 overflow-y-auto rounded-b-lg">
@@ -256,7 +277,7 @@ export default function ChatForm() {
                         </div>
                     </div>
                     <div className="text-white">
-                        {roomName ? <p className="font-bold">{roomName}</p> : null}  {/* 방 이름 표시 */}
+                        {roomName ? <p className="font-bold">{roomName}</p> : null}
                     </div>
                     <div className="text-white">
                         {isConnected ? 'Online' : 'Offline'}
@@ -346,7 +367,7 @@ export default function ChatForm() {
                  onClick={() => handleTeamChange('blue')}>
                 <div className="bg-blue-800 rounded-t-lg p-4 flex-shrink-0">
                     <h2 className="text-white font-semibold text-center">Blue Team</h2>
-                    <p className="text-white text-center">{blueTeamTopic || "No Topic"}</p>  {/* Blue 팀 주제 */}
+                    <p className="text-white text-center">{blueTeamTopic || "No Topic"}</p>
                 </div>
                 <div className="bg-blue-600 flex-grow p-4 overflow-y-auto rounded-b-lg">
                     {blueTeam.length > 0 ? blueTeam.map((member, index) => (
