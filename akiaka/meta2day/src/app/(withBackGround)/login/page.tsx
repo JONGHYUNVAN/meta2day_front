@@ -1,7 +1,7 @@
 import LoginForm from "@/app/(withBackGround)/login/loginForm";
 
 export const metadata = {
-    title: 'Login | Access Your Account',
+    title: 'Meta2day: login',
     description: 'Log in to your account to access exclusive content, manage your profile, and more. Secure and easy login process.',
     keywords: ['login', 'account access', 'user login', 'secure login'],
 };

@@ -1,7 +1,7 @@
 import ChatForm from './chatForm';
 
 export const metadata = {
-    title: 'Chat Page',
+    title: 'Meta2day: Chat',
     description: 'This is the chat page for real-time conversations',
     keywords: ['chat', 'real-time', 'conversation'],
 };
