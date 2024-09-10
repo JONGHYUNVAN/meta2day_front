@@ -93,9 +93,8 @@ const HomePage: React.FC<HomePageProps> = ({ recommendationType }) => {
                         {recommendationType === 'daily_view'
                             ? "Today's most viewed posts"
                             : (
-                                <>  Recommend for <br/>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    {recommendation}s
+                                <>
+                                    {recommendation}s&apos; Meta
                                 </>
                             )}
                     </p>
