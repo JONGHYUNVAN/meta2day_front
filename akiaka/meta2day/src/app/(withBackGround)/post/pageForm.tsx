@@ -113,7 +113,7 @@ const PostForm: React.FC = () => {
     }
 
 
-    const handleSort = (field: string | null, order: string = 'ASC') => {
+    const handleSort = (field: string | null, order: string = 'DESC') => {
         setField(field);
         setOrder(order);
         setPage(1);
@@ -152,7 +152,7 @@ const PostForm: React.FC = () => {
             <div className="h-auto p-2 bg-transparent overflow-auto text-sm">
                 <div className="flex justify-end mb-[2vh] space-x-4 mr-10">
                     <button
-                        onClick={() => handleSort(null)}
+                        onClick={() => handleSort(null,'DESC')}
                         className={getButtonClassName(null)}
                     >
                         Latest
