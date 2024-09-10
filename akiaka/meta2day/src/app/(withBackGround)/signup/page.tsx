@@ -1,7 +1,7 @@
 import SignupForm from './signupForm';
 
 export const metadata = {
-    title: 'Signup Page',
+    title: 'Meta2day: Signup',
     description: 'Create a new account on our platform quickly and easily.',
     keywords: ['signup', 'register', 'create account', 'new user'],
 };

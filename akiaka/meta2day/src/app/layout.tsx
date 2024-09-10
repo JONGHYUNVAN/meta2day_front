@@ -5,18 +5,21 @@ import CommonLayout from "@/components/commonLayout";
 import Sse from "@/components/SSE";
 
 export const metadata: Metadata = {
-    title: "Meta2day"
+    title: "Meta2day",
+    icons: {
+        icon: "/favicon.ico",
+    },
 };
 
 const RootLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
     return (
         <html lang="en">
-            <body>
-                <CommonLayout>
-                    {children}
-                    <Sse />
-                </CommonLayout>
-            </body>
+        <body>
+        <CommonLayout>
+            {children}
+            <Sse/>
+        </CommonLayout>
+        </body>
         </html>
     );
 };
