@@ -167,7 +167,7 @@ const PostForm: React.FC = () => {
                         onClick={() => handleSort('averageRating', 'DESC')}
                         className={getButtonClassName('averageRating')}
                     >
-                       Ratings
+                        Ratings
                     </button>
                 </div>
                 <div className={`${limit === 2 ? 'space-y-[5vh] mt-[2vh]' : 'space-y-[2vh] mt-[1vh]'}`}>
