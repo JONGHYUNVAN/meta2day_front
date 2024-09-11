@@ -122,19 +122,26 @@ const ViewPostForm: React.FC<ViewPostFormProps> = ({ data, id }) => {
     return (
         <div className="p-4 bg-transparent text-white shadow-md rounded-md relative">
             <h2 className="mt-[10vh] mb-6 text-7xl font-bold text-center z-20 relative Do-Hyeon">{title}</h2>
-            <div className="relative mb-4 w-auto h-[80vh]" style={{
-                backgroundImage: `url(${process.env.NEXT_PUBLIC_CLOUDFRONT_URL}/${backGroundImgURL})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center'
-            }}>
+
+            <div className="relative mb-4 w-[100vw] h-[80vh]">
+                <Image
+                    src={`${process.env.NEXT_PUBLIC_CLOUDFRONT_URL}/${backGroundImgURL}`}
+                    alt="Background"
+                    layout="fill"
+                    objectFit="cover"
+                    objectPosition="center"
+                    priority
+                    className="z-0"
+                />
                 {youtubeURL && (
-                    <div className="mb-4 flex justify-center w-full">
+                    <div className="mb-4 flex justify-center w-full z-10">
                         <div className="mt-[10vh] w-full z-50 justify-items-center">
                             <YouTubeEmbed videoId={new URL(youtubeURL).searchParams.get('v')} />
                         </div>
                     </div>
                 )}
             </div>
+
             <div className="text-sm text-gray-500 text-center">{`생성: ${createdAt}`}</div>
             <div className="text-sm text-gray-500 text-center">{`최종 수정: ${updatedAt}`}</div>
             <div className="text-center text-gray-500">카테고리: {category.name}</div>
