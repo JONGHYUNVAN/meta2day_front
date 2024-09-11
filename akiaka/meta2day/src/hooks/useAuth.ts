@@ -10,7 +10,7 @@ const useAuth = () => {
 
     const handleLogout = () => {
         dispatch(logout());
-        await Swal.fire({
+        Swal.fire({
             title: 'Logout Success! See you again!',
             text: '로그아웃 되었습니다. 다음에 또 만나요!',
             icon: 'success',
