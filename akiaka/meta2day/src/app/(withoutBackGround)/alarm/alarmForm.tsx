@@ -3,12 +3,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { useDispatch } from 'react-redux';
+import { setUnreadStatus } from '@/store/slices/notificationSlice';
 import useAuth from '@/hooks/useAuth';
 
 interface Alarm {
     id: number;
     type: string;
-    postTitle: string; 
+    postTitle: string;
     postId?: number;
     isRead: boolean;
     sendCheck: boolean;
@@ -17,54 +19,77 @@ interface Alarm {
 
 const AlarmForm: React.FC = () => {
     const [notifications, setNotifications] = useState<Alarm[]>([]);
+    const [selectedNotifications, setSelectedNotifications] = useState<number[]>([]); // 체크된 알림 ID 저장
     const { user } = useAuth();
     const router = useRouter();
-    // 서버로부터 알람 목록을 가져오는 함수
+    const dispatch = useDispatch();
+
     useEffect(() => {
         const fetchNotifications = async () => {
             try {
                 const token = localStorage.getItem('token');
                 const nickname = user?.nickname;
-                if (!nickname || !token) return; // nickname이나 token이 없을 경우 early return
+                if (!nickname || !token) return;
 
                 const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/alarm/user/${nickname}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-                console.log(response.data); 
-                setNotifications(response.data); // 가져온 데이터를 상태에 저장
+
+                setNotifications(response.data);
+
+                const unreadExists = response.data.some((notification: Alarm) => !notification.isRead);
+                dispatch(setUnreadStatus(unreadExists));
             } catch (error) {
-                console.error("Failed to fetch notifications", error);
+                console.error('Failed to fetch notifications', error);
             }
         };
 
-        fetchNotifications(); // 컴포넌트가 마운트될 때 알람을 가져옴
-    }, [user]);
-    // 게시물로 이동하는 함수
-    const goToPost = (postId?: number) => {
-        if (postId) {
-            router.push(`/post/${postId}`); // postId를 이용해 해당 게시물로 이동
-        } else {
-            console.error("Post ID is missing.");
-        }
+        fetchNotifications();
+    }, [user, dispatch]);
+
+    // 알림 선택 시 처리
+    const toggleSelection = (id: number) => {
+        setSelectedNotifications((prevSelected) => 
+            prevSelected.includes(id) 
+                ? prevSelected.filter((selectedId) => selectedId !== id)
+                : [...prevSelected, id]
+        );
     };
-    // 알림을 삭제하는 함수
-    const deleteNotification = async (id: number) => {
+
+    // 선택된 알림 읽음 처리 함수
+    const markSelectedAsRead = async () => {
+        const token = localStorage.getItem('token');
+        if (!token) return;
+
         try {
-            const token = localStorage.getItem('token');
-            if (!token) return;
+            await Promise.all(
+                selectedNotifications.map(async (id) => {
+                    await axios.patch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/alarm/${id}`, {
+                        isRead: true,
+                    }, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+                })
+            );
 
-            await axios.delete(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/alarm/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
+            // 상태 업데이트
+            setNotifications((prev) =>
+                prev.map((notification) =>
+                    selectedNotifications.includes(notification.id)
+                        ? { ...notification, isRead: true }
+                        : notification
+                )
+            );
 
-            // 삭제 후 상태에서 해당 알림 제거
-            setNotifications((prev) => prev.filter((notification) => notification.id !== id));
+            setSelectedNotifications([]); // 선택 초기화
+            const unreadExists = notifications.some(notification => !notification.isRead);
+            dispatch(setUnreadStatus(unreadExists));
         } catch (error) {
-            console.error("Failed to delete notification", error);
+            console.error('Failed to mark notifications as read', error);
         }
     };
 
@@ -81,40 +106,14 @@ const AlarmForm: React.FC = () => {
                 },
             });
 
-            // 삭제 후 상태를 빈 배열로 설정하여 모든 알림을 제거
-            setNotifications([]);
+            setNotifications([]); // 전체 알림 삭제 후 알림 목록 초기화
         } catch (error) {
-            console.error("Failed to delete all notifications", error);
+            console.error('Failed to delete all notifications', error);
         }
     };
 
-    // 알림을 읽음 처리하는 함수
-    const markAsRead = async (id: number) => {
-        try {
-            const token = localStorage.getItem('token');
-            if (!token) return;
-
-            await axios.patch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/alarm/${id}`, {
-                isRead: true,
-            }, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            // 읽음 처리 후 상태 업데이트
-            setNotifications((prev) =>
-                prev.map((notification) =>
-                    notification.id === id ? { ...notification, isRead: true } : notification
-                )
-            );
-        } catch (error) {
-            console.error("Failed to mark notification as read", error);
-        }
-    };
-    
     const formatDate = (dateString: string) => {
-        if (!dateString) return 'Invalid date';  // null 또는 빈 값 처리
+        if (!dateString) return 'Invalid date';
         const options: Intl.DateTimeFormatOptions = {
             year: 'numeric',
             month: '2-digit',
@@ -122,10 +121,10 @@ const AlarmForm: React.FC = () => {
             hour: '2-digit',
             minute: '2-digit',
         };
-        const date = new Date(dateString);  // ISO 8601 형식이어야 정상적으로 변환됨
+        const date = new Date(dateString);
         return isNaN(date.getTime()) ? 'Invalid date' : date.toLocaleString('ko-KR', options);
     };
-    
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-transparent">
             <div className="relative mt-32 max-w-6xl w-full font-serif opacity-80 hover:opacity-90 transition-opacity duration-200 shadow-md rounded-lg">
@@ -136,7 +135,7 @@ const AlarmForm: React.FC = () => {
                         <span className="w-3 h-3 bg-green-500 rounded-full neon-effect-green"></span>
                     </div>
                 </div>
-                
+
                 <div className="content-container mt-12 bg-[#191919] p-4 rounded-b-lg h-[calc(100%-64px)] overflow-y-auto">
                     <h1 className="text-2xl font-bold mb-6 text-white">알림 목록</h1>
                     {notifications.length > 0 ? (
@@ -144,32 +143,37 @@ const AlarmForm: React.FC = () => {
                             {notifications.map((notification) => (
                                 <div 
                                 key={notification.id} 
-                                className="bg-white shadow-md p-3 mb-2 rounded-md cursor-pointer"  // cursor-pointer로 클릭 가능 시각적 효과 추가
-                                onClick={() => goToPost(notification.postId)} 
+                                className={`flex items-center bg-white shadow-md p-3 mb-2 rounded-md cursor-pointer ${notification.isRead ? 'bg-gray-100' : 'bg-white'}`} 
                                 >
-                                    {/* 타입에 따라 다른 메시지 표시 */}
-                                    {notification.type === 'comment' ? (
-                                        <p className="text-black">{notification.postTitle}에 새로운 댓글이 달렸습니다!</p>
-                                    ) : (
-                                        <p className="text-black">알림 타입: {notification.type}</p>
-                                    )}
-                                    <p>{formatDate(notification.createdAt)}</p>
-                                    {/* 읽음 처리 버튼 */}
-                                    <button
-                                        onClick={() => markAsRead(notification.id)}
-                                        className={`text-white px-4 py-2 mr-2 rounded ${notification.isRead ? 'bg-gray-400 cursor-not-allowed' : 'bg-green-500 hover:bg-green-700'}`}
-                                        disabled={notification.isRead} // 이미 읽은 알림은 버튼 비활성화
-                                    >
-                                        {notification.isRead ? '읽음 처리됨' : '읽음 처리'}
-                                    </button>
-                                    <button
-                                        onClick={() => deleteNotification(notification.id)}
-                                        className="text-white bg-red-500 hover:bg-red-700 px-4 py-2 rounded"
-                                    >
-                                        삭제
-                                    </button>
+                                    {/* 체크박스 추가 */}
+                                    <input 
+                                        type="checkbox" 
+                                        className="mr-4"
+                                        checked={selectedNotifications.includes(notification.id)}
+                                        onChange={() => toggleSelection(notification.id)}
+                                    />
+
+                                    <div className="flex-1" onClick={() => router.push(`/post/${notification.postId}`)}>
+                                        {/* 알림 메시지 */}
+                                        {notification.type === 'comment' ? (
+                                            <p className="text-black">{notification.postTitle}에 새로운 댓글이 달렸습니다!</p>
+                                        ) : (
+                                            <p className="text-black">알림 타입: {notification.type}</p>
+                                        )}
+                                        <p>{formatDate(notification.createdAt)}</p>
+                                    </div>
                                 </div>
                             ))}
+
+                            {/* 선택된 알림 읽음 처리 버튼 */}
+                            {selectedNotifications.length > 0 && (
+                                <button
+                                    onClick={markSelectedAsRead}
+                                    className="text-white bg-green-500 hover:bg-green-700 px-4 py-2 rounded mt-4"
+                                >
+                                    선택된 알림 읽음 처리
+                                </button>
+                            )}
 
                             {/* 전체 삭제 버튼 추가 */}
                             <button
