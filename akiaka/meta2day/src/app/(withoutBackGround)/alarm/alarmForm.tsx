@@ -12,6 +12,7 @@ interface Alarm {
     postId?: number;
     isRead: boolean;
     sendCheck: boolean;
+    createdAt: string;
 }
 
 const AlarmForm: React.FC = () => {
@@ -111,7 +112,20 @@ const AlarmForm: React.FC = () => {
             console.error("Failed to mark notification as read", error);
         }
     };
-
+    
+    const formatDate = (dateString: string) => {
+        if (!dateString) return 'Invalid date';  // null 또는 빈 값 처리
+        const options: Intl.DateTimeFormatOptions = {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+        };
+        const date = new Date(dateString);  // ISO 8601 형식이어야 정상적으로 변환됨
+        return isNaN(date.getTime()) ? 'Invalid date' : date.toLocaleString('ko-KR', options);
+    };
+    
     return (
         <div className="min-h-screen flex items-center justify-center bg-transparent">
             <div className="relative mt-32 max-w-6xl w-full font-serif opacity-80 hover:opacity-90 transition-opacity duration-200 shadow-md rounded-lg">
@@ -139,7 +153,7 @@ const AlarmForm: React.FC = () => {
                                     ) : (
                                         <p className="text-black">알림 타입: {notification.type}</p>
                                     )}
-
+                                    <p>{formatDate(notification.createdAt)}</p>
                                     {/* 읽음 처리 버튼 */}
                                     <button
                                         onClick={() => markAsRead(notification.id)}
