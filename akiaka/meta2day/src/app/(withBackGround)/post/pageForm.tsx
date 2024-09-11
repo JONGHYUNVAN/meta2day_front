@@ -30,7 +30,7 @@ const PostForm: React.FC = () => {
     const [limit, setLimit] = useState<number>(0);
     const [totalPages, setTotalPages] = useState<number>(1);
     const [field, setField] = useState<string | null>(null);
-    const [order, setOrder] = useState<string>('ASC');
+    const [order, setOrder] = useState<string>('DESC');
     const cardRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
 
