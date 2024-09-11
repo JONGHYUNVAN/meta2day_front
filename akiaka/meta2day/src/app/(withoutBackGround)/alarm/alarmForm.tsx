@@ -3,12 +3,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import useAuth from '@/hooks/useAuth';
-import { useRouter } from 'next/router';
+
 interface Alarm {
     id: number;
     type: string;
-    postTitle: string;
-    postId?: number;
+    postTitle: string; // postId 대신 postTitle 사용
     isRead: boolean;
     sendCheck: boolean;
 }
@@ -16,7 +15,7 @@ interface Alarm {
 const AlarmForm: React.FC = () => {
     const [notifications, setNotifications] = useState<Alarm[]>([]);
     const { user } = useAuth();
-    const router = useRouter();
+
     // 서버로부터 알람 목록을 가져오는 함수
     useEffect(() => {
         const fetchNotifications = async () => {
@@ -39,14 +38,6 @@ const AlarmForm: React.FC = () => {
 
         fetchNotifications(); // 컴포넌트가 마운트될 때 알람을 가져옴
     }, [user]);
-    // 게시물로 이동하는 함수
-    const goToPost = (postId?: number) => {
-        if (postId) {
-            router.push(`http://localhost:3001/api/posts/${postId}`);
-        } else {
-            console.error("Post ID is missing.");
-        }
-    };
 
     // 알림을 삭제하는 함수
     const deleteNotification = async (id: number) => {
@@ -128,13 +119,7 @@ const AlarmForm: React.FC = () => {
                     {notifications.length > 0 ? (
                         <>
                             {notifications.map((notification) => (
-                                
-
-                                <div 
-                                    key={notification.id} 
-                                    className="bg-white shadow-md p-3 mb-2 rounded-md"
-                                    onClick={() => goToPost(notification.postId)}
-                                >
+                                <div key={notification.id} className="bg-white shadow-md p-3 mb-2 rounded-md">
                                     {/* 타입에 따라 다른 메시지 표시 */}
                                     {notification.type === 'comment' ? (
                                         <p className="text-black">{notification.postTitle}에 새로운 댓글이 달렸습니다!</p>
