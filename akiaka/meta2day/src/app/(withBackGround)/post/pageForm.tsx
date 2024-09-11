@@ -152,8 +152,8 @@ const PostForm: React.FC = () => {
             <div className="h-auto p-2 bg-transparent overflow-auto text-sm">
                 <div className="flex justify-end mb-[2vh] space-x-4 mr-10">
                     <button
-                        onClick={() => handleSort(null,'DESC')}
-                        className={getButtonClassName(null)}
+                        onClick={() => handleSort('createdAt','DESC')}
+                        className={getButtonClassName('createdAt')}
                     >
                         Latest
                     </button>
