@@ -42,8 +42,9 @@ const HomeButtons: React.FC<HomeButtonsProps> = ({ recommendationType, setRecomm
                 onClick={() => handleButtonClick('interest')}
                 className={`px-4 py-2 mx-2 transition-opacity duration-300 ${recommendationType === 'interest' ? 'neon-text-normal' : 'neon-text'} ${!isLoggedIn ? 'z-[-1] opacity-0' : 'z-10 opacity-100'}`}
                 disabled={!isLoggedIn}
+                translate="no"
             >
-                Interesting
+                Interest
             </button>
         </div>
     );

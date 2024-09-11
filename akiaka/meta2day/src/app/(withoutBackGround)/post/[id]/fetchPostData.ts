@@ -27,6 +27,7 @@ interface Comment {
 export interface PostData {
     id: number;
     title: string;
+    preview: string;
     content: string;
     createdAt: string;
     updatedAt: string;

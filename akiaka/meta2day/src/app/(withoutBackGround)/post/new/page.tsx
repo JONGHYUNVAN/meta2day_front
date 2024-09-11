@@ -73,7 +73,6 @@ const CreatePost: React.FC = () => {
             const uploadedUrl = await backGroundImgRef.current.uploadFileToS3();
             if (uploadedUrl) {
                 setBackGroundImgURL(uploadedUrl);
-                setThumbnailURL(uploadedUrl);
                 Swal.fire({
                     title: 'Background Image upload Complete!',
                     text: `업로드된 URL: ${uploadedUrl}`,

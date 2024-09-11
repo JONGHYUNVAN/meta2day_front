@@ -28,9 +28,9 @@ const Navbar: React.FC = () => {
     }, [dispatch]);
 
     return (
-        <nav className="fixed top-1 w-full h-[8vh] max-h-[80px] bg-gray-200 shadow-md z-50 text-xl metallic-navbar opacity-80 hover:opacity-90 transition-opacity duration-100">
+        <nav className="z-50 fixed top-1 w-full h-[8vh] max-h-[80px] bg-gray-200 shadow-md text-xl metallic-navbar opacity-80 hover:opacity-90 transition-opacity duration-100">
             <ul className="flex justify-between items-center h-full text-black font-handwriting">
-                <li className="absolute top-[3.1vh] left-1/2 opacity-80 transform -translate-x-1/2 -translate-y-1/2 z-50 neon-image">
+                <li className="absolute top-[4.5vh] left-1/2 opacity-80 transform -translate-x-1/2 -translate-y-1/2 z-50 neon-image">
                     <Link href="/home">
                         <Image src="/logo.webp" alt="logo" width={100} height={100} className="opacity-90 hover:opacity-100 transition-opacity duration-300" />
                     </Link>
@@ -53,7 +53,7 @@ const Navbar: React.FC = () => {
                     <Link href="/post" className="opacity-70 hover:opacity-100 transition-opacity duration-300">
                         POSTS
                     </Link>
-                    {isAdmin && (
+                    {isAdmin ? (
                         <div className="relative inline-block ml-[10vw]">
                             <button
                                 onClick={toggleDropdown}
@@ -70,11 +70,18 @@ const Navbar: React.FC = () => {
                                     <Link href="/post/new" className="link-underline">NEW POST</Link>
                                 </li>
                                 <li className="p-2  text-center rounded-none metallic-navbar-dropdown">
-                                    <Link href="/settings" className="link-underline">Settings</Link>
+                                    <Link href="/chat" className="link-underline">New Chat</Link>
                                 </li>
                             </ul>
                         </div>
-                    )}
+                    ):(
+                        <Link href="/chat"
+                              className="opacity-70 ml-[10vw] hover:opacity-100 transition-opacity duration-300">
+                            CHAT
+                        </Link>
+                    )
+
+                }
                 </li>
 
                 <div className="flex items-center space-x-[10vw] mr-[10vw] neon-text">
