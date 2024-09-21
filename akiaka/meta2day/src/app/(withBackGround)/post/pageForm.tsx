@@ -5,6 +5,7 @@ import axios from 'axios';
 import Image from 'next/image';
 import LineChart from "@/components/chart/LineChart";
 import { useRouter } from 'next/navigation';
+import { SearchOutlined } from '@ant-design/icons';
 
 export interface Post {
     id: number;
@@ -31,6 +32,8 @@ const PostForm: React.FC = () => {
     const [totalPages, setTotalPages] = useState<number>(1);
     const [field, setField] = useState<string | null>(null);
     const [order, setOrder] = useState<string>('DESC');
+    const [searchTerm, setSearchTerm] = useState<string>('');
+    const [title, setTitle] = useState<string | null>(null);
     const cardRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
 
@@ -65,8 +68,11 @@ const PostForm: React.FC = () => {
                     params.field = field;
                     params.order = order;
                 }
+                if(title) params.title = title;
 
-                const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/posts/`, { params });
+                let response;
+                if (title) response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/posts/search`, { params });
+                else response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/posts/`, { params });
 
                 const updatedPosts = response.data.data.map((post: any) => ({
                     ...post,
@@ -83,7 +89,7 @@ const PostForm: React.FC = () => {
         };
 
         fetchData();
-    }, [page, limit, field, order]);
+    }, [page, limit, field, order, title]);
 
     const handleClick = () => {
         const colors = [0xDAA520, 0x800000];
@@ -112,6 +118,10 @@ const PostForm: React.FC = () => {
         return `rgba(${r}, ${g}, ${b}, 1)`;
     }
 
+    const handleSearch = (title: string | null) => {
+        setTitle(title);
+        setPage(1);
+    };
 
     const handleSort = (field: string | null, order: string = 'DESC') => {
         setField(field);
@@ -150,9 +160,28 @@ const PostForm: React.FC = () => {
              onClick={handleClick}
         >
             <div className="h-auto p-2 bg-transparent overflow-auto text-sm">
+                <div className="relative flex items-center justify-center opacity-70 hover:opacity-95">
+                    <form
+                        name="search"
+                        onSubmit={(e) => {
+                            e.preventDefault();
+                            handleSearch(searchTerm);
+                        }}
+                        className="relative"
+                    >
+                        <input
+                            type="text"
+                            className="input w-12 h-12 bg-transparent border-4 rounded-full neon-text-hover border-x-amber-200 border-y-amber-50 text-xl text-center outline-none transition-all hover:w-[25vw] hover:bg-gray-700 hover:rounded-lg"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                        <SearchOutlined className="absolute top-1/2 right-6 transform translate-x-1/2 -translate-y-1/2 text-amber-100 text-3xl transition-all duration-300 ease-in-out hover:opacity-0 pointer-events-none"/>
+                    </form>
+                </div>
+
                 <div className="flex justify-end mb-[2vh] space-x-4 mr-10">
                     <button
-                        onClick={() => handleSort('createdAt','DESC')}
+                        onClick={() => handleSort('createdAt', 'DESC')}
                         className={getButtonClassName('createdAt')}
                     >
                         Latest
@@ -175,7 +204,7 @@ const PostForm: React.FC = () => {
                         <div
                             key={post.id}
                             className={`bg-transparent overflow-hidden shadow-md rounded-xl mb-[1vh] flex border-8 border-gray-300 border-t-[#2A2B2F] border-l-[#2A2B2F] border-b-[#141517] border-r-[#141517] opacity-80 hover:opacity-100 transition-opacity duration-200 ${
-                                limit === 2 ? 'h-[33vh]' : 'h-[25vh]'
+                                limit === 2 ? 'h-[32vh]' : 'h-[23vh]'
                             }`}
                             onClick={() => router.push(`/post/${post.id}`)}
                         >
@@ -184,18 +213,21 @@ const PostForm: React.FC = () => {
                                     <h3 className={`text-orange-400 font-sans ${limit === 2 ? 'ml-5 text-xl' : 'ml-3 text-lg'}`}>
                                         {post.title}
                                     </h3>
-                                    <span className={`text-yellow-300 ${limit === 2 ? 'text-sm mr-10' : 'text-xs mr-5'}`}>
+                                    <span
+                                        className={`text-yellow-300 ${limit === 2 ? 'text-sm mr-10' : 'text-xs mr-5'}`}>
                         {post.views} views
                     </span>
                                 </div>
 
-                                <p className={`text-gray-300 mb-[1vh] white-space-pre-line overflow-hidden text-xl`} >
+                                <p className={`text-gray-300 mb-[1vh] white-space-pre-line overflow-hidden text-xl`}>
                                     {post.preview} ...
                                 </p>
 
-                                <div className={`flex justify-between items-center text-sky-500 ${limit === 2 ? 'text-sm' : 'text-xs'} mb-[1vh] ml-${limit === 2 ? '10' : '5'} mr-${limit === 2 ? '10' : '5'}`}>
+                                <div
+                                    className={`flex justify-between items-center text-sky-500 ${limit === 2 ? 'text-sm' : 'text-xs'} mb-[1vh] ml-${limit === 2 ? '10' : '5'} mr-${limit === 2 ? '10' : '5'}`}>
                                     <span>{post.createdAt.substring(0, 20)}</span>
-                                    <span className="neon-text-normal text-2xl">{renderStars(post.averageRating)}</span>
+                                    <span
+                                        className="neon-text-normal text-2xl">{renderStars(post.averageRating)}</span>
                                     <span>{post.updatedAt.substring(0, 20)}</span>
                                 </div>
 
@@ -212,7 +244,8 @@ const PostForm: React.FC = () => {
                                     ]}
                                 />
                             </div>
-                            <div className={`w-auto top-1/2 ${limit === 2 ? 'h-fit max-h-[30vh]' : 'h-fit max-h-[23vh]'}`}>
+                            <div
+                                className={`w-auto top-1/2 ${limit === 2 ? 'h-fit max-h-[30vh]' : 'h-fit max-h-[23vh]'}`}>
                                 <Image
                                     src={post.thumbnailURL}
                                     alt={post.title}
