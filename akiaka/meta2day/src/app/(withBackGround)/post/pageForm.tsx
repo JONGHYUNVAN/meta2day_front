@@ -199,12 +199,12 @@ const PostForm: React.FC = () => {
                         Ratings
                     </button>
                 </div>
-                <div className={`${limit === 2 ? 'space-y-[5vh] mt-[2vh]' : 'space-y-[1.5vh] mt-[0.5vh]'}`}>
+                <div className={`${limit === 2 ? 'space-y-[5vh] mt-[2vh]' : 'space-y-[1vh] mt-[0.5vh]'}`}>
                     {posts.map((post) => (
                         <div
                             key={post.id}
                             className={`bg-transparent overflow-hidden shadow-md rounded-xl mb-[1vh] flex border-8 border-gray-300 border-t-[#2A2B2F] border-l-[#2A2B2F] border-b-[#141517] border-r-[#141517] opacity-80 hover:opacity-100 transition-opacity duration-200 ${
-                                limit === 2 ? 'h-[32vh]' : 'h-[23vh]'
+                                limit === 2 ? 'h-[33vh]' : 'h-[23vh]'
                             }`}
                             onClick={() => router.push(`/post/${post.id}`)}
                         >
@@ -224,7 +224,7 @@ const PostForm: React.FC = () => {
                                 </p>
 
                                 <div
-                                    className={`flex justify-between items-center text-sky-500 ${limit === 2 ? 'text-sm' : 'text-xs'} mb-[1vh] ml-${limit === 2 ? '10' : '5'} mr-${limit === 2 ? '10' : '5'}`}>
+                                    className={`flex justify-between items-center text-sky-500 ${limit === 2 ? 'text-sm' : 'text-xs'} mb-[0.5vh] ml-${limit === 2 ? '10' : '5'} mr-${limit === 2 ? '10' : '5'}`}>
                                     <span>{post.createdAt.substring(0, 20)}</span>
                                     <span
                                         className="neon-text-normal text-2xl">{renderStars(post.averageRating)}</span>
