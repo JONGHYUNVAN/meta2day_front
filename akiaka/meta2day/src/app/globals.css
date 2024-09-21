@@ -93,6 +93,20 @@ body {
             0 0 80px #ff8c00, /* 다크오렌지색 */
             0 0 100px #ff4500; /* 오렌지레드색 */
 }
+.neon-text-hover {
+    color: transparent; /* 기본 상태에서 텍스트 숨기기 */
+    transition: 0.3s ease-in-out; /* 부드러운 전환 효과 */
+}
+
+.neon-text-hover:hover {
+    color: #ffffff; /* 호버 시 텍스트 색상 설정 */
+    text-shadow:
+            0 0 5px #ffae42,
+            0 0 10px #ffae42,
+            0 0 40px #ffd700,
+            0 0 80px #ff8c00,
+            0 0 100px #ff4500; /* 호버 시 네온 효과 추가 */
+}
 /* 기본 네온 텍스트 스타일 */
 .neon-text {
     color: #ffff00; /* 매우 밝은 주황색 */
