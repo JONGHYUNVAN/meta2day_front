@@ -219,7 +219,7 @@ const PostForm: React.FC = () => {
                     </span>
                                 </div>
 
-                                <p className={`text-gray-300 mb-[1vh] white-space-pre-line overflow-hidden ${limit === 2 ? 'text-l' : 'text-xl'}`}>
+                                <p className={`text-gray-300 mb-[1vh] white-space-pre-line overflow-hidden ${limit === 2 ? 'text-xl' : 'text-l'}`}>
                                     {post.preview} ...
                                 </p>
 
