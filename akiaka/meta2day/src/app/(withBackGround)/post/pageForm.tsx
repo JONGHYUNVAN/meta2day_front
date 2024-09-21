@@ -199,7 +199,7 @@ const PostForm: React.FC = () => {
                         Ratings
                     </button>
                 </div>
-                <div className={`${limit === 2 ? 'space-y-[5vh] mt-[2vh]' : 'space-y-[2vh] mt-[1vh]'}`}>
+                <div className={`${limit === 2 ? 'space-y-[5vh] mt-[2vh]' : 'space-y-[1.5vh] mt-[0.5vh]'}`}>
                     {posts.map((post) => (
                         <div
                             key={post.id}
